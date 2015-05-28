@@ -1,2 +1,2 @@
 # scribo
-Scribo [Latin *verb* write; compose]
+Scribo [/ˈskriː.boː/ Latin *verb* write; compose]
