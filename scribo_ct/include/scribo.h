@@ -102,7 +102,7 @@
 
 // Initialize default category
 #ifndef    SCRIBO_CATEGORY
-#	define SCRIBO_CATEGORY UNKNOWN
+#	define SCRIBO_CATEGORY GENERIC
 #endif
 
 // Configure disabling current category
