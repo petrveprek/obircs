@@ -234,8 +234,26 @@
 #   define SCRIBO__CONFIGURATION_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     // Implement scribo
 #   include <stdio.h>
+#   include <time.h>
+    extern unsigned long scribo__count;
+#   if defined(__linux__)
+#       define SCRIBO__GET_NOW localtime_r(&now, &raw)
+#   elif defined(_MSC_VER)
+#       define SCRIBO__GET_NOW localtime_s(&now, &raw)
+#   else
+#       define SCRIBO__GET_NOW now = *localtime(&raw)
+#   endif
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
-#   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) printf("%s %s : " FORMAT "%s\n", CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
+        do { \
+            time_t raw; \
+            struct tm now; \
+            time(&raw); \
+            SCRIBO__GET_NOW; \
+            printf("%04d-%02d-%02d %02d:%02d:%02d #%010d %-7.7s %-7.7s : " FORMAT "%s\n", \
+                now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
+                scribo__count++, CATEGORY, VERBOSITY, __VA_ARGS__); \
+        } while (0)
 #endif
 
 // End of file ---------------------------------------------------------------------------------------------------------
