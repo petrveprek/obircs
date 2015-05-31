@@ -18,7 +18,7 @@ Example (minimalistic):
 #include "scribo.h"
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG);
+    SCRIBO(LOG); // Outputs "2015-05-31 16:22:39 #0000000024 GENERIC LOG     : "
     return 0;
 }
 ```
@@ -29,7 +29,7 @@ Example (realistic):
 #include "scribo.h"
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc);
+    SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc); // Outputs "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
     return 0;
 }
 ```
