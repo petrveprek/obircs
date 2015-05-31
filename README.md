@@ -18,10 +18,11 @@ Example (minimalistic):
 #include "scribo.h"
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG); // Outputs "2015-05-31 16:22:39 #0000000024 GENERIC LOG     : "
+    SCRIBO(LOG);
     return 0;
 }
 ```
+Outputs log message similar to "`2015-05-31 16:22:39 #0000000024 GENERIC LOG     : `".
 
 Example (realistic):
 ```c
@@ -29,10 +30,11 @@ Example (realistic):
 #include "scribo.h"
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc); // Outputs "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+    SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc);
     return 0;
 }
 ```
+Outputs log message similar to "`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`".
 
 ## Configuration
 
