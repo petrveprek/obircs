@@ -2,7 +2,7 @@
 
 __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
-*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+*scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
 ## Description
 
