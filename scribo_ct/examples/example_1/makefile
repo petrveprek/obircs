@@ -9,17 +9,24 @@ SOURCES  = $(wildcard source/*.c)                          #    -//-
 HEADERS += $(wildcard ../../include/*.h)                   # scribo
 SOURCES += $(wildcard ../../source/*.c)                    #  -//-
 OBJECTS  = $(addprefix object/,$(notdir $(SOURCES:.c=.o))) # objects
+CFLAGS   = -std=c99                                        # C flags
 
-default : $(TARGET)
+default : production
+
+production : CFLAGS += -D PRODUCTION
+production : $(TARGET)
+
+development : CFLAGS += -D DEVELOPMENT
+development : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	gcc -std=c99 -o $@ $^
+	gcc $(CFLAGS) -o $@ $^
 
 object/%.o : source/%.c $(HEADERS)
-	gcc -std=c99 -I include -I ../../include -c -o $@ $<
+	gcc $(CFLAGS) -I include -I ../../include -c -o $@ $<
 
 object/%.o : ../../source/%.c $(HEADERS)
-	gcc -std=c99 -I include -I ../../include -c -o $@ $<
+	gcc $(CFLAGS) -I include -I ../../include -c -o $@ $<
 
 clean :
 	rm -f $(OBJECTS)

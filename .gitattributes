@@ -3,3 +3,6 @@
 *.c text eol=lf
 *.cfg text eol=lf
 makefile text eol=lf
+output_* text eol=lf
+README.md text eol=lf
+LICENSE text eol=lf
