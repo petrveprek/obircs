@@ -3,8 +3,10 @@
 // File: main.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-#define SCRIBO_CATEGORY MAIN_APP
-#include "scribo.h"
+#define SCRIBO_CATEGORY APP
+#include <scribo.h>
+#include "foo.h"
+#include "bar.h"
 
 int main(int argc, char* argv[])
 {
@@ -12,6 +14,9 @@ int main(int argc, char* argv[])
     {
         SCRIBO(LOG, "Running %s", argv[0]);
     }
+    doFoo();
+    doBar();
+    SCRIBO(LOG, "The end");
     return 0;
 }
 

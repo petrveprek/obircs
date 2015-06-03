@@ -13,13 +13,13 @@ OBJECTS  = $(addprefix object/,$(notdir $(SOURCES:.c=.o))) # objects
 default : $(TARGET)
 
 $(TARGET) : $(OBJECTS)
-	gcc -o $@ $^
+	gcc -std=c99 -o $@ $^
 
 object/%.o : source/%.c $(HEADERS)
-	gcc -I include -I ../../include -c -o $@ $<
+	gcc -std=c99 -I include -I ../../include -c -o $@ $<
 
 object/%.o : ../../source/%.c $(HEADERS)
-	gcc -I include -I ../../include -c -o $@ $<
+	gcc -std=c99 -I include -I ../../include -c -o $@ $<
 
 clean :
 	rm -f $(OBJECTS)

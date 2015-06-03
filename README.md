@@ -15,7 +15,7 @@ least to most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `ME
 
 Example (minimalistic):
 ```c
-#include "scribo.h"
+#include <scribo.h>
 int main(int argc, char* argv[])
 {
     SCRIBO(LOG);
@@ -27,7 +27,7 @@ Outputs log message similar to "`2015-05-31 16:22:39 #0000000024 GENERIC LOG    
 Example (realistic):
 ```c
 #define SCRIBO_CATEGORY APP
-#include "scribo.h"
+#include <scribo.h>
 int main(int argc, char* argv[])
 {
     SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc);
@@ -49,19 +49,24 @@ To disable/enable desired logging options, pre-defined pre-processor tokens must
 configuration file or via command line toolchain option.
 
 Examples (`scribo.cfg`):
-- Disable all *scribo* logging:
-  - `#define SCRIBO_DISABLE_ALL 1` ... completely disables all *scribo* logging
-- Disable all *scribo* logging for category `GENERIC`:
-  - `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC` (all verbosities)
-- Disable all *scribo* logging for verbosities `METHOD` and `TRACE`:
-  - `#define SCRIBO_DISABLE_VERBOSITY_METHOD 1` ... disable *scribo* logging for verbosity `METHOD` (all categories)
-  - `#define SCRIBO_DISABLE_VERBOSITY_TRACE 1` ... disable *scribo* logging for verbosity `TRACE` (all categories)
-- Disable all *scribo* logging for category `GENERIC` and all *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+
+&nbsp;&nbsp;Disable all *scribo* logging:
+- `#define SCRIBO_DISABLE_ALL 1` ... completely disables all *scribo* logging
+
+&nbsp;&nbsp;Disable all *scribo* logging for category `GENERIC`:
+- `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC` (all verbosities)
+
+&nbsp;&nbsp;Disable all *scribo* logging for verbosities `METHOD` and `TRACE`:
+- `#define SCRIBO_DISABLE_VERBOSITY_METHOD 1` ... disable *scribo* logging for verbosity `METHOD` (all categories)
+- `#define SCRIBO_DISABLE_VERBOSITY_TRACE 1` ... disable *scribo* logging for verbosity `TRACE` (all categories)
+
+
+&nbsp;&nbsp;Disable all *scribo* logging for category `GENERIC` and all *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
 `TRACE`; enable *scribo* logging for category `APP` and verbosity `DEBUG`:
-  - `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC`
-  - `#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1` ... disable *scribo* logging for verbosity `DEBUG` and more verbose 
+- `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC`
+- `#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1` ... disable *scribo* logging for verbosity `DEBUG` and more verbose 
 (i.e. `METHOD` and `TRACE`)
-  - `#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1` ... enable *scribo* logging for category APP with verbosity 
+- `#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1` ... enable *scribo* logging for category APP with verbosity 
 `DEBUG`
 
 ## Copyright and License
