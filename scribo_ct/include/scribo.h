@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "scribo.cfg"
+#include <scribo.cfg>
 
 // Detect macro conflict
 #if defined(SCRIBO)
@@ -237,7 +237,7 @@
 #   include <time.h>
     extern unsigned long scribo__count;
 #   if defined(__linux__)
-#       define SCRIBO__GET_NOW localtime_r(&now, &raw)
+#       define SCRIBO__GET_NOW localtime_r(&raw, &now)
 #   elif defined(_MSC_VER)
 #       define SCRIBO__GET_NOW localtime_s(&now, &raw)
 #   else

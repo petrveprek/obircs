@@ -1,10 +1,20 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
-// File: scribo.c
+// File: foo.c
 // ---------------------------------------------------------------------------------------------------------------------
 
+#define SCRIBO_CATEGORY FOO
 #include <scribo.h>
 
-unsigned long scribo__count = 0;
+void doFoo()
+{
+    SCRIBO(LOG, "Foo...");
+    SCRIBO(INFO, "About to loop...");
+    for (int i = 0; i < 10; i++)
+    {
+        SCRIBO(DEBUG, "Loop %d", i);
+    }
+    SCRIBO(INFO, "...done looping");
+}
 
 // End of file ---------------------------------------------------------------------------------------------------------
