@@ -4,14 +4,16 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-## Description
+[Description](#description) [Configuration](#configuration) [Installation](#installation) [Copyright and License](#copyright-and-license)
+
+# Description
 
 Each logging message is characterized by category (optional) and verbosity (mandatory). To generate message content 
-itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first addition is 
-that the `format` can be omitted. In this case, only the message header is output. The second addition is that `'\n'` is 
+itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is that 
+the `format` may be omitted. In this case, only message header is output. The second addition is that `'\n'` is 
 automatically appended at the end of each log message. **Category** is user-defined per-source-file string. It is 
-optional and when not defined the default category `GENERIC` is used. There are eight levels of **verbosity** (from 
-least to most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
+optional and, when not defined, the default category `GENERIC` is used. There are eight levels of **verbosity** (from 
+the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
 
 Example (minimalistic):
 ```c
@@ -22,7 +24,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-Outputs log message similar to "`2015-05-31 16:22:39 #0000000024 GENERIC LOG     : `".
+This outputs log message similar to "`2015-05-31 16:22:39 #0000000024 GENERIC LOG     : `".
 
 Example (realistic):
 ```c
@@ -34,11 +36,11 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-Outputs log message similar to "`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`".
+This outputs log message similar to "`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`".
 
-## Configuration
+# Configuration
 
-### Compile Time
+## Compile Time
 
 At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
 addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
@@ -51,17 +53,16 @@ configuration file or via command line toolchain option.
 Examples (`scribo.cfg`):
 
 &nbsp;&nbsp;Disable all *scribo* logging:
-- `#define SCRIBO_DISABLE_ALL 1` ... completely disables all *scribo* logging
+- `#define SCRIBO_DISABLE_ALL 1` ... completely disable all *scribo* logging
 
-&nbsp;&nbsp;Disable all *scribo* logging for category `GENERIC`:
+&nbsp;&nbsp;Disable *scribo* logging for category `GENERIC`:
 - `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC` (all verbosities)
 
-&nbsp;&nbsp;Disable all *scribo* logging for verbosities `METHOD` and `TRACE`:
+&nbsp;&nbsp;Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
 - `#define SCRIBO_DISABLE_VERBOSITY_METHOD 1` ... disable *scribo* logging for verbosity `METHOD` (all categories)
 - `#define SCRIBO_DISABLE_VERBOSITY_TRACE 1` ... disable *scribo* logging for verbosity `TRACE` (all categories)
 
-
-&nbsp;&nbsp;Disable all *scribo* logging for category `GENERIC` and all *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+&nbsp;&nbsp;Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
 `TRACE`; enable *scribo* logging for category `APP` and verbosity `DEBUG`:
 - `#define SCRIBO_DISABLE_CATEGORY_GENERIC 1` ... disable *scribo* logging for category `GENERIC`
 - `#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1` ... disable *scribo* logging for verbosity `DEBUG` and more verbose 
@@ -69,7 +70,11 @@ Examples (`scribo.cfg`):
 - `#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1` ... enable *scribo* logging for category APP with verbosity 
 `DEBUG`
 
-## Copyright and License
+# Installation
+
+Add *scribo* header and implementation files (`include` and `source` respectively) to your project.
+
+# Copyright and License
 
 Copyright (c) 2015 Petr Vepřek
 
