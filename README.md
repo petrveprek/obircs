@@ -4,7 +4,11 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-[Description](#description) [Configuration](#configuration) [Installation](#installation) [Copyright and License](#copyright-and-license)
+| [Description](#description) 
+| [Configuration](#configuration) 
+| [Installation](#installation) 
+| [Specification](#specification) 
+| [Copyright and License](#copyright-and-license) |
 
 # Description
 
@@ -73,6 +77,8 @@ Examples (`scribo.cfg`):
 # Installation
 
 Add *scribo* header and implementation files (`include` and `source` respectively) to your project.
+
+# Specification
 
 # Copyright and License
 
