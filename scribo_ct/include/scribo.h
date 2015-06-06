@@ -164,7 +164,7 @@
 #   define    SCRIBO_DISABLE_VERBOSITY_TRACE 0
 #endif
 
-// Configure enabling current category & known verbosity combinations
+// Configure enabling combinations of current category & known verbosity
 #define SCRIBO__GET_COMBO_ENABLED_LOOKUP(CATEGORY, VERBOSITY) SCRIBO_ENABLE_CATEGORY_ ## CATEGORY ## _ ## VERBOSITY
 #define SCRIBO__GET_COMBO_ENABLED(       CATEGORY, VERBOSITY) SCRIBO__GET_COMBO_ENABLED_LOOKUP(CATEGORY, VERBOSITY_ ## VERBOSITY)
 #if SCRIBO__GET_COMBO_ENABLED(SCRIBO_CATEGORY, FATAL) == 1
