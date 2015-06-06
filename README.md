@@ -6,18 +6,19 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 | [Description](#basic-description) 
 | [Configuration](#configuration-overview) 
-| [Installation](#package-installation) 
+| [Installation](#installation-and-setup) 
 | [Specification](#detailed-specification) 
 | [License](#copyright-and-license) |
 
 # Basic Description
 
-Each logging message is characterized by category (optional) and verbosity (mandatory). To generate message content 
-itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is that 
-the `format` may be omitted. In this case, only message header is output. The second addition is that `'\n'` is 
-automatically appended at the end of each log message. **Category** is user-defined per-source-file string. It is 
-optional and, when not defined, the default category `GENERIC` is used. There are eight levels of **verbosity** (from 
-the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
+Each *scribo* log message is characterized by its category (optional) and verbosity (mandatory). To generate message 
+content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
+that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
+(`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file string 
+(see Specification below for precise definition). It is optional and, when not defined, the default category `GENERIC` 
+is used. There are eight levels of **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, 
+`LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
 
 Example (minimalistic):
 ```c
@@ -82,7 +83,7 @@ Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosi
 `DEBUG`
 ```
 
-# Package Installation
+# Installation and Setup
 
 Add *scribo* header and implementation files (from `include` and `source` directories respectively) to your project. 
 Either copy the files to your project directories or add *scribo*'s `include` and `source` locations to your project 
