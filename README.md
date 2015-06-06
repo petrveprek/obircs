@@ -76,12 +76,11 @@ Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
 ```
 
 Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for category `APP` and verbosity `DEBUG` combination:
+`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
 ```c
 #define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category `GENERIC` (all verbosities)
 #define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and more verbose i.e. `METHOD` and `TRACE` (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable *scribo* logging for category APP with verbosity 
-`DEBUG`
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category `APP` with verbosity `DEBUG`
 ```
 
 ---
@@ -208,16 +207,16 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Compile Time
 
-At compile time, *scribo* logging can be configured.  All logging or selected categories and verbosities can be 
-disabled. When disabled, the logging is completely removed and has no memory or computation overhead whatsoever. This 
-allows for different types of logging to be present in the codebase on permanent basis.  When building software, 
-development version can have detailed logging present, while production version can be less verbose.  Configuration of 
-*scribo* is controlled through a set of hash-defines.  The defines can be provided during build time as toolchain 
-command-line option, or the defines can be kept in a configuration file (`scribo.cfg`).
+At compile time, *scribo* logging can be configured.  All logging or logging of selected categories and verbosities can 
+be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
+whatsoever. This allows for different types of logging to be present in the codebase on permanent basis.  When building 
+software, development version can have detailed logging present, while production version can be less verbose. 
+Configuration of *scribo* is controlled through a set of hash-defines.  The defines can be provided during build time as 
+toolchain command-line option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
+file (`scribo.cfg` as `#define <name> 1`).
 
-Note that for a *scribo* configuration option to be active, it must be either provided on the command line, or be 
-hash-defined in `scribo.cfg` to have value of 1. Value 1 of an option is treated as "enabled", any other value 
-(including not being defined at all) is treated as "disabled".
+Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
+option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
 
 #### Disable all *scribo* logging
 
@@ -235,8 +234,8 @@ not specified).
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable *scribo* logging for category THIS_MODULE (all verbosities)
-#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable *scribo* logging for category THAT_MODULE (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable *scribo* logging for category `THIS_MODULE` (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable *scribo* logging for category `THAT_MODULE` (all verbosities)
 ```
 
 #### Disable *scribo* logging for a verbosity
@@ -249,41 +248,36 @@ where `<verbosity>` is one of the predefined verbosities i.e. `FATAL`, `ERROR`, 
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity TRACE (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity `TRACE` (all categories)
 ```
 
-Apart from disabling individual verbosities one-by-one, *scribo* provides shorthand to disable a verbosity and all more 
-verbose ones in using one configuration option.
+Apart from disabling individual verbosities one-by-one, *scribo* provides shorthand form to disable a verbosity and all 
+more verbose ones using single configuration option.
 
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable *scribo* logging for verbosity <verbosity> and more 
-verbose ones (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable *scribo* logging for verbosity <verbosity> and all more verbose ones (all categories)
 ```
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and more verbose 
-(i.e. `METHOD` and `TRACE`) (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and all more verbose ones (i.e. `METHOD` and `TRACE`) (all categories)
 ```
 
-#### Enable *scribo* logging for combination of a category and a verbosity
+#### Enable *scribo* logging for a combination of a category and a verbosity
 
 Finally, *scribo* provides configuration option to enable logging for a combination of a category and a verbosity.  This 
-is useful in as an override together with the above two options that disable categories and verbosities.
+is useful as an override together with the above two options that disable categories and verbosities.
 
 ```c
-#define SCRIBO_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable *scribo* logging for category <category> 
-with verbosity <verbosity>
+#define SCRIBO_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable *scribo* logging for combination of category <category> and verbosity <verbosity>
 ```
-where `<category>` and `` are defined as above.
+where `<category>` and `<verbosity>` are defined as above.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable *scribo* logging for category SOME_MODULE (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and more verbose 
-(i.e. `METHOD` and `TRACE`) (all categories)
-#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for category SOME_MODULE 
-with verbosity DEBUG
+#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable *scribo* logging for category `SOME_MODULE` (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and all more verbose ones (i.e. `METHOD` and `TRACE`) (all categories)
+#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category `SOME_MODULE` and verbosity `DEBUG`
 ```
 
 ---
