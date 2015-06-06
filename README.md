@@ -96,27 +96,29 @@ file.
 
 ## Run-Time Usage
 
-**First** specify (optional) logging category and include `scribo.h`:
+**First** specify (optional) logging category and include `scribo.h` in your source file(s):
 ```c
 #define SCRIBO_CATEGORY APP
 #include <scribo.h>
 ```
+The category is specified per-file so every source file can have its own, or not.
+
 If you don't specify category, then `GENERIC` will be used as the default category.
 
 Category must a valid pre-processor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
 
-**Then** output logging messages using:
+**Then** output log messages using:
 ```c
 SCRIBO(<verbosity>, "...", ...);
 ```
-where `<verbosity>` is one of pre-defined verbosities and `"...", ...` are printf-style format and arguments.
+where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-style format and arguments.
 
-Unlike printf, *scribo* does **not** require format. If format is not specified, then *scribo* outputs message header 
-only.
+Unlike printf, *scribo* does **not** require format. If format is not specified, then *scribo* outputs log message 
+header only.
 
-Note that *scribo* automatically appends `'\n'` to each logging message.
+Note that *scribo* automatically appends newline (`'\n'`) at the end of each and every log message.
 
-`<verbosity>` can be one of the following pre-defined values (ordered from the least to the most verbose):
+`<verbosity>` can be one of the following predefined values (ordered from the least to the most verbose):
 - `FATAL` ... fatal unrecoverable error message
 - `ERROR` ... recoverable error message
 - `WARNING` ... warning message
@@ -134,7 +136,7 @@ Format of *scribo* logging can be abbreviated to:
 ```c
 SCRIBO<v>("...", ...);
 ```
-where `<v>` is abbreviation of one of pre-defined verbosities as follows:
+where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `F` for `FATAL`
 - `E` for `ERROR`
 - `W` for `WARNING`
@@ -146,7 +148,7 @@ where `<v>` is abbreviation of one of pre-defined verbosities as follows:
 
 Examples:
 ```c
-// Logging message header only - normal form
+// Log message header only - normal form
 SCRIBO(FATAL);
 SCRIBO(ERROR);
 SCRIBO(WARNING);
@@ -155,7 +157,7 @@ SCRIBO(INFO);
 SCRIBO(DEBUG);
 SCRIBO(METHOD);
 SCRIBO(TRACE);
-// Logging message header only - shorthand form
+// Log message header only - shorthand form
 SCRIBOF();
 SCRIBOE();
 SCRIBOW();
@@ -164,7 +166,7 @@ SCRIBOI();
 SCRIBOD();
 SCRIBOM();
 SCRIBOT();
-// Logging message with format - normal form
+// Log message with format - normal form
 SCRIBO(FATAL, "Hello");
 SCRIBO(ERROR, "Hello");
 SCRIBO(WARNING, "Hello");
@@ -173,7 +175,7 @@ SCRIBO(INFO, "Hello");
 SCRIBO(DEBUG, "Hello");
 SCRIBO(METHOD, "Hello");
 SCRIBO(TRACE, "Hello");
-// Logging message with format - shorthand form
+// Log message with format - shorthand form
 SCRIBOF("Hello");
 SCRIBOE("Hello");
 SCRIBOW("Hello");
@@ -182,7 +184,7 @@ SCRIBOI("Hello");
 SCRIBOD("Hello");
 SCRIBOM("Hello");
 SCRIBOT("Hello");
-// Logging message with format and arguments - normal form
+// Log message with format and arguments - normal form
 SCRIBO(FATAL, "%d + %d equals %d", 1, 1, 2);
 SCRIBO(ERROR, "%d + %d equals %d", 1, 1, 2);
 SCRIBO(WARNING, "%d + %d equals %d", 1, 1, 2);
@@ -191,7 +193,7 @@ SCRIBO(INFO, "%d + %d equals %d", 1, 1, 2);
 SCRIBO(DEBUG, "%d + %d equals %d", 1, 1, 2);
 SCRIBO(METHOD, "%d + %d equals %d", 1, 1, 2);
 SCRIBO(TRACE, "%d + %d equals %d", 1, 1, 2);
-// Logging message with format and arguments - shorthand form
+// Log message with format and arguments - shorthand form
 SCRIBOF("%d + %d equals %d", 1, 1, 2);
 SCRIBOE("%d + %d equals %d", 1, 1, 2);
 SCRIBOW("%d + %d equals %d", 1, 1, 2);
@@ -242,7 +244,7 @@ Example:
 ```c
 #define SCRIBO_DISABLE_VERBOSITY_<verbosity> 1 // Disable *scribo* logging for verbosity <verbosity> (all categories)
 ```
-where `<verbosity>` is one of the pre-defined verbosities i.e. `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
+where `<verbosity>` is one of the predefined verbosities i.e. `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
 `METHOD`, or `TRACE`.
 
 Example:
