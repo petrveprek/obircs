@@ -1,5 +1,6 @@
 # v?.?.?
 ?/?/?
+- Updated README.md (links, tooltips)
 - Added .gitkeep in ./scribo_ct/examples/example_1/object
 - Added CHANGELOG.md
 

@@ -4,11 +4,11 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Description](#basic-description) 
-| [Configuration](#configuration-overview) 
-| [Installation](#installation-and-setup) 
-| [Specification](#detailed-specification) 
-| [License](#copyright-and-license) |
+| [Description](#basic-description "Basic Description") 
+| [Configuration](#configuration-overview "Configuration Overview") 
+| [Installation](#installation-and-setup "Installation and Setup") 
+| [Specification](#detailed-specification "Detailed Specification") 
+| [License](#copyright-and-license "Copyright and License") |
 
 ---
 # Basic Description
@@ -17,9 +17,9 @@ Each *scribo* log message is characterized by its category (optional) and verbos
 content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
 that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
 (`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file string 
-(see Specification below for precise definition). It is optional and, when not defined, the default category `GENERIC` 
-is used. There are eight levels of **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, 
-`LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
+(see [Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
+default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
+`FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
 
 Example (minimalistic):
 ```c
@@ -285,4 +285,4 @@ Example:
 
 Copyright (c) 2015 Petr Vepřek
 
-MIT License, see `LICENSE` for further details.
+MIT License, see [`LICENSE`](./LICENSE) for further details.
