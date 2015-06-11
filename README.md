@@ -4,7 +4,7 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Read This](#all-you-need-to-know "All You Need To Know") 
+| [In Under 60 Seconds](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
 | [Description](#basic-description "Basic Description") 
 | [Configuration](#configuration-overview "Configuration Overview") 
 | [Installation](#installation-and-setup "Installation and Setup") 
@@ -12,7 +12,7 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 | [License](#copyright-and-license "Copyright and License") |
 
 ---
-# All You Need To Know
+# All You Need To Know In Under 60 Seconds
 
 Specify target configuration:
 ```c
