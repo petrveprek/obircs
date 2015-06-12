@@ -253,6 +253,7 @@
             printf("%04d-%02d-%02d %02d:%02d:%02d #%010d %-7.7s %-7.7s : " FORMAT "%s\n", \
                 now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
                 scribo__count++, CATEGORY, VERBOSITY, __VA_ARGS__); \
+            fflush(stdout); \
         } while (0)
 #endif
 

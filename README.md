@@ -4,11 +4,76 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Description](#basic-description) 
-| [Configuration](#configuration-overview) 
-| [Installation](#installation-and-setup) 
-| [Specification](#detailed-specification) 
-| [License](#copyright-and-license) |
+| [In Under 60 Seconds](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
+| [Description](#basic-description "Basic Description") 
+| [Configuration](#configuration-overview "Configuration Overview") 
+| [Installation](#installation-and-setup "Installation and Setup") 
+| [Specification](#detailed-specification "Detailed Specification") 
+| [License](#copyright-and-license "Copyright and License") |
+
+---
+# All You Need To Know In Under 60 Seconds
+
+Specify target configuration:
+```c
+// scribo.cfg
+
+#if defined(PRODUCTION) || !defined(DEVELOPMENT)
+    // Production (disable excessive logging)
+#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No unspecified category
+#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No debugging or more verbose
+#else
+    // Development (enable all logging)
+#endif
+```
+
+Produce log messages:
+```c
+// foo.c
+
+#define SCRIBO_CATEGORY FOOER
+#include <scribo.h>
+
+void doFoo()
+{
+    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development
+    for (int i = 0; i < 4; i++)
+    {
+        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug)
+    }
+}
+```
+
+```c
+// bar.c
+
+#include <scribo.h>
+
+void doBar()
+{
+    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic)
+}
+```
+
+Build targets:
+```c
+gcc -o app_dev  -D DEVELOPMENT *.c
+gcc -o app_prod -D PRODUCTION  *.c
+```
+
+Execute application:
+```c
+app_dev
+  "2015-06-11 20:45:23 #0000000027 FOOER   LOG     : Executing doFoo()"
+  "2015-06-11 20:45:23 #0000000028 FOOER   DEBUG   : Iteration (0)"
+  "2015-06-11 20:45:23 #0000000029 FOOER   DEBUG   : Iteration (1)"
+  "2015-06-11 20:45:23 #0000000030 FOOER   DEBUG   : Iteration (2)"
+  "2015-06-11 20:45:23 #0000000031 FOOER   DEBUG   : Iteration (3)"
+  "2015-06-11 20:45:24 #0000000065 GENERIC LOG     : Executing doBar()"
+
+app_prod
+  "2015-06-11 20:45:23 #0000000027 FOOER   LOG     : Executing doFoo()"
+```
 
 ---
 # Basic Description
@@ -17,9 +82,9 @@ Each *scribo* log message is characterized by its category (optional) and verbos
 content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
 that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
 (`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file string 
-(see Specification below for precise definition). It is optional and, when not defined, the default category `GENERIC` 
-is used. There are eight levels of **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, 
-`LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
+(see [Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
+default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
+`FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
 
 Example (minimalistic):
 ```c
@@ -285,4 +350,4 @@ Example:
 
 Copyright (c) 2015 Petr Vepřek
 
-MIT License, see `LICENSE` for further details.
+MIT License, see [`LICENSE`](./LICENSE) for further details.
