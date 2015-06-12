@@ -1,5 +1,5 @@
-# v?.?.?
-?/?/?
+# v0.2
+2015/6/12
 - Added flushing of stdout after each log message
 - Updated README.md (all-you-need-to-know, links, tooltips)
 - Added .gitkeep in ./scribo_ct/examples/example_1/object
