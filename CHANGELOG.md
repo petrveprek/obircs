@@ -1,3 +1,7 @@
+# v?.?.?
+?/?/?
+- Added configuration option to suppress log message counter
+
 # v0.2
 2015/6/12
 - Added flushing of stdout after each log message

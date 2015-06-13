@@ -1,3 +1,9 @@
+//#define SCRIBO_STYLE_SUPPRESS_TIMESTAMP 1
+//#define SCRIBO_STYLE_SUPPRESS_COUNTER   1
+//#define SCRIBO_STYLE_SUPPRESS_CATEGORY  1
+//#define SCRIBO_STYLE_SUPPRESS_VERBOSITY 1
+//#define SCRIBO_STYLE_SUPPRESS_NEWLINE   1
+//#define SCRIBO_STYLE_SUPPRESS_FLUSH     1
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
 // File: scribo.h
@@ -235,7 +241,14 @@
     // Implement scribo
 #   include <stdio.h>
 #   include <time.h>
-    extern unsigned long scribo__count;
+#   if SCRIBO_STYLE_SUPPRESS_COUNTER != 1
+        extern unsigned long scribo__count;
+#       define SCRIBO__COUNTER_FORMAT " #%010d"
+#       define SCRIBO__COUNTER_VALUE  scribo__count++,
+#   else
+#       define SCRIBO__COUNTER_FORMAT ""
+#       define SCRIBO__COUNTER_VALUE
+#   endif
 #   if defined(__linux__)
 #       define SCRIBO__GET_NOW localtime_r(&raw, &now)
 #   elif defined(_MSC_VER)
@@ -250,9 +263,9 @@
             struct tm now; \
             time(&raw); \
             SCRIBO__GET_NOW; \
-            printf("%04d-%02d-%02d %02d:%02d:%02d #%010d %-7.7s %-7.7s : " FORMAT "%s\n", \
+            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT " %-7.7s %-7.7s : " FORMAT "%s\n", \
                 now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
-                scribo__count++, CATEGORY, VERBOSITY, __VA_ARGS__); \
+                SCRIBO__COUNTER_VALUE CATEGORY, VERBOSITY, __VA_ARGS__); \
             fflush(stdout); \
         } while (0)
 #endif
