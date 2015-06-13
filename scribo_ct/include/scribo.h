@@ -1,6 +1,5 @@
 //#define SCRIBO_SUPPRESS_TIMESTAMP 1
 //#define SCRIBO_SUPPRESS_NEWLINE   1
-//#define SCRIBO_SUPPRESS_FLUSH     1
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
 // File: scribo.h
@@ -256,6 +255,11 @@
 #   else
 #       define SCRIBO__VERBOSITY_FORMAT "%.0s"
 #   endif
+#   if SCRIBO_SUPPRESS_FLUSH != 1
+#       define SCRIBO__DO_FLUSH fflush(stdout)
+#   else
+#       define SCRIBO__DO_FLUSH
+#   endif
 #   if defined(__linux__)
 #       define SCRIBO__GET_NOW localtime_r(&raw, &now)
 #   elif defined(_MSC_VER)
@@ -273,7 +277,7 @@
             printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT " : " FORMAT "%s\n", \
                 now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
                 SCRIBO__COUNTER_VALUE CATEGORY, VERBOSITY, __VA_ARGS__); \
-            fflush(stdout); \
+            SCRIBO__DO_FLUSH; \
         } while (0)
 #endif
 

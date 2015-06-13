@@ -1,6 +1,8 @@
 # v?.?.?
 ?/?/?
 - Added configuration option to suppress log message counter
+- Added configuration option to suppress log message category and verbosity
+- Added configuration option to suppress log message flushing
 
 # v0.2
 2015/6/12
