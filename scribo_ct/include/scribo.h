@@ -1,9 +1,6 @@
-//#define SCRIBO_STYLE_SUPPRESS_TIMESTAMP 1
-//#define SCRIBO_STYLE_SUPPRESS_COUNTER   1
-//#define SCRIBO_STYLE_SUPPRESS_CATEGORY  1
-//#define SCRIBO_STYLE_SUPPRESS_VERBOSITY 1
-//#define SCRIBO_STYLE_SUPPRESS_NEWLINE   1
-//#define SCRIBO_STYLE_SUPPRESS_FLUSH     1
+//#define SCRIBO_SUPPRESS_TIMESTAMP 1
+//#define SCRIBO_SUPPRESS_NEWLINE   1
+//#define SCRIBO_SUPPRESS_FLUSH     1
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
 // File: scribo.h
@@ -241,13 +238,23 @@
     // Implement scribo
 #   include <stdio.h>
 #   include <time.h>
-#   if SCRIBO_STYLE_SUPPRESS_COUNTER != 1
+#   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo__count;
 #       define SCRIBO__COUNTER_FORMAT " #%010d"
 #       define SCRIBO__COUNTER_VALUE  scribo__count++,
 #   else
 #       define SCRIBO__COUNTER_FORMAT ""
 #       define SCRIBO__COUNTER_VALUE
+#   endif
+#   if SCRIBO_SUPPRESS_CATEGORY != 1
+#       define SCRIBO__CATEGORY_FORMAT " %-7.7s"
+#   else
+#       define SCRIBO__CATEGORY_FORMAT "%.0s"
+#   endif
+#   if SCRIBO_SUPPRESS_VERBOSITY != 1
+#       define SCRIBO__VERBOSITY_FORMAT " %-7.7s"
+#   else
+#       define SCRIBO__VERBOSITY_FORMAT "%.0s"
 #   endif
 #   if defined(__linux__)
 #       define SCRIBO__GET_NOW localtime_r(&raw, &now)
@@ -263,7 +270,7 @@
             struct tm now; \
             time(&raw); \
             SCRIBO__GET_NOW; \
-            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT " %-7.7s %-7.7s : " FORMAT "%s\n", \
+            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT " : " FORMAT "%s\n", \
                 now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
                 SCRIBO__COUNTER_VALUE CATEGORY, VERBOSITY, __VA_ARGS__); \
             fflush(stdout); \

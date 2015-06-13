@@ -5,7 +5,7 @@
 
 #include <scribo.h>
 
-#if SCRIBO_STYLE_SUPPRESS_COUNTER != 1
+#if SCRIBO_SUPPRESS_COUNTER != 1
     unsigned long scribo__count = 0;
 #endif
 
