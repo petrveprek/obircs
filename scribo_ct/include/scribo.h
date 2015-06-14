@@ -1,5 +1,4 @@
 //#define SCRIBO_SUPPRESS_TIMESTAMP 1
-//#define SCRIBO_SUPPRESS_NEWLINE   1
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
 // File: scribo.h
@@ -255,6 +254,11 @@
 #   else
 #       define SCRIBO__VERBOSITY_FORMAT "%.0s"
 #   endif
+#   if SCRIBO_SUPPRESS_NEWLINE != 1
+#       define SCRIBO__NEWLINE "\n"
+#   else
+#       define SCRIBO__NEWLINE
+#   endif
 #   if SCRIBO_SUPPRESS_FLUSH != 1
 #       define SCRIBO__DO_FLUSH fflush(stdout)
 #   else
@@ -274,7 +278,7 @@
             struct tm now; \
             time(&raw); \
             SCRIBO__GET_NOW; \
-            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT " : " FORMAT "%s\n", \
+            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT " : " FORMAT "%s" SCRIBO__NEWLINE, \
                 now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
                 SCRIBO__COUNTER_VALUE CATEGORY, VERBOSITY, __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \

@@ -2,6 +2,7 @@
 ?/?/?
 - Added configuration option to suppress log message counter
 - Added configuration option to suppress log message category and verbosity
+- Added configuration option to suppress log message newline
 - Added configuration option to suppress log message flushing
 
 # v0.2
