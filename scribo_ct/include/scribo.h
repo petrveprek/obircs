@@ -1,4 +1,3 @@
-//#define SCRIBO_SUPPRESS_TIMESTAMP 1
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
 // File: scribo.h
@@ -236,23 +235,38 @@
     // Implement scribo
 #   include <stdio.h>
 #   include <time.h>
+#   if SCRIBO_SUPPRESS_TIMESTAMP != 1
+#       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
+#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
+#   else
+#       define SCRIBO__TIMESTAMP_FORMAT
+#       define SCRIBO__TIMESTAMP_VALUE
+#   endif
 #   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo__count;
-#       define SCRIBO__COUNTER_FORMAT " #%010d"
+#       define SCRIBO__COUNTER_FORMAT "#%010d "
 #       define SCRIBO__COUNTER_VALUE  scribo__count++,
 #   else
-#       define SCRIBO__COUNTER_FORMAT ""
+#       define SCRIBO__COUNTER_FORMAT
 #       define SCRIBO__COUNTER_VALUE
 #   endif
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
-#       define SCRIBO__CATEGORY_FORMAT " %-7.7s"
+#       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__CATEGORY_FORMAT "%.0s"
 #   endif
 #   if SCRIBO_SUPPRESS_VERBOSITY != 1
-#       define SCRIBO__VERBOSITY_FORMAT " %-7.7s"
+#       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__VERBOSITY_FORMAT "%.0s"
+#   endif
+#   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
+       (SCRIBO_SUPPRESS_COUNTER != 1) || \
+       (SCRIBO_SUPPRESS_CATEGORY != 1) || \
+       (SCRIBO_SUPPRESS_VERBOSITY != 1)
+#       define SCRIBO__SEPARATOR ": "
+#   else
+#       define SCRIBO__SEPARATOR
 #   endif
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
 #       define SCRIBO__NEWLINE "\n"
@@ -278,9 +292,8 @@
             struct tm now; \
             time(&raw); \
             SCRIBO__GET_NOW; \
-            printf("%04d-%02d-%02d %02d:%02d:%02d" SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT " : " FORMAT "%s" SCRIBO__NEWLINE, \
-                now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
-                SCRIBO__COUNTER_VALUE CATEGORY, VERBOSITY, __VA_ARGS__); \
+            printf(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                   SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
         } while (0)
 #endif

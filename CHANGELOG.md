@@ -1,5 +1,6 @@
 # v?.?.?
 ?/?/?
+- Added configuration option to suppress log message timestamp
 - Added configuration option to suppress log message counter
 - Added configuration option to suppress log message category and verbosity
 - Added configuration option to suppress log message newline
