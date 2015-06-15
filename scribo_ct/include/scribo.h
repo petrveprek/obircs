@@ -234,11 +234,25 @@
 #   define SCRIBO__CONFIGURATION_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     // Implement scribo
 #   include <stdio.h>
-#   include <time.h>
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
+#       include <time.h>
+#       define SCRIBO__DECLARE_RAW time_t raw
+#       define SCRIBO__DECLARE_NOW struct tm now
+#       define SCRIBO__GET_RAW time(&raw)
+#       if defined(__linux__)
+#           define SCRIBO__GET_NOW localtime_r(&raw, &now)
+#       elif defined(_MSC_VER)
+#           define SCRIBO__GET_NOW localtime_s(&now, &raw)
+#       else
+#           define SCRIBO__GET_NOW now = *localtime(&raw)
+#       endif
 #       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
 #       define SCRIBO__TIMESTAMP_VALUE  now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
 #   else
+#       define SCRIBO__DECLARE_RAW
+#       define SCRIBO__DECLARE_NOW
+#       define SCRIBO__GET_RAW
+#       define SCRIBO__GET_NOW
 #       define SCRIBO__TIMESTAMP_FORMAT
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
@@ -278,19 +292,12 @@
 #   else
 #       define SCRIBO__DO_FLUSH
 #   endif
-#   if defined(__linux__)
-#       define SCRIBO__GET_NOW localtime_r(&raw, &now)
-#   elif defined(_MSC_VER)
-#       define SCRIBO__GET_NOW localtime_s(&now, &raw)
-#   else
-#       define SCRIBO__GET_NOW now = *localtime(&raw)
-#   endif
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
-            time_t raw; \
-            struct tm now; \
-            time(&raw); \
+            SCRIBO__DECLARE_RAW; \
+            SCRIBO__DECLARE_NOW; \
+            SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
             printf(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
                    SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
