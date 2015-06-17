@@ -1,10 +1,11 @@
 # v?.?.?
 ?/?/?
-- Added configuration option to suppress log message timestamp
-- Added configuration option to suppress log message counter
-- Added configuration option to suppress log message category and verbosity
-- Added configuration option to suppress log message newline
-- Added configuration option to suppress log message flushing
+- Added configuration option to suppress log message: timestamp
+- Ditto: counter
+- Ditto: category and verbosity
+- Ditto: newline
+- Ditto: flushing
+- Updated README.md
 
 # v0.2
 2015/6/12
