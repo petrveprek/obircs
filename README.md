@@ -345,6 +345,54 @@ Example:
 #define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
 ```
 
+#### Suppress parts of *scribo* log message header
+
+Usual *scribo* log message consists of a standard header followed by custom generated text.  The **header** is made of 
+`timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
+fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
+the separator between header and text is also suppressed, automatically.
+
+Suppress individual parts of *scribo* log message header:
+```c
+#define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in *scribo* log message header
+#define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in *scribo* log message header
+#define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in *scribo* log message header
+#define SCRIBO_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in *scribo* log message header
+```
+
+Examples:
+```
+Normal *scribo* log message
+  => "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_TIMESTAMP 1
+  => "#0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_COUNTER   1
+  => "2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_CATEGORY  1
+  => "2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_COUNTER   1
+#define SCRIBO_SUPPRESS_CATEGORY  1
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_TIMESTAMP 1
+#define SCRIBO_SUPPRESS_COUNTER   1
+#define SCRIBO_SUPPRESS_CATEGORY  1
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "Executable Scribo.exe (1 parameters)"
+```
+
+#### Suppress *scribo* log message termination and flushing
+
+Each *scribo* log message is automatically appended with newline (`'\n'`).  It is then output to standard output stream 
+(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event that the system crashes. 
+Both automatic appending of the newline and automatic stream flushing can be suppressed.
+```c
+#define SCRIBO_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
+#define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
+```
+
 ---
 # Copyright and License
 
