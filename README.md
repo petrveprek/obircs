@@ -351,8 +351,6 @@ Usual *scribo* log message consists of a standard header followed by custom gene
 `timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
 fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
 the separator between header and text is also suppressed, automatically.
-
-Suppress individual parts of *scribo* log message header:
 ```c
 #define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in *scribo* log message header
 #define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in *scribo* log message header
@@ -361,7 +359,7 @@ Suppress individual parts of *scribo* log message header:
 ```
 
 Examples:
-```
+```c
 Normal *scribo* log message
   => "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
