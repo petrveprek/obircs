@@ -12,7 +12,10 @@ void doFoo()
     SCRIBO(INFO, "About to loop...");
     for (int i = 0; i < 10; i++)
     {
-        SCRIBO(DEBUG, "Loop %d", i);
+        if (i % 5 == 0)
+            SCRIBO(INFO, "Loop %d", i);
+        else
+            SCRIBO(DEBUG, "Loop %d", i);
     }
     SCRIBO(INFO, "...done looping");
 }
