@@ -234,26 +234,74 @@
 #   define SCRIBO__CONFIGURATION_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     // Implement scribo
 #   include <stdio.h>
-#   include <time.h>
-    extern unsigned long scribo__count;
-#   if defined(__linux__)
-#       define SCRIBO__GET_NOW localtime_r(&raw, &now)
-#   elif defined(_MSC_VER)
-#       define SCRIBO__GET_NOW localtime_s(&now, &raw)
+#   if SCRIBO_SUPPRESS_TIMESTAMP != 1
+#       include <time.h>
+#       define SCRIBO__DECLARE_RAW time_t raw
+#       define SCRIBO__DECLARE_NOW struct tm now
+#       define SCRIBO__GET_RAW time(&raw)
+#       if defined(__linux__)
+#           define SCRIBO__GET_NOW localtime_r(&raw, &now)
+#       elif defined(_MSC_VER)
+#           define SCRIBO__GET_NOW localtime_s(&now, &raw)
+#       else
+#           define SCRIBO__GET_NOW now = *localtime(&raw)
+#       endif
+#       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
+#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
 #   else
-#       define SCRIBO__GET_NOW now = *localtime(&raw)
+#       define SCRIBO__DECLARE_RAW
+#       define SCRIBO__DECLARE_NOW
+#       define SCRIBO__GET_RAW
+#       define SCRIBO__GET_NOW
+#       define SCRIBO__TIMESTAMP_FORMAT
+#       define SCRIBO__TIMESTAMP_VALUE
+#   endif
+#   if SCRIBO_SUPPRESS_COUNTER != 1
+        extern unsigned long scribo__count;
+#       define SCRIBO__COUNTER_FORMAT "#%010d "
+#       define SCRIBO__COUNTER_VALUE  scribo__count++,
+#   else
+#       define SCRIBO__COUNTER_FORMAT
+#       define SCRIBO__COUNTER_VALUE
+#   endif
+#   if SCRIBO_SUPPRESS_CATEGORY != 1
+#       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
+#   else
+#       define SCRIBO__CATEGORY_FORMAT "%.0s"
+#   endif
+#   if SCRIBO_SUPPRESS_VERBOSITY != 1
+#       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
+#   else
+#       define SCRIBO__VERBOSITY_FORMAT "%.0s"
+#   endif
+#   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
+       (SCRIBO_SUPPRESS_COUNTER != 1) || \
+       (SCRIBO_SUPPRESS_CATEGORY != 1) || \
+       (SCRIBO_SUPPRESS_VERBOSITY != 1)
+#       define SCRIBO__SEPARATOR ": "
+#   else
+#       define SCRIBO__SEPARATOR
+#   endif
+#   if SCRIBO_SUPPRESS_NEWLINE != 1
+#       define SCRIBO__NEWLINE "\n"
+#   else
+#       define SCRIBO__NEWLINE
+#   endif
+#   if SCRIBO_SUPPRESS_FLUSH != 1
+#       define SCRIBO__DO_FLUSH fflush(stdout)
+#   else
+#       define SCRIBO__DO_FLUSH
 #   endif
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
-            time_t raw; \
-            struct tm now; \
-            time(&raw); \
+            SCRIBO__DECLARE_RAW; \
+            SCRIBO__DECLARE_NOW; \
+            SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
-            printf("%04d-%02d-%02d %02d:%02d:%02d #%010d %-7.7s %-7.7s : " FORMAT "%s\n", \
-                now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec, \
-                scribo__count++, CATEGORY, VERBOSITY, __VA_ARGS__); \
-            fflush(stdout); \
+            printf(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                   SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
+            SCRIBO__DO_FLUSH; \
         } while (0)
 #endif
 

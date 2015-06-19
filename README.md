@@ -1,6 +1,6 @@
 # Welcome to *scribo*
 
-__*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
+__*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
@@ -14,20 +14,20 @@ __*scribo*__ /ˈskriː.boː/ Latin *verb* write; compose
 ---
 # All You Need To Know In Under 60 Seconds
 
-Specify target configuration:
+**First** specify target configuration:
 ```c
 // scribo.cfg
 
 #if defined(PRODUCTION) || !defined(DEVELOPMENT)
     // Production (disable excessive logging)
-#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No unspecified category
-#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No debugging or more verbose
+#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
+#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
 #else
     // Development (enable all logging)
 #endif
 ```
 
-Produce log messages:
+**Then** produce log messages:
 ```c
 // foo.c
 
@@ -55,20 +55,20 @@ void doBar()
 }
 ```
 
-Build targets:
+**Then** build targets:
 ```c
 gcc -o app_dev  -D DEVELOPMENT *.c
 gcc -o app_prod -D PRODUCTION  *.c
 ```
 
-Execute application:
+**Finally** execute application:
 ```c
 app_dev
   "2015-06-11 20:45:23 #0000000027 FOOER   LOG     : Executing doFoo()"
-  "2015-06-11 20:45:23 #0000000028 FOOER   DEBUG   : Iteration (0)"
-  "2015-06-11 20:45:23 #0000000029 FOOER   DEBUG   : Iteration (1)"
-  "2015-06-11 20:45:23 #0000000030 FOOER   DEBUG   : Iteration (2)"
-  "2015-06-11 20:45:23 #0000000031 FOOER   DEBUG   : Iteration (3)"
+  "2015-06-11 20:45:23 #0000000028 FOOER   DEBUG   : Iteration 0"
+  "2015-06-11 20:45:23 #0000000029 FOOER   DEBUG   : Iteration 1"
+  "2015-06-11 20:45:23 #0000000030 FOOER   DEBUG   : Iteration 2"
+  "2015-06-11 20:45:23 #0000000031 FOOER   DEBUG   : Iteration 3"
   "2015-06-11 20:45:24 #0000000065 GENERIC LOG     : Executing doBar()"
 
 app_prod
@@ -116,7 +116,7 @@ This outputs log message similar to "`2015-05-31 16:23:47 #0000000000 APP     LO
 
 At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
 addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile-time has zero run-time overhead (i.e. it uses no 
+disabling categories and verbosities. Logging disabled at compile-time has **zero run-time overhead** (i.e. it uses no 
 memory space and consumes no computational cycles).
 
 To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
@@ -131,21 +131,21 @@ Disable all *scribo* logging:
 
 Disable *scribo* logging for category `GENERIC`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category `GENERIC` (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category 'GENERIC' (all verbosities)
 ```
 
 Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable *scribo* logging for verbosity `METHOD` (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity `TRACE` (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable *scribo* logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity 'TRACE' (all categories)
 ```
 
 Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
 `TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category `GENERIC` (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and more verbose i.e. `METHOD` and `TRACE` (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category `APP` with verbosity `DEBUG`
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
 
 ---
@@ -272,7 +272,7 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Compile Time
 
-At compile time, *scribo* logging can be configured.  All logging or logging of selected categories and verbosities can 
+At compile time, *scribo* logging can be configured.  All logging or logging for selected categories and verbosities can 
 be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
 whatsoever. This allows for different types of logging to be present in the codebase on permanent basis.  When building 
 software, development version can have detailed logging present, while production version can be less verbose. 
@@ -299,8 +299,8 @@ not specified).
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable *scribo* logging for category `THIS_MODULE` (all verbosities)
-#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable *scribo* logging for category `THAT_MODULE` (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable *scribo* logging for category 'THIS_MODULE' (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable *scribo* logging for category 'THAT_MODULE' (all verbosities)
 ```
 
 #### Disable *scribo* logging for a verbosity
@@ -313,7 +313,7 @@ where `<verbosity>` is one of the predefined verbosities i.e. `FATAL`, `ERROR`, 
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity `TRACE` (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity 'TRACE' (all categories)
 ```
 
 Apart from disabling individual verbosities one-by-one, *scribo* provides shorthand form to disable a verbosity and all 
@@ -325,7 +325,7 @@ more verbose ones using single configuration option.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and all more verbose ones (i.e. `METHOD` and `TRACE`) (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
 ```
 
 #### Enable *scribo* logging for a combination of a category and a verbosity
@@ -340,9 +340,55 @@ where `<category>` and `<verbosity>` are defined as above.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable *scribo* logging for category `SOME_MODULE` (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity `DEBUG` and all more verbose ones (i.e. `METHOD` and `TRACE`) (all categories)
-#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category `SOME_MODULE` and verbosity `DEBUG`
+#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable *scribo* logging for category 'SOME_MODULE' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
+#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
+```
+
+#### Suppress parts of *scribo* log message header
+
+Usual *scribo* log message consists of a standard header followed by custom generated text.  The **header** is made of 
+`timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
+fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
+the separator between header and text is also suppressed, automatically.
+```c
+#define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in *scribo* log message header
+#define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in *scribo* log message header
+#define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in *scribo* log message header
+#define SCRIBO_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in *scribo* log message header
+```
+
+Examples:
+```c
+Normal *scribo* log message
+  => "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_TIMESTAMP 1
+  => "#0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_COUNTER   1
+  => "2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_CATEGORY  1
+  => "2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_COUNTER   1
+#define SCRIBO_SUPPRESS_CATEGORY  1
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)"
+#define SCRIBO_SUPPRESS_TIMESTAMP 1
+#define SCRIBO_SUPPRESS_COUNTER   1
+#define SCRIBO_SUPPRESS_CATEGORY  1
+#define SCRIBO_SUPPRESS_VERBOSITY 1
+  => "Executable Scribo.exe (1 parameters)"
+```
+
+#### Suppress *scribo* log message termination and flushing
+
+Each *scribo* log message is automatically appended with newline (`'\n'`).  It is then output to standard output stream 
+(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event that the system crashes. 
+Both automatic appending of the newline and automatic stream flushing can be suppressed.
+```c
+#define SCRIBO_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
+#define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
 ```
 
 ---
