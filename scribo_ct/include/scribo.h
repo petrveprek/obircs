@@ -209,7 +209,7 @@
 #endif
 
 // Process scribo
-#ifdef SCRIBO_DISABLE_ALL
+#if SCRIBO_DISABLE_ALL == 1
     // Remove scribo
 #   define SCRIBO(...)
 #else
@@ -287,10 +287,19 @@
 #   else
 #       define SCRIBO__NEWLINE
 #   endif
-#   if SCRIBO_SUPPRESS_FLUSH != 1
-#       define SCRIBO__DO_FLUSH fflush(stdout)
-#   else
+#   ifdef SCRIBO_INVOKE_CALLBACK
+#       ifndef SCRIBO_SET_MAX_LENGTH
+#           define SCRIBO_SET_MAX_LENGTH 128
+#       endif
+#       define SCRIBO__DO_OUTPUT SCRIBO_INVOKE_CALLBACK
 #       define SCRIBO__DO_FLUSH
+#   else
+#       define SCRIBO__DO_OUTPUT printf
+#       if SCRIBO_SUPPRESS_FLUSH != 1
+#           define SCRIBO__DO_FLUSH fflush(stdout)
+#       else
+#           define SCRIBO__DO_FLUSH
+#   endif
 #   endif
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
@@ -299,10 +308,14 @@
             SCRIBO__DECLARE_NOW; \
             SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
-            printf(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
-                   SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
+            SCRIBO__DO_OUTPUT(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                              SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
         } while (0)
 #endif
+/*
+readme: added 2x defs;  if cb then no flush;  if cb then len maxed (default 128) else no max
+change: add note
+*/
 
 // End of file ---------------------------------------------------------------------------------------------------------

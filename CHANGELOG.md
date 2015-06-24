@@ -1,3 +1,6 @@
+# v?.?.?
+?/?/?
+
 # v0.3
 2015/6/19
 - Added configuration option to suppress log message: timestamp
