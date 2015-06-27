@@ -258,11 +258,13 @@
 #   endif
 #   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo__count;
-#       define SCRIBO__COUNTER_FORMAT "#%010d "
-#       define SCRIBO__COUNTER_VALUE  scribo__count++,
+#       define SCRIBO__COUNTER_FORMAT    "#%010d "
+#       define SCRIBO__COUNTER_VALUE     scribo__count,
+#       define SCRIBO__INCREMENT_COUNTER scribo__count++
 #   else
 #       define SCRIBO__COUNTER_FORMAT
 #       define SCRIBO__COUNTER_VALUE
+#       define SCRIBO__INCREMENT_COUNTER
 #   endif
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
@@ -327,6 +329,7 @@
             SCRIBO__DO_OUTPUT(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
                               SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
+            SCRIBO__INCREMENT_COUNTER; \
         } while (0)
 #endif
 /*
