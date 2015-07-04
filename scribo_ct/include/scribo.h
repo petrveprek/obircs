@@ -294,23 +294,26 @@
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 128
 #       endif
-#       define SCRIBO__DECLARE_TEXT char text[SCRIBO_SET_MAX_LENGTH + 1]
-        static void scribo__make_message(char* text, size_t size, const char* format, ...)
+        static void scribo__make_message(void (*callback)(const char*), size_t size, const char* format, ...)
         {
             va_list args1;
             va_start(args1, format);
             va_list args2;
             va_copy(args2, args1);
-            //    char buf[1+vsnprintf(NULL, 0, fmt, args1)];
+            if (0 == size)
+            {
+                size = vsnprintf(NULL, 0, format, args1);
+            }
+            printf("  [%d]  ",size);
+            char text[1 + size];
             va_end(args1);
-            //    vsnprintf(buf, sizeof buf, fmt, args2);
-            vsnprintf(text, size, format, args2);
+            vsnprintf(text, sizeof text, format, args2);
+            callback(text);
             va_end(args2);
         }
-#       define SCRIBO__DO_OUTPUT(...) scribo__make_message(text, sizeof text, __VA_ARGS__); SCRIBO_INVOKE_CALLBACK(text);
+#       define SCRIBO__DO_OUTPUT(...) scribo__make_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
 #   else
-#       define SCRIBO__DECLARE_TEXT
 #       define SCRIBO__DO_OUTPUT printf
 #       if SCRIBO_SUPPRESS_FLUSH != 1
 #           define SCRIBO__DO_FLUSH fflush(stdout)
@@ -325,7 +328,6 @@
             SCRIBO__DECLARE_NOW; \
             SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
-            SCRIBO__DECLARE_TEXT; \
             SCRIBO__DO_OUTPUT(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
                               SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
@@ -333,20 +335,13 @@
         } while (0)
 #endif
 /*
-prn(fmt,...)
-
-char buf[max+1]
-vsn(buf,max+1,fmt,...)
-cb(buf)
-
-X(...)    X -> vsn(buf,max+1,varg); cb(buf);
-
-	int n = vsnprintf(NULL, 0, format, ap);
-	if (unlikely(n < 0))
-		return;
-	char msg[n + 1];
-	if (unlikely(vsnprintf(msg, n + 1, format, ap) != n))
-		return;
+add callback param
+remove text
+*/
+/*
+make raw static
+make now static
+make text static
 */
 /*
 max len 0 ==> unlimited
