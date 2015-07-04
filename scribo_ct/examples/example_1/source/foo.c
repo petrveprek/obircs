@@ -8,16 +8,16 @@
 
 void doFoo()
 {
-    SCRIBO(LOG, "Foo...");
-    SCRIBO(INFO, "About to loop...");
+    SCRIBO(LOG, "Foo...");                                                               // Category FOO, verbosity LOG.
+    SCRIBO(INFO, "About to loop...");                                                   // Category FOO, verbosity INFO.
     for (int i = 0; i < 10; i++)
     {
         if (i % 5 == 0)
-            SCRIBO(INFO, "Loop %d", i);
+            SCRIBO(INFO, "Loop %d", i);                                                 // Category FOO, verbosity INFO.
         else
-            SCRIBO(DEBUG, "Loop %d", i);
+            SCRIBO(DEBUG, "Loop %d", i);                                               // Category FOO, verbosity DEBUG.
     }
-    SCRIBO(INFO, "...done looping");
+    SCRIBO(INFO, "...done looping");                                                    // Category FOO, verbosity INFO.
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

@@ -12,11 +12,11 @@ int main(int argc, char* argv[])
 {
     if (argc >= 1)
     {
-        SCRIBO(LOG, "Running %s", argv[0]);
+        SCRIBO(LOG, "Running %s", argv[0]);                                              // Category APP, verbosity LOG.
     }
     doFoo();
     doBar();
-    SCRIBO(LOG, "The end");
+    SCRIBO(LOG, "The end");                                                              // Category APP, verbosity LOG.
     return 0;
 }
 
