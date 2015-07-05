@@ -8,19 +8,19 @@
 
 void bar(int i)
 {
-    SCRIBO(INFO, "bar(%d)", i);
+    SCRIBO(INFO, "bar(%d)", i);                                                         // Category BAR, verbosity INFO.
 }
 
 void doBar()
 {
-    SCRIBO(LOG, "Bar...");
-    SCRIBO(INFO, "About to loop...");
+    SCRIBO(LOG, "Bar...");                                                               // Category BAR, verbosity LOG.
+    SCRIBO(INFO, "About to loop...");                                                   // Category BAR, verbosity INFO.
     for (int i = 0; i < 10; i++)
     {
-        SCRIBO(DEBUG, "Loop %d", i);
+        SCRIBO(DEBUG, "Loop %d", i);                                                   // Category BAR, verbosity DEBUG.
         bar(i);
     }
-    SCRIBO(INFO, "...done looping");
+    SCRIBO(INFO, "...done looping");                                                    // Category BAR, verbosity INFO.
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

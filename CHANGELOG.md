@@ -1,3 +1,9 @@
+# v0.4
+2015/7/5
+- Added option for custom log message sink and maximum log message size
+- Updated README.md
+- Updated example
+
 # v0.3
 2015/6/19
 - Added configuration option to suppress log message: timestamp

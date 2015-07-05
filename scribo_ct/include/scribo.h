@@ -209,7 +209,7 @@
 #endif
 
 // Process scribo
-#ifdef SCRIBO_DISABLE_ALL
+#if SCRIBO_DISABLE_ALL == 1
     // Remove scribo
 #   define SCRIBO(...)
 #else
@@ -257,12 +257,14 @@
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
 #   if SCRIBO_SUPPRESS_COUNTER != 1
-        extern unsigned long scribo__count;
-#       define SCRIBO__COUNTER_FORMAT "#%010d "
-#       define SCRIBO__COUNTER_VALUE  scribo__count++,
+        extern unsigned long scribo__counter;
+#       define SCRIBO__COUNTER_FORMAT    "#%010d "
+#       define SCRIBO__COUNTER_VALUE     scribo__counter,
+#       define SCRIBO__INCREMENT_COUNTER scribo__counter++
 #   else
 #       define SCRIBO__COUNTER_FORMAT
 #       define SCRIBO__COUNTER_VALUE
+#       define SCRIBO__INCREMENT_COUNTER
 #   endif
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
@@ -287,10 +289,20 @@
 #   else
 #       define SCRIBO__NEWLINE
 #   endif
-#   if SCRIBO_SUPPRESS_FLUSH != 1
-#       define SCRIBO__DO_FLUSH fflush(stdout)
-#   else
+#   ifdef SCRIBO_INVOKE_CALLBACK
+        extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
+#       ifndef SCRIBO_SET_MAX_LENGTH
+#           define SCRIBO_SET_MAX_LENGTH 0
+#       endif
+#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
+#   else
+#       define SCRIBO__DO_OUTPUT printf
+#       if SCRIBO_SUPPRESS_FLUSH != 1
+#           define SCRIBO__DO_FLUSH fflush(stdout)
+#       else
+#           define SCRIBO__DO_FLUSH
+#   endif
 #   endif
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
@@ -299,9 +311,10 @@
             SCRIBO__DECLARE_NOW; \
             SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
-            printf(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
-                   SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
+            SCRIBO__DO_OUTPUT(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                              SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
+            SCRIBO__INCREMENT_COUNTER; \
         } while (0)
 #endif
 
