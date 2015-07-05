@@ -391,6 +391,19 @@ Both automatic appending of the newline and automatic stream flushing can be sup
 #define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
 ```
 
+#### Provide custom sink for and specify maximum length of *scribo* log messages
+
+By default, *scribo* log messages are output to `stdout` using `printf` function. In this case, length of each message 
+is not limited and messages can be flushed using `fflush`. Optionally, custom sink function can be provided. The 
+function receives one parameter - formatted text of the *scribo* log message to be output. The sink function has no 
+return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is provided, length 
+of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified in which case it 
+is also not limited. When custom sink is provided, messages are not flushed.
+```c
+#define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for *scribo* log messages
+#define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of *scribo* log messages
+```
+
 ---
 # Copyright and License
 

@@ -292,7 +292,7 @@
 #   ifdef SCRIBO_INVOKE_CALLBACK
         extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
 #       ifndef SCRIBO_SET_MAX_LENGTH
-#           define SCRIBO_SET_MAX_LENGTH 128
+#           define SCRIBO_SET_MAX_LENGTH 0
 #       endif
 #       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
@@ -317,12 +317,5 @@
             SCRIBO__INCREMENT_COUNTER; \
         } while (0)
 #endif
-/*
-should always have newline, even if rest is trimmed
-*/
-/*
-readme: added 2x defs;  if cb then no flush;  if cb then len maxed (default 128) else no max
-change: add note
-*/
 
 // End of file ---------------------------------------------------------------------------------------------------------
