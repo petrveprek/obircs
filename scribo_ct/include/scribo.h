@@ -257,10 +257,10 @@
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
 #   if SCRIBO_SUPPRESS_COUNTER != 1
-        extern unsigned long scribo__count;
+        extern unsigned long scribo__counter;
 #       define SCRIBO__COUNTER_FORMAT    "#%010d "
-#       define SCRIBO__COUNTER_VALUE     scribo__count,
-#       define SCRIBO__INCREMENT_COUNTER scribo__count++
+#       define SCRIBO__COUNTER_VALUE     scribo__counter,
+#       define SCRIBO__INCREMENT_COUNTER scribo__counter++
 #   else
 #       define SCRIBO__COUNTER_FORMAT
 #       define SCRIBO__COUNTER_VALUE
@@ -290,28 +290,11 @@
 #       define SCRIBO__NEWLINE
 #   endif
 #   ifdef SCRIBO_INVOKE_CALLBACK
-#       include <stdarg.h>
+        extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 128
 #       endif
-        static void scribo__make_message(void (*callback)(const char*), size_t size, const char* format, ...)
-        {
-            va_list args1;
-            va_start(args1, format);
-            va_list args2;
-            va_copy(args2, args1);
-            if (0 == size)
-            {
-                size = vsnprintf(NULL, 0, format, args1);
-            }
-            printf("  [%d]  ",size);
-            char text[1 + size];
-            va_end(args1);
-            vsnprintf(text, sizeof text, format, args2);
-            callback(text);
-            va_end(args2);
-        }
-#       define SCRIBO__DO_OUTPUT(...) scribo__make_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
+#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
 #   else
 #       define SCRIBO__DO_OUTPUT printf
@@ -335,17 +318,6 @@
         } while (0)
 #endif
 /*
-add callback param
-remove text
-*/
-/*
-make raw static
-make now static
-make text static
-*/
-/*
-max len 0 ==> unlimited
-move helper function to .c
 should always have newline, even if rest is trimmed
 */
 /*
