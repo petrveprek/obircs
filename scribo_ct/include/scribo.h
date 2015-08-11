@@ -164,7 +164,7 @@
 #   define    SCRIBO_DISABLE_VERBOSITY_TRACE 0
 #endif
 
-// Configure enabling combinations of current category & known verbosity
+// Configure enabling combinations of current category & known verbosities
 #define SCRIBO__GET_COMBO_ENABLED_LOOKUP(CATEGORY, VERBOSITY) SCRIBO_ENABLE_CATEGORY_ ## CATEGORY ## _ ## VERBOSITY
 #define SCRIBO__GET_COMBO_ENABLED(       CATEGORY, VERBOSITY) SCRIBO__GET_COMBO_ENABLED_LOOKUP(CATEGORY, VERBOSITY_ ## VERBOSITY)
 #if SCRIBO__GET_COMBO_ENABLED(SCRIBO_CATEGORY, FATAL) == 1
@@ -208,12 +208,12 @@
 #   define SCRIBO__ENABLE_COMBO_TRACE 0
 #endif
 
-// Process scribo
+// Process scribo logging
 #if SCRIBO_DISABLE_ALL == 1
-    // Remove scribo
+    // Remove scribo when disabled
 #   define SCRIBO(...)
 #else
-    // Prepare scribo
+    // Prepare scribo parameters
 #   define SCRIBO__EXPAND_ARGUMENTS(ARGUMENTS) ARGUMENTS
 #   define SCRIBO__PICK_21ST(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, ...) _21
 #   define SCRIBO(...)                                                                                               SCRIBO__EXPAND_ARGUMENTS(SCRIBO__PICK_21ST(__VA_ARGS__,  SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
@@ -232,7 +232,7 @@
 #   define SCRIBO__CONFIGURATION_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
 #   define SCRIBO__CONFIGURATION_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
 #   define SCRIBO__CONFIGURATION_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-    // Implement scribo
+    // Implement scribo message timestamp
 #   include <stdio.h>
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
 #       include <time.h>
@@ -256,6 +256,7 @@
 #       define SCRIBO__TIMESTAMP_FORMAT
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
+    // Implement scribo message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo__counter;
 #       define SCRIBO__COUNTER_FORMAT    "#%010d "
@@ -266,16 +267,19 @@
 #       define SCRIBO__COUNTER_VALUE
 #       define SCRIBO__INCREMENT_COUNTER
 #   endif
+    // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__CATEGORY_FORMAT "%.0s"
 #   endif
+    // Implement scribo message verbosity
 #   if SCRIBO_SUPPRESS_VERBOSITY != 1
 #       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__VERBOSITY_FORMAT "%.0s"
 #   endif
+    // Implement scribo message header/text separator
 #   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
        (SCRIBO_SUPPRESS_COUNTER != 1) || \
        (SCRIBO_SUPPRESS_CATEGORY != 1) || \
@@ -284,11 +288,13 @@
 #   else
 #       define SCRIBO__SEPARATOR
 #   endif
+    // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
 #       define SCRIBO__NEWLINE "\n"
 #   else
 #       define SCRIBO__NEWLINE
 #   endif
+    // Implement scribo message outputting callback and flushing
 #   ifdef SCRIBO_INVOKE_CALLBACK
         extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
 #       ifndef SCRIBO_SET_MAX_LENGTH
@@ -302,8 +308,9 @@
 #           define SCRIBO__DO_FLUSH fflush(stdout)
 #       else
 #           define SCRIBO__DO_FLUSH
+#       endif
 #   endif
-#   endif
+    // Implement scribo logging
 #   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
