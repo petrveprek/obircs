@@ -7,6 +7,7 @@
 #include <scribo.h>
 #include "foo.h"
 #include "bar.h"
+#include "baz.h"
 
 int main(int argc, char* argv[])
 {
@@ -16,6 +17,7 @@ int main(int argc, char* argv[])
     }
     doFoo();
     doBar();
+    doBaz();
     SCRIBO(LOG, "The end");                                                              // Category APP, verbosity LOG.
     return 0;
 }
