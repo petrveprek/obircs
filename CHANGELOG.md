@@ -1,5 +1,7 @@
 # v?.?.?
 ?/?/?
+- Allowed up to 20 parameters for log message format
+- Expanded example
 - Added code comments
 
 # v0.4

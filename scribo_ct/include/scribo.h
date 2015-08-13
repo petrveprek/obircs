@@ -215,10 +215,10 @@
 #else
     // Prepare scribo parameters
 #   define SCRIBO__EXPAND_ARGUMENTS(ARGUMENTS) ARGUMENTS
-#   define SCRIBO__PICK_21ST(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, ...) _21
-#   define SCRIBO(...)                                                                                               SCRIBO__EXPAND_ARGUMENTS(SCRIBO__PICK_21ST(__VA_ARGS__,  SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
+#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
+#   define SCRIBO(...)                                                                                               SCRIBO__EXPAND_ARGUMENTS(SCRIBO__PICK_23RD(__VA_ARGS__,  SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
                                                                                                                                                                 SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
-                                                                                                                                                                SCRIBO__NONE, _)(__VA_ARGS__))
+                                                                                                                                                                SCRIBO__SOME, SCRIBO__SOME, SCRIBO__NONE, _)(__VA_ARGS__))
 #   define SCRIBO__NONE(                                                                             VERBOSITY)      SCRIBO__INJECT_CONFIGURATION(SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, "")
 #   define SCRIBO__SOME(                                                                             VERBOSITY, ...) SCRIBO__INJECT_CONFIGURATION(SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, __VA_ARGS__)
 #   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) SCRIBO__LOOKUP_CONFIGURATION(        DISABLE_CATEGORY,                      DISABLE_VERBOSITY,                       ENABLE_COMBO,        CATEGORY,  VERBOSITY, __VA_ARGS__)
