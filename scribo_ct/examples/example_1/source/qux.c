@@ -10,50 +10,50 @@
 
 void doQux()
 {
-    SCRIBO(LOG, "Qux...");                                                                // Category QUX, verbosity LOG
+    SCRIBO(LOG, "Qux...");
     
-    SCRIBO(DEBUG);                                                                      // Category QUX, verbosity DEBUG
-    SCRIBO(DEBUG, "None");                                                              // Category QUX, verbosity DEBUG
+    SCRIBO(DEBUG);
+    SCRIBO(DEBUG, "None");
     SCRIBO(DEBUG, "One       %d",
-        1);                                                                             // Category QUX, verbosity DEBUG
+        1);
     SCRIBO(DEBUG, "Two       %d %d",
-        1, 2);                                                                          // Category QUX, verbosity DEBUG
+        1, 2);
     SCRIBO(DEBUG, "Three     %d %d %d",
-        1, 2, 3);                                                                       // Category QUX, verbosity DEBUG
+        1, 2, 3);
     SCRIBO(DEBUG, "Four      %d %d %d %d",
-        1, 2, 3, 4);                                                                    // Category QUX, verbosity DEBUG
+        1, 2, 3, 4);
     SCRIBO(DEBUG, "Five      %d %d %d %d %d",
-        1, 2, 3, 4, 5);                                                                 // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5);
     SCRIBO(DEBUG, "Six       %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6);                                                              // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6);
     SCRIBO(DEBUG, "Seven     %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7);                                                           // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7);
     SCRIBO(DEBUG, "Eight     %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8);                                                        // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8);
     SCRIBO(DEBUG, "Nine      %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9);                                                     // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9);
     SCRIBO(DEBUG, "Ten       %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10);                                                 // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
     SCRIBO(DEBUG, "Eleven    %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);                                             // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
     SCRIBO(DEBUG, "Twelve    %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);                                         // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
     SCRIBO(DEBUG, "Thirteen  %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);                                     // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
     SCRIBO(DEBUG, "Fourteen  %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);                                 // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14);
     SCRIBO(DEBUG, "Fifteen   %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);                             // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15);
     SCRIBO(DEBUG, "Sixteen   %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);                         // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
     SCRIBO(DEBUG, "Seventeen %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);                     // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17);
     SCRIBO(DEBUG, "Eighteen  %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);                 // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
     SCRIBO(DEBUG, "Nineteen  %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);             // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19);
     SCRIBO(DEBUG, "Twenty    %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);         // Category QUX, verbosity DEBUG
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

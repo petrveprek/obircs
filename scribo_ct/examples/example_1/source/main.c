@@ -16,13 +16,13 @@ int main(int argc, char* argv[])
 {
     if (argc >= 1)
     {
-        SCRIBO(LOG, "Running %s", argv[0]);                                               // Category APP, verbosity LOG
+        SCRIBO(LOG, "Running %s", argv[0]);
     }
     doFoo();
     doBar();
     doBaz();
     doQux();
-    SCRIBO(LOG, "The end");                                                               // Category APP, verbosity LOG
+    SCRIBO(LOG, "The end");
     return 0;
 }
 
