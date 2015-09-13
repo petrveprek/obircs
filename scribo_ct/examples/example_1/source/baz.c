@@ -11,7 +11,7 @@
 void doBaz()
 {
     SCRIBO(LOG, "Baz...");
-     
+    
     SCRIBO(LOG, "Regular log messages with parameter:");
     SCRIBO(FATAL, "Fatal blah...");
     SCRIBO(ERROR, "Error blah...");

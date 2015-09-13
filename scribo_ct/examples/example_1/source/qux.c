@@ -13,6 +13,8 @@ void doQux()
     SCRIBO(LOG, "Qux...");
     
     SCRIBO(DEBUG);
+    SCRIBO(DEBUG,);
+    SCRIBO(DEBUG, );
     SCRIBO(DEBUG, "None");
     SCRIBO(DEBUG, "One       %d",
         1);
