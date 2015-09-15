@@ -169,7 +169,7 @@ The category is specified per-file so every source file can have its own, or not
 
 If you don't specify category, then `GENERIC` will be used as the default category.
 
-Category must a valid pre-processor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
+Category must a valid preprocessor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
 
 **Then** output log messages using:
 ```c
