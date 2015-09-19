@@ -1,6 +1,8 @@
 # v?.?.?
 ?/?/?
 - Allowed up to 20 parameters for log message format
+- Added auto-fill of log message
+- Optimized implementation
 - Expanded example
 - Added code comments
 

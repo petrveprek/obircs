@@ -7,15 +7,28 @@
 
 #include <scribo.cfg>
 
-// Detect macro conflict
+// Detect macro conflicts
 #if defined(SCRIBO)
 #   error "Macro SCRIBO is already defined!"
+#endif
+#if defined(SCRIBOF) || defined(SCRIBOE) || defined(SCRIBOW) || defined(SCRIBOL) || defined(SCRIBOI) || defined(SCRIBOD) || defined(SCRIBOM) || defined(SCRIBOT)
+#   error "Macro SCRIBOF, SCRIBOE, SCRIBOW, SCRIBOL, SCRIBOI, SCRIBOD, SCRIBOM, or SCRIBOT is already defined!"
 #endif
 
 // To scribo or not to scribo
 #if SCRIBO_DISABLE_ALL == 1
+    
     // Remove scribo when disabled
 #   define SCRIBO(...)
+#   define SCRIBOF(...)
+#   define SCRIBOE(...)
+#   define SCRIBOW(...)
+#   define SCRIBOL(...)
+#   define SCRIBOI(...)
+#   define SCRIBOD(...)
+#   define SCRIBOM(...)
+#   define SCRIBOT(...)
+    
 #else
     
     // Interpret configuration shorthand
@@ -107,8 +120,18 @@
 #   define SCRIBOT(...) SCRIBO(TRACE,   __VA_ARGS__)
     
     // Define general helpers
-#   define SCRIBO__PASTE_2(_1, _2)     _1 ## _2
-#   define SCRIBO__PASTE_3(_1, _2, _3) _1 ## _2 ## _3
+#   define SCRIBO__EXPAND_1(_1) _1
+#   define SCRIBO__INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
+#   define SCRIBO__INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
+#   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
+#   define SCRIBO__PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
+#   define SCRIBO__PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
+#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
+#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
+#   define SCRIBO__TRIGGER_NIL_TO_COMMA(...) ,
+#   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(SCRIBO__GET_HAS_COMMA(__VA_ARGS__), SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
+#   define SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(_1, _2) SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
+#   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
     
     // Initialize default category
 #   ifndef     SCRIBO_CATEGORY
@@ -216,25 +239,43 @@
 #       define SCRIBO__ENABLE_COMBO_TRACE 0
 #   endif
     
+    // Setup auto-fill values
+#   define SCRIBO__AUTO_FILL_FATAL_0
+#   define SCRIBO__AUTO_FILL_ERROR_0
+#   define SCRIBO__AUTO_FILL_WARNING_0
+#   define SCRIBO__AUTO_FILL_LOG_0
+#   define SCRIBO__AUTO_FILL_INFO_0
+#   define SCRIBO__AUTO_FILL_DEBUG_0
+#   define SCRIBO__AUTO_FILL_METHOD_0
+#   define SCRIBO__AUTO_FILL_TRACE_0
+#   define SCRIBO__AUTO_FILL_FATAL_1
+#   define SCRIBO__AUTO_FILL_ERROR_1
+#   define SCRIBO__AUTO_FILL_WARNING_1
+#   define SCRIBO__AUTO_FILL_LOG_1
+#   define SCRIBO__AUTO_FILL_INFO_1
+#   define SCRIBO__AUTO_FILL_DEBUG_1
+#   define SCRIBO__AUTO_FILL_METHOD_1  "%s", __func__
+#   define SCRIBO__AUTO_FILL_TRACE_1   "\"%s\" : %d", __FILE__, __LINE__
+    
     // Prepare scribo parameters
-#   define SCRIBO__EXPAND_ARGUMENTS(ARGUMENTS) ARGUMENTS
-#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
-#   define SCRIBO(...)                                                                                               SCRIBO__EXPAND_ARGUMENTS(SCRIBO__PICK_23RD(__VA_ARGS__,  SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
-                                                                                                                                                                SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, SCRIBO__SOME, \
-                                                                                                                                                                SCRIBO__SOME, SCRIBO__SOME, SCRIBO__NONE, _)(__VA_ARGS__))
-#   define SCRIBO__NONE(                                                                             VERBOSITY)      SCRIBO__INJECT_CONFIGURATION(SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, "")
-#   define SCRIBO__SOME(                                                                             VERBOSITY, ...) SCRIBO__INJECT_CONFIGURATION(SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) SCRIBO__LOOKUP_CONFIGURATION(        DISABLE_CATEGORY,                      DISABLE_VERBOSITY,                       ENABLE_COMBO,        CATEGORY,  VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__LOOKUP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) SCRIBO__CONFIGURATION_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(                                               #CATEGORY,  VERBOSITY, __VA_ARGS__)
+#   define SCRIBO(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD( \
+        __VA_ARGS__,      SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, \
+        SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, \
+        SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_NONE, _)(__VA_ARGS__))
+#   define SCRIBO__USE_NONE(VERBOSITY)      SCRIBO__INVOKE_5ETC(SCRIBO__INJECT_CONFIGURATION, SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, ""          SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, 1))
+#   define SCRIBO__USE_SOME(VERBOSITY, ...) SCRIBO__INVOKE_5ETC(SCRIBO__INJECT_CONFIGURATION, SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, __VA_ARGS__ SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
+#   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(#CATEGORY, VERBOSITY, __VA_ARGS__)
+    
     // Enable or disable scribo
-#   define SCRIBO__CONFIGURATION_1_0_0(...) // Category disabled, no combo override
-#   define SCRIBO__CONFIGURATION_0_1_0(...) // Verbosity disabled, no combo override
-#   define SCRIBO__CONFIGURATION_1_1_0(...) // Category and verbosity disabled, no combo override
-#   define SCRIBO__CONFIGURATION_0_0_0(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__CONFIGURATION_0_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__CONFIGURATION_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__CONFIGURATION_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO__CONFIGURATION_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__CONFIGURE_1_0_0(...) // Category disabled, no combo override
+#   define SCRIBO__CONFIGURE_0_1_0(...) // Verbosity disabled, no combo override
+#   define SCRIBO__CONFIGURE_1_1_0(...) // Category and verbosity disabled, no combo override
+#   define SCRIBO__CONFIGURE_0_0_0(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__CONFIGURE_0_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO__CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+    
     // Implement scribo message timestamp
 #   include <stdio.h>
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
@@ -314,8 +355,8 @@
 #       endif
 #   endif
     // Implement scribo logging
-#   define SCRIBO__THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_ARGUMENTS(SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
-#   define SCRIBO__THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
+#   define SCRIBO__LOG_THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
+#   define SCRIBO__LOG_THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
             SCRIBO__DECLARE_RAW; \
             SCRIBO__DECLARE_NOW; \
