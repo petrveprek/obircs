@@ -1,26 +1,27 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
-// File: foo.c
+// File: quux.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Produce log messages for FOO category and various verbosities
+// Produce log messages with automatically-filled parameters
 
-#define SCRIBO_CATEGORY FOO
+#define SCRIBO_CATEGORY QUUX
 #include <scribo.h>
 
-void doFoo()
+void quux()
 {
-    SCRIBO(LOG, "Foo...");
+    SCRIBOM();
+    SCRIBOT();
+}
+
+void doQuux()
+{
+    SCRIBO(LOG, "Quux...");
     
-    SCRIBO(INFO, "About to loop...");
-    for (int i = 0; i < 10; i++)
-    {
-        if (i % 5 == 0)
-            SCRIBO(INFO, "Loop %d", i);
-        else
-            SCRIBO(DEBUG, "Loop %d", i);
-    }
-    SCRIBO(INFO, "...done looping");
+    SCRIBO(METHOD);
+    SCRIBO(TRACE);
+    
+    quux();
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

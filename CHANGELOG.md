@@ -1,3 +1,11 @@
+# v0.5
+2015/9/20
+- Allowed up to 20 parameters for log message format
+- Added auto-fill of log message text
+- Optimized implementation
+- Expanded example
+- Added code comments
+
 # v0.4
 2015/7/5
 - Added option for custom log message sink and maximum log message size
