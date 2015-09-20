@@ -1,3 +1,7 @@
+# v?.?.?
+?/?/?
+- Added configuration option to suppress auto-fill of log message text
+
 # v0.5
 2015/9/20
 - Allowed up to 20 parameters for log message format

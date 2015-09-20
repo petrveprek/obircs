@@ -3,7 +3,7 @@
 // File: quux.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Produce log messages with automatically-filled parameters
+// Produce log messages with automatically-filled message text
 
 #define SCRIBO_CATEGORY QUUX
 #include <scribo.h>
