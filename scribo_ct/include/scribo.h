@@ -11,7 +11,8 @@
 #if defined(SCRIBO)
 #   error "Macro SCRIBO is already defined!"
 #endif
-#if defined(SCRIBOF) || defined(SCRIBOE) || defined(SCRIBOW) || defined(SCRIBOL) || defined(SCRIBOI) || defined(SCRIBOD) || defined(SCRIBOM) || defined(SCRIBOT)
+#if defined(SCRIBOF) || defined(SCRIBOE) || defined(SCRIBOW) || defined(SCRIBOL) || \
+    defined(SCRIBOI) || defined(SCRIBOD) || defined(SCRIBOM) || defined(SCRIBOT)
 #   error "Macro SCRIBOF, SCRIBOE, SCRIBOW, SCRIBOL, SCRIBOI, SCRIBOD, SCRIBOM, or SCRIBOT is already defined!"
 #endif
 
@@ -126,11 +127,16 @@
 #   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
 #   define SCRIBO__PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
 #   define SCRIBO__PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
-#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
-#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
+#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
+        _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
+#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
 #   define SCRIBO__TRIGGER_NIL_TO_COMMA(...) ,
-#   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(SCRIBO__GET_HAS_COMMA(__VA_ARGS__), SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
-#   define SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(_1, _2) SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
+#   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY( \
+        SCRIBO__GET_HAS_COMMA(__VA_ARGS__), \
+        SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
+#   define SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(_1, _2) \
+        SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
 #   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
     
     // Initialize default category
@@ -139,7 +145,8 @@
 #   endif
     
     // Configure disabling current category
-#   define SCRIBO__GET_CATEGORY_DISABLED(CATEGORY) SCRIBO__PASTE_2(SCRIBO_DISABLE_CATEGORY_, CATEGORY)
+#   define SCRIBO__GET_CATEGORY_DISABLED(CATEGORY) \
+        SCRIBO__PASTE_2(SCRIBO_DISABLE_CATEGORY_, CATEGORY)
 #   if SCRIBO__GET_CATEGORY_DISABLED(SCRIBO_CATEGORY) == 1
 #       define SCRIBO__DISABLE_CATEGORY 1
 #   else
@@ -197,7 +204,8 @@
 #   endif
     
     // Configure enabling combinations of current category & known verbosities
-#   define SCRIBO__GET_COMBO_ENABLED(CATEGORY, VERBOSITY) SCRIBO__PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, VERBOSITY_ ## VERBOSITY)
+#   define SCRIBO__GET_COMBO_ENABLED(CATEGORY, VERBOSITY) \
+        SCRIBO__PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, VERBOSITY_ ## VERBOSITY)
 #   if SCRIBO__GET_COMBO_ENABLED(SCRIBO_CATEGORY, FATAL) == 1
 #       define SCRIBO__ENABLE_COMBO_FATAL 1
 #   else
@@ -248,15 +256,15 @@
 #   define SCRIBO__AUTO_FILL_DEBUG_0
 #   define SCRIBO__AUTO_FILL_METHOD_0
 #   define SCRIBO__AUTO_FILL_TRACE_0
-#   if SCRIBO_DISABLE_AUTO_FILL == 1
-#       define SCRIBO__AUTO_FILL_FATAL_1
-#       define SCRIBO__AUTO_FILL_ERROR_1
-#       define SCRIBO__AUTO_FILL_WARNING_1
-#       define SCRIBO__AUTO_FILL_LOG_1
-#       define SCRIBO__AUTO_FILL_INFO_1
-#       define SCRIBO__AUTO_FILL_DEBUG_1
-#       define SCRIBO__AUTO_FILL_METHOD_1
-#       define SCRIBO__AUTO_FILL_TRACE_1
+#   if SCRIBO_SUPPRESS_AUTO_FILL == 1
+#       define SCRIBO__AUTO_FILL_FATAL_1   ""
+#       define SCRIBO__AUTO_FILL_ERROR_1   ""
+#       define SCRIBO__AUTO_FILL_WARNING_1 ""
+#       define SCRIBO__AUTO_FILL_LOG_1     ""
+#       define SCRIBO__AUTO_FILL_INFO_1    ""
+#       define SCRIBO__AUTO_FILL_DEBUG_1   ""
+#       define SCRIBO__AUTO_FILL_METHOD_1  ""
+#       define SCRIBO__AUTO_FILL_TRACE_1   ""
 #   else
 #       define SCRIBO__AUTO_FILL_FATAL_1   "%s", "Game over!"
 #       define SCRIBO__AUTO_FILL_ERROR_1   "%s", "D'oh!"
@@ -269,13 +277,17 @@
 #   endif
     
     // Prepare scribo parameters
-#   define SCRIBO(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD( \
-        __VA_ARGS__,      SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, \
-        SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_SOME, \
-        SCRIBO__USE_SOME, SCRIBO__USE_SOME, SCRIBO__USE_NONE, _)(__VA_ARGS__))
-#   define SCRIBO__USE_NONE(VERBOSITY)      SCRIBO__INVOKE_5ETC(SCRIBO__INJECT_CONFIGURATION, SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, ""                           SCRIBO__PASTE_2( SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, 1))
-#   define SCRIBO__USE_SOME(VERBOSITY, ...) SCRIBO__INVOKE_5ETC(SCRIBO__INJECT_CONFIGURATION, SCRIBO__DISABLE_CATEGORY, SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, #VERBOSITY, __VA_ARGS__ SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
-#   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(#CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
+        SCRIBO__INJECT_CONFIGURATION, \
+        SCRIBO__DISABLE_CATEGORY, \
+        SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
+        SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, \
+        #VERBOSITY, \
+        __VA_ARGS__ \
+        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
+#   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
+        SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
+        #CATEGORY, VERBOSITY, __VA_ARGS__)
     
     // Enable or disable scribo
 #   define SCRIBO__CONFIGURE_1_0_0(...) // Category disabled, no combo override
@@ -287,8 +299,10 @@
 #   define SCRIBO__CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
 #   define SCRIBO__CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     
-    // Implement scribo message timestamp
+    // Prepare scribo prerequisites
 #   include <stdio.h>
+    
+    // Implement scribo message timestamp
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
 #       include <time.h>
 #       define SCRIBO__DECLARE_RAW time_t raw
@@ -302,7 +316,7 @@
 #           define SCRIBO__GET_NOW now = *localtime(&raw)
 #       endif
 #       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
-#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year + 1900, now.tm_mon + 1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
+#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
 #   else
 #       define SCRIBO__DECLARE_RAW
 #       define SCRIBO__DECLARE_NOW
@@ -311,6 +325,7 @@
 #       define SCRIBO__TIMESTAMP_FORMAT
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
+    
     // Implement scribo message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo__counter;
@@ -322,18 +337,21 @@
 #       define SCRIBO__COUNTER_VALUE
 #       define SCRIBO__INCREMENT_COUNTER
 #   endif
+    
     // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__CATEGORY_FORMAT "%.0s"
 #   endif
+    
     // Implement scribo message verbosity
 #   if SCRIBO_SUPPRESS_VERBOSITY != 1
 #       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
 #   else
 #       define SCRIBO__VERBOSITY_FORMAT "%.0s"
 #   endif
+    
     // Implement scribo message header/text separator
 #   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
        (SCRIBO_SUPPRESS_COUNTER != 1) || \
@@ -343,12 +361,14 @@
 #   else
 #       define SCRIBO__SEPARATOR
 #   endif
+    
     // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
 #       define SCRIBO__NEWLINE "\n"
 #   else
 #       define SCRIBO__NEWLINE
 #   endif
+    
     // Implement scribo message outputting callback and flushing
 #   ifdef SCRIBO_INVOKE_CALLBACK
         extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
@@ -365,9 +385,11 @@
 #           define SCRIBO__DO_FLUSH
 #       endif
 #   endif
+    
     // Implement scribo logging
-#   define SCRIBO__LOG_THIS(      CATEGORY, VERBOSITY,         ...) SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_DUMMY(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
-#   define SCRIBO__LOG_THIS_DUMMY(CATEGORY, VERBOSITY, FORMAT, ...) \
+#   define SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, ...) \
+        SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
+#   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
             SCRIBO__DECLARE_RAW; \
             SCRIBO__DECLARE_NOW; \

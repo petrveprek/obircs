@@ -1,6 +1,8 @@
 # v?.?.?
 ?/?/?
 - Added configuration option to suppress auto-fill of log message text
+- Improved example
+- Formatted source code
 
 # v0.5
 2015/9/20

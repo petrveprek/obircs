@@ -18,9 +18,9 @@
         #include <stdarg.h>
         void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...)
         {
-            va_list args1; // For first pass to get length of log message (if needed)
+            va_list args1; // First pass to get length of log message (if needed)
             va_start(args1, format);
-            va_list args2; // For second pass to output log message
+            va_list args2; // Second pass to output log message
             va_copy(args2, args1);
             if (0 == size)
             {
