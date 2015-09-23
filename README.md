@@ -4,7 +4,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [In Under 60 Seconds](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
+| [Summary](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
 | [Description](#basic-description "Basic Description") 
 | [Configuration](#configuration-overview "Configuration Overview") 
 | [Installation](#installation-and-setup "Installation and Setup") 
@@ -36,7 +36,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 void doFoo()
 {
-    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development
+    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds
     for (int i = 0; i < 4; i++)
     {
         SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug)
@@ -56,35 +56,38 @@ void doBar()
 ```
 
 **Then** build targets:
-```c
+```asciidoc
 gcc -o app_dev  -D DEVELOPMENT *.c
 gcc -o app_prod -D PRODUCTION  *.c
 ```
 
 **Finally** execute application:
-```c
+```asciidoc
 app_dev
-  "2015-06-11 20:45:23 #0000000027 FOOER   LOG     : Executing doFoo()"
-  "2015-06-11 20:45:23 #0000000028 FOOER   DEBUG   : Iteration 0"
-  "2015-06-11 20:45:23 #0000000029 FOOER   DEBUG   : Iteration 1"
-  "2015-06-11 20:45:23 #0000000030 FOOER   DEBUG   : Iteration 2"
-  "2015-06-11 20:45:23 #0000000031 FOOER   DEBUG   : Iteration 3"
-  "2015-06-11 20:45:24 #0000000065 GENERIC LOG     : Executing doBar()"
+  2015-06-11 20:45:23 #0000000000 FOOER   LOG     : Executing doFoo()
+  2015-06-11 20:45:23 #0000000001 FOOER   DEBUG   : Iteration 0
+  2015-06-11 20:45:23 #0000000002 FOOER   DEBUG   : Iteration 1
+  2015-06-11 20:45:23 #0000000003 FOOER   DEBUG   : Iteration 2
+  2015-06-11 20:45:23 #0000000004 FOOER   DEBUG   : Iteration 3
+  2015-06-11 20:45:24 #0000000005 GENERIC LOG     : Executing doBar()
 
 app_prod
-  "2015-06-11 20:45:23 #0000000027 FOOER   LOG     : Executing doFoo()"
+  2015-06-11 20:45:23 #0000000000 FOOER   LOG     : Executing doFoo()
 ```
 
 ---
 # Basic Description
 
+*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+
 Each *scribo* log message is characterized by its category (optional) and verbosity (mandatory). To generate message 
 content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
 that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
-(`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file string 
-(see [Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
-default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
-`FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`.
+(`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file (i.e. 
+per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) below for precise 
+definition). It is optional and, when not defined, the default category `GENERIC` is used. There are eight levels of 
+**verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and 
+`TRACE`.
 
 Example (minimalistic):
 ```c
@@ -95,7 +98,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to "`2015-05-31 16:22:39 #0000000024 GENERIC LOG     : `".
+This outputs log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC LOG     : `.
 
 Example (realistic):
 ```c
@@ -107,7 +110,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to "`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`".
+This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`.
 
 ---
 # Configuration Overview
