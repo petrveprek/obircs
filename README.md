@@ -163,27 +163,30 @@ and `source` directories respectively) to your project. Either copy the files to
 
 ## Run-Time Usage
 
-**First** specify (optional) logging category and include `scribo.h` in your source file(s):
+**First** specify (optional) logging category and include `scribo.h` in your source file(s).
+
+Category can be specified as follows:
+```c
+#define SCRIBO_CATEGORY <category>
+```
+where `<category>` must a valid preprocessor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
+
+Example:
 ```c
 #define SCRIBO_CATEGORY APP
 #include <scribo.h>
 ```
-The category is specified per-file so every source file can have its own, or not.
+
+Category is specified per-source-file, more precisely per translation (a.k.a. compilation) unit. So every unit can have 
+its own individual category, or multiple units can use the same shared category.
 
 If you don't specify category, then `GENERIC` will be used as the default category.
 
-Category must a valid preprocessor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
-
-**Then** output log messages using:
+**Then** output log message(s) using:
 ```c
 SCRIBO(<verbosity>, "...", ...);
 ```
 where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-style format and arguments.
-
-Unlike printf, *scribo* does **not** require format. If format is not specified, then *scribo* outputs log message 
-header only.
-
-Note that *scribo* automatically appends newline (`'\n'`) at the end of each and every log message.
 
 `<verbosity>` can be one of the following predefined values (ordered from the least to the most verbose):
 - `FATAL` ... fatal unrecoverable error message
@@ -195,9 +198,30 @@ Note that *scribo* automatically appends newline (`'\n'`) at the end of each and
 - `METHOD` ... method entry/exit message
 - `TRACE` ... code file and line trace message
 
-Above, following each verbosity value, is its suggested usage.
+Above, following each verbosity value, is its intended usage.
 
 The maximum number of arguments following the format is **limited** by *scribo* to twenty (20).
+
+Unlike printf, *scribo* does **not** require format (and arguments). If format is not specified, then *scribo* by 
+default auto-fills message text with predefined value or it leaves the text blank and outputs log message header only. 
+Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities where *scribo* can automatically 
+inject the current function name or filename and line number respectively.
+
+Following is a list of predefined values used to auto-fill log message text for each verbosity value:
+- `Game over!` for `FATAL`
+- `D'oh!` for `ERROR`
+- `Oops` for `WARNING`
+- `Fiat lux` for `LOG`
+- `Et cetera` for `INFO`
+- `Eureka` for `DEBUG`
+- `<__func__>` for `METHOD`
+- `"<__FILE__>" : <__LINE__>` for `TRACE`
+
+where `<__func__>`, `<__FILE__>`, and `<__LINE__>` are standard preprocessor macros (angle brackets `< >` are used to 
+denote each macro).
+
+Note that *scribo* by default automatically appends newline (`'\n'`) at the end of each and every log message. This 
+feature can be disabled.
 
 Format of *scribo* logging can be abbreviated to:
 ```c
@@ -213,9 +237,13 @@ where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `M` for `METHOD`
 - `T` for `TRACE`
 
+Abbreviated form of *scribo* logging can also have its message text auto-filled.  Hence conveniently, 
+`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output log message similar to `2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and 
+`SCRIBOT();` (or `SCRIBO(TRACE);`) to get message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
+
 Examples:
 ```c
-// Log message header only - normal form
+// Auto-fill log message text or log message header only - normal form
 SCRIBO(FATAL);
 SCRIBO(ERROR);
 SCRIBO(WARNING);
@@ -224,7 +252,7 @@ SCRIBO(INFO);
 SCRIBO(DEBUG);
 SCRIBO(METHOD);
 SCRIBO(TRACE);
-// Log message header only - shorthand form
+// Auto-fill log message text or log message header only - shorthand form
 SCRIBOF();
 SCRIBOE();
 SCRIBOW();
@@ -275,11 +303,11 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Compile Time
 
-At compile time, *scribo* logging can be configured.  All logging or logging for selected categories and verbosities can 
+At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
 be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
-whatsoever. This allows for different types of logging to be present in the codebase on permanent basis.  When building 
+whatsoever. This allows for different types of logging to be present in the codebase on permanent basis. When building 
 software, development version can have detailed logging present, while production version can be less verbose. 
-Configuration of *scribo* is controlled through a set of hash-defines.  The defines can be provided during build time as 
+Configuration of *scribo* is controlled through a set of hash-defines. The defines can be provided during build time as 
 toolchain command-line option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
 file (`scribo.cfg` as `#define <name> 1`).
 
@@ -333,7 +361,7 @@ Example:
 
 #### Enable *scribo* logging for a combination of a category and a verbosity
 
-Finally, *scribo* provides configuration option to enable logging for a combination of a category and a verbosity.  This 
+Finally, *scribo* provides configuration option to enable logging for a combination of a category and a verbosity. This 
 is useful as an override together with the above two options that disable categories and verbosities.
 
 ```c
@@ -350,7 +378,7 @@ Example:
 
 #### Suppress parts of *scribo* log message header
 
-Usual *scribo* log message consists of a standard header followed by custom generated text.  The **header** is made of 
+Usual *scribo* log message consists of a standard header followed by custom generated text. The **header** is made of 
 `timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
 fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
 the separator between header and text is also suppressed, automatically.
@@ -386,7 +414,7 @@ Normal *scribo* log message
 
 #### Suppress *scribo* log message termination and flushing
 
-Each *scribo* log message is automatically appended with newline (`'\n'`).  It is then output to standard output stream 
+Each *scribo* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
 (`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event that the system crashes. 
 Both automatic appending of the newline and automatic stream flushing can be suppressed.
 ```c
