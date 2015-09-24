@@ -154,9 +154,9 @@ Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosi
 ---
 # Installation and Setup
 
-Add *scribo* header and implementation files (from `include` and `source` directories respectively) to your project. 
-Either copy the files to your project directories or add *scribo*'s `include` and `source` locations to your project 
-file.
+Add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and implementation (`scribo.c`) files (from `include` 
+and `source` directories respectively) to your project. Either copy the files to your project directories or add 
+*scribo*'s `include` and `source` locations to your project settings.
 
 ---
 # Detailed Specification
