@@ -119,11 +119,11 @@ This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG
 
 At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
 addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile-time has **zero run-time overhead** (i.e. it uses no 
+disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
 memory space and consumes no computational cycles).
 
 To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command line toolchain option.
+`scribo.cfg` configuration file or be provided via command-line toolchain option.
 
 Examples (`scribo.cfg`):
 
@@ -308,7 +308,7 @@ be disabled. When disabled, the logging is completely removed and has no memory 
 whatsoever. This allows for different types of logging to be present in the codebase on permanent basis. When building 
 software, development version can have detailed logging present, while production version can be less verbose. 
 Configuration of *scribo* is controlled through a set of hash-defines. The defines can be provided during build time as 
-toolchain command-line option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
+command-line toolchain option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
 file (`scribo.cfg` as `#define <name> 1`).
 
 Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
@@ -347,7 +347,7 @@ Example:
 #define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity 'TRACE' (all categories)
 ```
 
-Apart from disabling individual verbosities one-by-one, *scribo* provides shorthand form to disable a verbosity and all 
+Apart from disabling individual verbosities one by one, *scribo* provides shorthand form to disable a verbosity and all 
 more verbose ones using single configuration option.
 
 ```c
@@ -376,6 +376,9 @@ Example:
 #define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
 ```
 
+Note that the order in which various categories and verbosities are disabled, and combinations thereof enabled, is not 
+significant and does not need to follow a particular order.
+
 #### Suppress parts of *scribo* log message header
 
 Usual *scribo* log message consists of a standard header followed by custom generated text. The **header** is made of 
@@ -392,24 +395,33 @@ the separator between header and text is also suppressed, automatically.
 Examples:
 ```c
 Normal *scribo* log message
-  => "2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+  => 2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
-  => "#0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)"
+  => #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_COUNTER   1
-  => "2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)"
+  => 2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_CATEGORY  1
-  => "2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)"
+  => 2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_VERBOSITY 1
-  => "2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)"
+  => 2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_COUNTER   1
 #define SCRIBO_SUPPRESS_CATEGORY  1
 #define SCRIBO_SUPPRESS_VERBOSITY 1
-  => "2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)"
+  => 2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
 #define SCRIBO_SUPPRESS_COUNTER   1
 #define SCRIBO_SUPPRESS_CATEGORY  1
 #define SCRIBO_SUPPRESS_VERBOSITY 1
-  => "Executable Scribo.exe (1 parameters)"
+  => Executable Scribo.exe (1 parameters)
+```
+
+#### Suppress auto-filling of *scribo* log message text
+
+When text of *scribo* log message in not specified, *scribo* by default auto-fills it with predefined value. This 
+functionality can be disabled. When no message text is specified and auto-fill is disabled, only message header is 
+output.
+```c
+#define SCRIBO_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' on message text
 ```
 
 #### Suppress *scribo* log message termination and flushing
@@ -429,7 +441,8 @@ is not limited and messages can be flushed using `fflush`. Optionally, custom si
 function receives one parameter - formatted text of the *scribo* log message to be output. The sink function has no 
 return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is provided, length 
 of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified in which case it 
-is also not limited. When custom sink is provided, messages are not flushed.
+is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, becomes 
+responsibility of the custom callback function.
 ```c
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for *scribo* log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of *scribo* log messages
