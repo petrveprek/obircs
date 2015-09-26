@@ -1,5 +1,5 @@
-# v?.?.?
-?/?/?
+# v0.6
+2015/9/27
 - Added configuration option to suppress auto-fill of log message text
 - Updated README.md
 - Improved example

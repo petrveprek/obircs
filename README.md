@@ -56,13 +56,13 @@ void doBar()
 ```
 
 **Then** build targets:
-```asciidoc
+```
 gcc -o app_dev  -D DEVELOPMENT *.c
 gcc -o app_prod -D PRODUCTION  *.c
 ```
 
 **Finally** execute application:
-```asciidoc
+```
 app_dev
   2015-06-11 20:45:23 #0000000000 FOOER   LOG     : Executing doFoo()
   2015-06-11 20:45:23 #0000000001 FOOER   DEBUG   : Iteration 0
@@ -129,26 +129,26 @@ Examples (`scribo.cfg`):
 
 Disable all *scribo* logging:
 ```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all *scribo* logging
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
 ```
 
 Disable *scribo* logging for category `GENERIC`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
 ```
 
 Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable *scribo* logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity 'TRACE' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
 ```
 
 Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
 `TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable *scribo* logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'APP' with verbosity 'DEBUG'
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
 
 ---
@@ -177,7 +177,7 @@ Example:
 #include <scribo.h>
 ```
 
-Category is specified per-source-file, more precisely per translation (a.k.a. compilation) unit. So every unit can have 
+Category is specified per source file, more precisely per translation (a.k.a. compilation) unit. So every unit can have 
 its own individual category, or multiple units can use the same shared category.
 
 If you don't specify category, then `GENERIC` will be used as the default category.
@@ -192,7 +192,7 @@ where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-
 - `FATAL` ... fatal unrecoverable error message
 - `ERROR` ... recoverable error message
 - `WARNING` ... warning message
-- `LOG` ... basic log message
+- `LOG` ... operations log message
 - `INFO` ... information message
 - `DEBUG` ... detailed debug message
 - `METHOD` ... method entry/exit message
@@ -243,7 +243,7 @@ Abbreviated form of *scribo* logging can also have its message text auto-filled.
 
 Examples:
 ```c
-// Auto-fill log message text or log message header only - normal form
+// Auto-filled log message text or log message header only - normal form
 SCRIBO(FATAL);
 SCRIBO(ERROR);
 SCRIBO(WARNING);
@@ -252,7 +252,7 @@ SCRIBO(INFO);
 SCRIBO(DEBUG);
 SCRIBO(METHOD);
 SCRIBO(TRACE);
-// Auto-fill log message text or log message header only - shorthand form
+// Auto-filled log message text or log message header only - shorthand form
 SCRIBOF();
 SCRIBOE();
 SCRIBOW();
@@ -317,46 +317,46 @@ option is treated as "enabled", any other value (including not being defined at 
 #### Disable all *scribo* logging
 
 ```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all *scribo* logging
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
 ```
 
 #### Disable *scribo* logging for a category
 
 ```c
-#define SCRIBO_DISABLE_CATEGORY_<category> 1 // Disable *scribo* logging for category <category> (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_<category> 1 // Disable scribo logging for category <category> (all verbosities)
 ```
 where `<category>` is the category specified in `#define SCRIBO_CATEGORY <category>`, or `GENERIC` (when category was 
 not specified).
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable *scribo* logging for category 'THIS_MODULE' (all verbosities)
-#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable *scribo* logging for category 'THAT_MODULE' (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable scribo logging for category 'THIS_MODULE' (all verbosities)
+#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable scribo logging for category 'THAT_MODULE' (all verbosities)
 ```
 
 #### Disable *scribo* logging for a verbosity
 
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_<verbosity> 1 // Disable *scribo* logging for verbosity <verbosity> (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_<verbosity> 1 // Disable scribo logging for verbosity <verbosity> (all categories)
 ```
 where `<verbosity>` is one of the predefined verbosities i.e. `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
 `METHOD`, or `TRACE`.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable *scribo* logging for verbosity 'TRACE' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
 ```
 
 Apart from disabling individual verbosities one by one, *scribo* provides shorthand form to disable a verbosity and all 
 more verbose ones using single configuration option.
 
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable *scribo* logging for verbosity <verbosity> and all more verbose ones (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable scribo logging for verbosity <verbosity> and all more verbose ones (all categories)
 ```
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
 ```
 
 #### Enable *scribo* logging for a combination of a category and a verbosity
@@ -365,15 +365,15 @@ Finally, *scribo* provides configuration option to enable logging for a combinat
 is useful as an override together with the above two options that disable categories and verbosities.
 
 ```c
-#define SCRIBO_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable *scribo* logging for combination of category <category> and verbosity <verbosity>
+#define SCRIBO_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable scribo logging for combination of category <category> and verbosity <verbosity>
 ```
 where `<category>` and `<verbosity>` are defined as above.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable *scribo* logging for category 'SOME_MODULE' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable *scribo* logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
-#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable *scribo* logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
+#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable scribo logging for category 'SOME_MODULE' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
+#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
 ```
 
 Note that the order in which various categories and verbosities are disabled, and combinations thereof enabled, is not 
@@ -386,15 +386,15 @@ Usual *scribo* log message consists of a standard header followed by custom gene
 fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
 the separator between header and text is also suppressed, automatically.
 ```c
-#define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in *scribo* log message header
-#define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in *scribo* log message header
-#define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in *scribo* log message header
-#define SCRIBO_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in *scribo* log message header
+#define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in scribo log message header
+#define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in scribo log message header
+#define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in scribo log message header
+#define SCRIBO_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in scribo log message header
 ```
 
 Examples:
-```c
-Normal *scribo* log message
+```
+Normal scribo log message
   => 2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
   => #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
@@ -421,7 +421,7 @@ When text of *scribo* log message in not specified, *scribo* by default auto-fil
 functionality can be disabled. When no message text is specified and auto-fill is disabled, only message header is 
 output.
 ```c
-#define SCRIBO_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' on message text
+#define SCRIBO_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' of message text
 ```
 
 #### Suppress *scribo* log message termination and flushing
@@ -444,8 +444,8 @@ of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), 
 is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, becomes 
 responsibility of the custom callback function.
 ```c
-#define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for *scribo* log messages
-#define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of *scribo* log messages
+#define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
+#define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages
 ```
 
 ---
