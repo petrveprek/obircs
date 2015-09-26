@@ -1,3 +1,10 @@
+# v0.6
+2015/9/27
+- Added configuration option to suppress auto-fill of log message text
+- Updated README.md
+- Improved example
+- Formatted source code
+
 # v0.5
 2015/9/20
 - Allowed up to 20 parameters for log message format
