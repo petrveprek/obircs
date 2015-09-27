@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     doBar();                                            // Produce log messages for BAR category and various verbosities
     doBaz();                                           // Produce regular and shorthand log messages for all verbosities
     doQux();                                                            // Produce log messages with up to 20 parameters
-    doQuux();                                             // Produce log messages with automatically-filled message text
+    doQuux();                    // Produce log messages with default verbosity and/or automatically-filled message text
     SCRIBO(LOG, "The end");
     return 0;
 }
