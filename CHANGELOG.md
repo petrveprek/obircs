@@ -1,6 +1,7 @@
 # v?.?.?
 ?/?/?
 - Made verbosity optional, defaulted to TRACE
+- Updated example
 
 # v0.6
 2015/9/27

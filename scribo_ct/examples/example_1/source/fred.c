@@ -1,28 +1,24 @@
 // ---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) 2015 Petr Vepřek
-// File: bar.c
+// File: fred.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Produce log messages for BAR category and various verbosities
+// Produce log messages for unspecified (GENERIC) category and various verbosities
 
-#define SCRIBO_CATEGORY BAR
 #include <scribo.h>
-#include "bar.h"
+#include "fred.h"
 
-void bar(int i)
+void doFred()
 {
-    SCRIBO(INFO, "bar(%d)", i);
-}
-
-void doBar()
-{
-    SCRIBO(LOG, "Bar...");
+    SCRIBO(LOG, "Fred...");
     
     SCRIBO(INFO, "About to loop...");
     for (int i = 0; i < 10; i++)
     {
-        SCRIBO(DEBUG, "Loop %d", i);
-        bar(i);
+        if (i % 5 == 0)
+            SCRIBO(INFO, "Loop %d", i);
+        else
+            SCRIBO(DEBUG, "Loop %d", i);
     }
     SCRIBO(INFO, "...done looping");
 }

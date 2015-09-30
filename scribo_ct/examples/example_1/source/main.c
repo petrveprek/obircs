@@ -12,6 +12,7 @@
 #include "baz.h"
 #include "qux.h"
 #include "quux.h"
+#include "fred.h"
 
 int main(int argc, char* argv[])
 {
@@ -24,6 +25,7 @@ int main(int argc, char* argv[])
     doBaz();                                           // Produce regular and shorthand log messages for all verbosities
     doQux();                                                            // Produce log messages with up to 20 parameters
     doQuux();                    // Produce log messages with default verbosity and/or automatically-filled message text
+    doFred();                         // Produce log messages for unspecified (GENERIC) category and various verbosities
     SCRIBO(LOG, "The end");
     return 0;
 }
