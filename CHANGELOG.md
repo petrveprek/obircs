@@ -1,3 +1,8 @@
+# v0.7
+2015/10/1
+- Made verbosity optional, defaulted to TRACE
+- Updated documentation and example
+
 # v0.6
 2015/9/27
 - Added configuration option to suppress auto-fill of log message text

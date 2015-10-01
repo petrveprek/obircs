@@ -7,6 +7,7 @@
 
 #define SCRIBO_CATEGORY FOO
 #include <scribo.h>
+#include "foo.h"
 
 void doFoo()
 {

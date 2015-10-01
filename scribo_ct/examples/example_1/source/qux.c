@@ -7,6 +7,7 @@
 
 #define SCRIBO_CATEGORY QUX
 #include <scribo.h>
+#include "qux.h"
 
 void doQux()
 {

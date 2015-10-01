@@ -122,6 +122,7 @@
     
     // Define general helpers
 #   define SCRIBO__EXPAND_1(_1) _1
+#   define SCRIBO__INVOKE_1ETC(_0, _1, ...)                 _0(_1, __VA_ARGS__)
 #   define SCRIBO__INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
 #   define SCRIBO__INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
 #   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
@@ -248,6 +249,8 @@
 #   endif
     
     // Setup auto-fill values
+#   define SCRIBO__DEFAULT_VERBOSITY_0
+#   define SCRIBO__DEFAULT_VERBOSITY_1 TRACE
 #   define SCRIBO__AUTO_FILL_FATAL_0
 #   define SCRIBO__AUTO_FILL_ERROR_0
 #   define SCRIBO__AUTO_FILL_WARNING_0
@@ -277,15 +280,19 @@
 #   endif
     
     // Prepare scribo parameters
-#   define SCRIBO(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
-        SCRIBO__INJECT_CONFIGURATION, \
+#   define SCRIBO(...) SCRIBO__INVOKE_1ETC( \
+        SCRIBO__INJECT_ARGUMENTS, \
+        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)) \
+        __VA_ARGS__)
+#   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
+        SCRIBO__LOOK_UP_CONFIGURATION, \
         SCRIBO__DISABLE_CATEGORY, \
         SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
         SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, \
         #VERBOSITY, \
         __VA_ARGS__ \
         SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
-#   define SCRIBO__INJECT_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
+#   define SCRIBO__LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
     
