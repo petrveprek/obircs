@@ -80,25 +80,25 @@ app_prod
 
 *scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
 
-Each *scribo* log message is characterized by its category (optional) and verbosity (mandatory). To generate message 
+Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
 content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
 that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
 (`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file (i.e. 
 per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) below for precise 
 definition). It is optional and, when not defined, the default category `GENERIC` is used. There are eight levels of 
 **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and 
-`TRACE`.
+`TRACE`. Verbosity is also optional and, when not specified, the default `TRACE` verbosity is used.
 
 Example (minimalistic):
 ```c
 #include <scribo.h>
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG);
+    SCRIBO();
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC LOG     : `.
+This outputs log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4`.
 
 Example (realistic):
 ```c
@@ -110,7 +110,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)`.
+This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
 
 ---
 # Configuration Overview
@@ -161,7 +161,7 @@ and `source` directories respectively) to your project. Either copy the files to
 ---
 # Detailed Specification
 
-## Run-Time Usage
+## Usage
 
 **First** specify (optional) logging category and include `scribo.h` in your source file(s).
 
@@ -199,6 +199,8 @@ where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-
 - `TRACE` ... code file and line trace message
 
 Above, following each verbosity value, is its intended usage.
+
+If you don't specify  verbosity, then `TRACE` will be used as the default verbosity.
 
 The maximum number of arguments following the format is **limited** by *scribo* to twenty (20).
 
@@ -243,6 +245,8 @@ Abbreviated form of *scribo* logging can also have its message text auto-filled.
 
 Examples:
 ```c
+// Auto-filled log message text or log message header only - default verbosity
+SCRIBO();
 // Auto-filled log message text or log message header only - normal form
 SCRIBO(FATAL);
 SCRIBO(ERROR);
