@@ -1,3 +1,7 @@
+# v?.?.?
+?/?/?
+- Improved example
+
 # v0.7
 2015/10/1
 - Made verbosity optional, defaulted to TRACE
