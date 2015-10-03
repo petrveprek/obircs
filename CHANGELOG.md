@@ -1,5 +1,6 @@
 # v?.?.?
 ?/?/?
+- Fixed newline when text is trimmed
 - Improved example
 
 # v0.7

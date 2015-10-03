@@ -16,7 +16,8 @@
     // Delegate outputting log message
 #   ifdef SCRIBO_INVOKE_CALLBACK
         #include <stdarg.h>
-        void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...)
+        #include <string.h>
+        void scribo__ouput_message(void (*callback)(const char*), size_t size, int newline, const char* format, ...)
         {
             va_list args1; // First pass to get length of log message (if needed)
             va_start(args1, format);
@@ -29,6 +30,14 @@
             va_end(args1);
             char text[1 + size];
             vsnprintf(text, sizeof text, format, args2);
+            if (1 == newline)
+            {
+                size = strlen(text);
+                if (1 <= size)
+                {
+                    text[size - 1] = '\n';
+                }
+            }
             callback(text); // Delegate
             va_end(args2);
         }
