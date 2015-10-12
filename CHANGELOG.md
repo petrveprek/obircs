@@ -2,6 +2,7 @@
 ?/?/?
 - Fixed newline when text is trimmed
 - Improved example
+- Added MS VS project
 
 # v0.7
 2015/10/1
