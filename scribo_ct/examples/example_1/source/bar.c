@@ -16,10 +16,11 @@ void bar(int i)
 
 void doBar()
 {
+    int i;
     SCRIBO(LOG, "Bar...");
     
     SCRIBO(INFO, "About to loop...");
-    for (int i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++)
     {
         SCRIBO(DEBUG, "Loop %d", i);
         bar(i);
