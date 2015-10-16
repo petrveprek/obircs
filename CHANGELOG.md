@@ -1,6 +1,8 @@
 # v?.?.?
 ?/?/?
 - Fixed newline when text is trimmed
+- Fixed enabling category/verbosity combo
+- Fixed method verbosity for MS VS
 - Improved example
 - Added MS VS project
 
