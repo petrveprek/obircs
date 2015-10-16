@@ -1,5 +1,5 @@
-# v?.?.?
-?/?/?
+# v1.0
+2015/10/16
 - Fixed newline when text is trimmed
 - Fixed enabling category/verbosity combo
 - Fixed method verbosity for MS VS
