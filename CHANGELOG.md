@@ -1,3 +1,11 @@
+# v1.0
+2015/10/16
+- Fixed newline when text is trimmed
+- Fixed enabling category/verbosity combo
+- Fixed method verbosity for MS VS
+- Improved example
+- Added MS VS project
+
 # v0.7
 2015/10/1
 - Made verbosity optional, defaulted to TRACE

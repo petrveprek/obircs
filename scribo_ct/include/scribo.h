@@ -122,7 +122,6 @@
     
     // Define general helpers
 #   define SCRIBO__EXPAND_1(_1) _1
-#   define SCRIBO__INVOKE_1ETC(_0, _1, ...)                 _0(_1, __VA_ARGS__)
 #   define SCRIBO__INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
 #   define SCRIBO__INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
 #   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
@@ -136,9 +135,9 @@
 #   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY( \
         SCRIBO__GET_HAS_COMMA(__VA_ARGS__), \
         SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
+#   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
 #   define SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(_1, _2) \
         SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
-#   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
     
     // Initialize default category
 #   ifndef     SCRIBO_CATEGORY
@@ -206,7 +205,7 @@
     
     // Configure enabling combinations of current category & known verbosities
 #   define SCRIBO__GET_COMBO_ENABLED(CATEGORY, VERBOSITY) \
-        SCRIBO__PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, VERBOSITY_ ## VERBOSITY)
+        SCRIBO__PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, _VERBOSITY_ ## VERBOSITY)
 #   if SCRIBO__GET_COMBO_ENABLED(SCRIBO_CATEGORY, FATAL) == 1
 #       define SCRIBO__ENABLE_COMBO_FATAL 1
 #   else
@@ -248,7 +247,7 @@
 #       define SCRIBO__ENABLE_COMBO_TRACE 0
 #   endif
     
-    // Setup auto-fill values
+    // Setup default verbosity and auto-fill values
 #   define SCRIBO__DEFAULT_VERBOSITY_0
 #   define SCRIBO__DEFAULT_VERBOSITY_1 TRACE
 #   define SCRIBO__AUTO_FILL_FATAL_0
@@ -269,7 +268,7 @@
 #       define SCRIBO__AUTO_FILL_METHOD_1  ""
 #       define SCRIBO__AUTO_FILL_TRACE_1   ""
 #   else
-#       define SCRIBO__AUTO_FILL_FATAL_1   "%s", "Game over!"
+#       define SCRIBO__AUTO_FILL_FATAL_1   "%s", "GAME OVER!"
 #       define SCRIBO__AUTO_FILL_ERROR_1   "%s", "D'oh!"
 #       define SCRIBO__AUTO_FILL_WARNING_1 "%s", "Oops"
 #       define SCRIBO__AUTO_FILL_LOG_1     "%s", "Fiat lux"
@@ -278,20 +277,22 @@
 #       define SCRIBO__AUTO_FILL_METHOD_1  "%s", __func__
 #       define SCRIBO__AUTO_FILL_TRACE_1   "\"%s\" : %d", __FILE__, __LINE__
 #   endif
+#   if defined(_MSC_VER)
+#       define __func__ __FUNCTION__
+#   endif
     
     // Prepare scribo parameters
-#   define SCRIBO(...) SCRIBO__INVOKE_1ETC( \
-        SCRIBO__INJECT_ARGUMENTS, \
-        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)) \
-        __VA_ARGS__)
+#   define SCRIBO(...) SCRIBO__EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
+        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
+#   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO__EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
 #   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
         SCRIBO__LOOK_UP_CONFIGURATION, \
         SCRIBO__DISABLE_CATEGORY, \
         SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
-        SCRIBO__ENABLE_COMBO_ ## VERBOSITY, SCRIBO_CATEGORY, \
+        SCRIBO__ENABLE_COMBO_ ## VERBOSITY, \
+        SCRIBO_CATEGORY, \
         #VERBOSITY, \
-        __VA_ARGS__ \
-        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
+        __VA_ARGS__ SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
 #   define SCRIBO__LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
@@ -372,17 +373,28 @@
     // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
 #       define SCRIBO__NEWLINE "\n"
+#       define SCRIBO__APPEND_NEWLINE 1
 #   else
 #       define SCRIBO__NEWLINE
+#       define SCRIBO__APPEND_NEWLINE 0
 #   endif
     
     // Implement scribo message outputting callback and flushing
 #   ifdef SCRIBO_INVOKE_CALLBACK
-        extern void scribo__ouput_message(void (*callback)(const char*), size_t size, const char* format, ...);
+        extern void scribo__ouput_message(
+            void (*callback)(const char*),
+            size_t size,
+            int newline,
+            const char* format,
+            ...);
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 0
 #       endif
-#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message(SCRIBO_INVOKE_CALLBACK, SCRIBO_SET_MAX_LENGTH, __VA_ARGS__);
+#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message( \
+            SCRIBO_INVOKE_CALLBACK, \
+            SCRIBO_SET_MAX_LENGTH, \
+            SCRIBO__APPEND_NEWLINE, \
+            __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
 #   else
 #       define SCRIBO__DO_OUTPUT printf
@@ -402,8 +414,11 @@
             SCRIBO__DECLARE_NOW; \
             SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
-            SCRIBO__DO_OUTPUT(SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
-                              SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
+            SCRIBO__DO_OUTPUT( \
+                SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT \
+                SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY, \
+                __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
             SCRIBO__INCREMENT_COUNTER; \
         } while (0)

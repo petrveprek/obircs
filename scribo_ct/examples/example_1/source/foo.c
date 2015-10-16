@@ -11,10 +11,11 @@
 
 void doFoo()
 {
+    int i;
     SCRIBO(LOG, "Foo...");
     
     SCRIBO(INFO, "About to loop...");
-    for (int i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++)
     {
         if (i % 5 == 0)
             SCRIBO(INFO, "Loop %d", i);
