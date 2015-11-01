@@ -8,11 +8,6 @@
 // To scribo or not to scribo
 #if SCRIBO_DISABLE_ALL != 1
     
-    // Initialize global message counter
-#   if SCRIBO_SUPPRESS_COUNTER != 1
-        unsigned long scribo__counter = 0;
-#   endif
-    
     // Delegate outputting log message
 #   ifdef SCRIBO_INVOKE_CALLBACK
         #include <stdarg.h>

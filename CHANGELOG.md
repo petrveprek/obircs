@@ -1,3 +1,7 @@
+# v?.?.?
+?/?/?
+- Created *scribo le*
+
 # v1.0
 2015/10/16
 - Fixed newline when text is trimmed

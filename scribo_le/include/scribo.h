@@ -334,18 +334,6 @@
 #       define SCRIBO__TIMESTAMP_VALUE
 #   endif
     
-    // Implement scribo message counter
-#   if SCRIBO_SUPPRESS_COUNTER != 1
-        extern unsigned long scribo__counter;
-#       define SCRIBO__COUNTER_FORMAT    "#%010d "
-#       define SCRIBO__COUNTER_VALUE     scribo__counter,
-#       define SCRIBO__INCREMENT_COUNTER scribo__counter++
-#   else
-#       define SCRIBO__COUNTER_FORMAT
-#       define SCRIBO__COUNTER_VALUE
-#       define SCRIBO__INCREMENT_COUNTER
-#   endif
-    
     // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
@@ -362,7 +350,6 @@
     
     // Implement scribo message header/text separator
 #   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
-       (SCRIBO_SUPPRESS_COUNTER != 1) || \
        (SCRIBO_SUPPRESS_CATEGORY != 1) || \
        (SCRIBO_SUPPRESS_VERBOSITY != 1)
 #       define SCRIBO__SEPARATOR ": "
@@ -415,12 +402,11 @@
             SCRIBO__GET_RAW; \
             SCRIBO__GET_NOW; \
             SCRIBO__DO_OUTPUT( \
-                SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT \
-                SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
-                SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY, \
+                SCRIBO__TIMESTAMP_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR \
+                FORMAT "%s" SCRIBO__NEWLINE, \
+                SCRIBO__TIMESTAMP_VALUE          CATEGORY,               VERBOSITY, \
                 __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
-            SCRIBO__INCREMENT_COUNTER; \
         } while (0)
     
 #endif
