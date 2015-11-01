@@ -68,7 +68,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\scribo.c" />
     <ClCompile Include="..\source\bar.c" />
     <ClCompile Include="..\source\baz.c" />
     <ClCompile Include="..\source\foo.c" />

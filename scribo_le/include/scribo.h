@@ -335,36 +335,15 @@
     // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
 #       define SCRIBO__NEWLINE "\n"
-#       define SCRIBO__APPEND_NEWLINE 1
 #   else
 #       define SCRIBO__NEWLINE
-#       define SCRIBO__APPEND_NEWLINE 0
 #   endif
     
-    // Implement scribo message outputting callback and flushing
-#   ifdef SCRIBO_INVOKE_CALLBACK
-        extern void scribo__ouput_message(
-            void (*callback)(const char*),
-            size_t size,
-            int newline,
-            const char* format,
-            ...);
-#       ifndef SCRIBO_SET_MAX_LENGTH
-#           define SCRIBO_SET_MAX_LENGTH 0
-#       endif
-#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message( \
-            SCRIBO_INVOKE_CALLBACK, \
-            SCRIBO_SET_MAX_LENGTH, \
-            SCRIBO__APPEND_NEWLINE, \
-            __VA_ARGS__);
-#       define SCRIBO__DO_FLUSH
+    // Implement scribo message flushing
+#   if SCRIBO_SUPPRESS_FLUSH != 1
+#       define SCRIBO__DO_FLUSH fflush(stdout)
 #   else
-#       define SCRIBO__DO_OUTPUT printf
-#       if SCRIBO_SUPPRESS_FLUSH != 1
-#           define SCRIBO__DO_FLUSH fflush(stdout)
-#       else
-#           define SCRIBO__DO_FLUSH
-#       endif
+#       define SCRIBO__DO_FLUSH
 #   endif
     
     // Implement scribo logging
@@ -372,7 +351,7 @@
         SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
-            SCRIBO__DO_OUTPUT( \
+            printf( \
                 SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
                         CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \

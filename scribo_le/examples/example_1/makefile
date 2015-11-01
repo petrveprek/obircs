@@ -7,7 +7,6 @@ TARGET   = main.                                           # executable
 HEADERS  = $(wildcard include/*.h include/*.cfg)           # application
 SOURCES  = $(wildcard source/*.c)                          #    -//-
 HEADERS += $(wildcard ../../include/*.h)                   # scribo
-SOURCES += $(wildcard ../../source/*.c)                    #  -//-
 OBJECTS  = $(addprefix object/,$(notdir $(SOURCES:.c=.o))) # objects
 CC       = gcc#                                            # C compiler
 CPPFLAGS = #                                               # preprocessor flags
