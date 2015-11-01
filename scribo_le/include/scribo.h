@@ -310,30 +310,6 @@
     // Prepare scribo prerequisites
 #   include <stdio.h>
     
-    // Implement scribo message timestamp
-#   if SCRIBO_SUPPRESS_TIMESTAMP != 1
-#       include <time.h>
-#       define SCRIBO__DECLARE_RAW time_t raw
-#       define SCRIBO__DECLARE_NOW struct tm now
-#       define SCRIBO__GET_RAW time(&raw)
-#       if defined(__linux__)
-#           define SCRIBO__GET_NOW localtime_r(&raw, &now)
-#       elif defined(_MSC_VER)
-#           define SCRIBO__GET_NOW localtime_s(&now, &raw)
-#       else
-#           define SCRIBO__GET_NOW now = *localtime(&raw)
-#       endif
-#       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
-#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
-#   else
-#       define SCRIBO__DECLARE_RAW
-#       define SCRIBO__DECLARE_NOW
-#       define SCRIBO__GET_RAW
-#       define SCRIBO__GET_NOW
-#       define SCRIBO__TIMESTAMP_FORMAT
-#       define SCRIBO__TIMESTAMP_VALUE
-#   endif
-    
     // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
 #       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
@@ -349,8 +325,7 @@
 #   endif
     
     // Implement scribo message header/text separator
-#   if (SCRIBO_SUPPRESS_TIMESTAMP != 1) || \
-       (SCRIBO_SUPPRESS_CATEGORY != 1) || \
+#   if (SCRIBO_SUPPRESS_CATEGORY != 1) || \
        (SCRIBO_SUPPRESS_VERBOSITY != 1)
 #       define SCRIBO__SEPARATOR ": "
 #   else
@@ -397,15 +372,9 @@
         SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
-            SCRIBO__DECLARE_RAW; \
-            SCRIBO__DECLARE_NOW; \
-            SCRIBO__GET_RAW; \
-            SCRIBO__GET_NOW; \
             SCRIBO__DO_OUTPUT( \
-                SCRIBO__TIMESTAMP_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR \
-                FORMAT "%s" SCRIBO__NEWLINE, \
-                SCRIBO__TIMESTAMP_VALUE          CATEGORY,               VERBOSITY, \
-                __VA_ARGS__); \
+                SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                        CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
         } while (0)
     
