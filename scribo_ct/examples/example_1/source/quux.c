@@ -3,11 +3,10 @@
 // File: quux.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Produce log messages with default verbosity and/or automatically-filled message text
+// Produce log messages with default verbosity (TRACE) and/or automatically-filled message text
 
 #define SCRIBO_CATEGORY QUUX
 #include <scribo.h>
-#include "quux.h"
 
 void quux()
 {
@@ -28,7 +27,7 @@ void doQuux()
 {
     SCRIBO(LOG, "Quux...");
     
-    SCRIBO(DEBUG, "Auto-fill verbosity:");
+    SCRIBO(DEBUG, "Auto-fill default verbosity:");
     SCRIBO();
     
     SCRIBO(DEBUG, "Auto-fill fatal, error, warning, log, info, and debug:");

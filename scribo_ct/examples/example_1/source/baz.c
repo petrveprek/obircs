@@ -7,7 +7,6 @@
 
 #define SCRIBO_CATEGORY BAZ
 #include <scribo.h>
-#include "baz.h"
 
 void doBaz()
 {

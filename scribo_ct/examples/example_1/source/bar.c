@@ -7,7 +7,6 @@
 
 #define SCRIBO_CATEGORY BAR
 #include <scribo.h>
-#include "bar.h"
 
 void bar(int i)
 {

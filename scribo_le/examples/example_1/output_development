@@ -53,7 +53,7 @@ BAZ     LOG     : Fiat lux
 BAZ     INFO    : Et cetera
 BAZ     DEBUG   : Eureka
 BAZ     METHOD  : doBaz
-BAZ     TRACE   : "source/baz.c" : 34
+BAZ     TRACE   : "source/baz.c" : 33
 BAZ     LOG     : Shorthand log messages with parameter:
 BAZ     FATAL   : Fatal blah...
 BAZ     ERROR   : Error blah...
@@ -71,7 +71,7 @@ BAZ     LOG     : Fiat lux
 BAZ     INFO    : Et cetera
 BAZ     DEBUG   : Eureka
 BAZ     METHOD  : doBaz
-BAZ     TRACE   : "source/baz.c" : 54
+BAZ     TRACE   : "source/baz.c" : 53
 QUX     LOG     : Qux...
 QUX     DEBUG   : Eureka
 QUX     DEBUG   : Eureka
@@ -119,8 +119,8 @@ QUX     DEBUG   : Eighteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
 QUX     DEBUG   : Nineteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 QUX     DEBUG   : Twenty    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 QUUX    LOG     : Quux...
-QUUX    DEBUG   : Auto-fill verbosity:
-QUUX    TRACE   : "source/quux.c" : 32
+QUUX    DEBUG   : Auto-fill default verbosity:
+QUUX    TRACE   : "source/quux.c" : 31
 QUUX    DEBUG   : Auto-fill fatal, error, warning, log, info, and debug:
 QUUX    FATAL   : GAME OVER!
 QUUX    ERROR   : D'oh!
@@ -130,7 +130,7 @@ QUUX    INFO    : Et cetera
 QUUX    DEBUG   : Eureka
 QUUX    DEBUG   : Auto-fill method and trace:
 QUUX    METHOD  : doQuux
-QUUX    TRACE   : "source/quux.c" : 44
+QUUX    TRACE   : "source/quux.c" : 43
 QUUX    DEBUG   : Auto-fill fatal, error, warning, log, info, and debug:
 QUUX    FATAL   : GAME OVER!
 QUUX    ERROR   : D'oh!
@@ -140,8 +140,10 @@ QUUX    INFO    : Et cetera
 QUUX    DEBUG   : Eureka
 QUUX    DEBUG   : Auto-fill method and trace:
 QUUX    METHOD  : quux
-QUUX    TRACE   : "source/quux.c" : 24
+QUUX    TRACE   : "source/quux.c" : 23
 GENERIC LOG     : Fred...
+GENERIC DEBUG   : Default category and auto-fill default verbosity:
+GENERIC TRACE   : "source/fred.c" : 16
 GENERIC INFO    : About to loop...
 GENERIC INFO    : Loop 0
 GENERIC DEBUG   : Loop 1

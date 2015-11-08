@@ -3,15 +3,17 @@
 // File: fred.c
 // ---------------------------------------------------------------------------------------------------------------------
 
-// Produce log messages for unspecified (GENERIC) category and various verbosities
+// Produce log messages for default category (GENERIC) and various verbosities
 
 #include <scribo.h>
-#include "fred.h"
 
 void doFred()
 {
     int i;
     SCRIBO(LOG, "Fred...");
+    
+    SCRIBO(DEBUG, "Default category and auto-fill default verbosity:");
+    SCRIBO();
     
     SCRIBO(INFO, "About to loop...");
     for (i = 0; i < 10; i++)
