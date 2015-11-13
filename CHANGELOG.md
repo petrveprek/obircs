@@ -1,6 +1,7 @@
 # v?.?.?
 ?/?/?
 - Created *scribo le*
+- Improved example
 
 # v1.0
 2015/10/16
