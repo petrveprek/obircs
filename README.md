@@ -4,12 +4,70 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Summary](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
-| [Description](#basic-description "Basic Description") 
-| [Configuration](#configuration-overview "Configuration Overview") 
+| [Overview](#quick-overview "Quick Overview") 
+| [Versions](#available-versions "Available Versions") 
 | [Installation](#installation-and-setup "Installation and Setup") 
 | [Specification](#detailed-specification "Detailed Specification") 
 | [License](#copyright-and-license "Copyright and License") |
+
+---
+# Quick Overview
+
+*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+
+Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
+content itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first 
+addition is that the `format` may be omitted. In this case, only log message header is output. The second addition is 
+that newline (`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined 
+per-source-file (i.e. per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) 
+below for precise definition). It is optional and, when not defined, the default category `GENERIC` is used. There are 
+eight levels of **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
+`METHOD`, and `TRACE`. Verbosity is also optional and, when not specified, the default `TRACE` verbosity is used.
+
+---
+# Available Versions
+
+*scribo* is available in two versions: **compile time** (ct) and **light edition** (le). *scribo ct* provides numerous 
+configuration options that can be used to customize *scribo* log message generation (see 
+[Specification](#detailed-specification) below for full details). *scribo le* is a cut-down version that supports 
+essential configuration options only.
+
+Feature | *scribo le* | *scribo ct*
+:--|:--:|:--:
+Message header - timestamp | no | yes
+Message header - counter | no | yes
+
+---
+# Installation and Setup
+
+First, download the latest *scribo* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
+the available versions of *scribo* (either `ct` or `le`) to use.
+
+Then, add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and, if any, implementation (`scribo.c`) files 
+(from `include` and `source` directories of the chosen *scribo* version respectively) to your project. Either copy the 
+files to your project directories or add *scribo*'s `include` and `source` locations to your project settings.
+
+Finally, customize the provided configuration file according to your needs. Note that alternatively, *scribo* can also 
+be configured via command-line toolchain options.
+
+---
+# Detailed Specification
+
+---
+# Copyright and License
+
+Copyright (c) 2015 Petr Vepřek
+
+MIT License, see [`LICENSE`](./LICENSE) for further details.
+
+---
+
+---
+
+| [Summary](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
+| [Description](#basic-description "Basic Description") 
+| [Configuration](#configuration-overview "Configuration Overview") 
+| [Specification](#detailed-specification "Detailed Specification") 
 
 ---
 # All You Need To Know In Under 60 Seconds
@@ -78,17 +136,6 @@ app_prod
 ---
 # Basic Description
 
-*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
-
-Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
-content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
-that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
-(`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file (i.e. 
-per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) below for precise 
-definition). It is optional and, when not defined, the default category `GENERIC` is used. There are eight levels of 
-**verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and 
-`TRACE`. Verbosity is also optional and, when not specified, the default `TRACE` verbosity is used.
-
 Example (minimalistic):
 ```c
 #include <scribo.h>
@@ -150,13 +197,6 @@ Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosi
 #define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
 #define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
-
----
-# Installation and Setup
-
-Add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and implementation (`scribo.c`) files (from `include` 
-and `source` directories respectively) to your project. Either copy the files to your project directories or add 
-*scribo*'s `include` and `source` locations to your project settings.
 
 ---
 # Detailed Specification
@@ -451,10 +491,3 @@ responsibility of the custom callback function.
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages
 ```
-
----
-# Copyright and License
-
-Copyright (c) 2015 Petr Vepřek
-
-MIT License, see [`LICENSE`](./LICENSE) for further details.
