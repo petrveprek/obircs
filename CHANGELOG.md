@@ -1,7 +1,9 @@
 # v?.?.?
 ?/?/?
 - Created *scribo le*
+- Improved implementation
 - Improved example
+- Fixed MS VS project
 
 # v1.0
 2015/10/16
