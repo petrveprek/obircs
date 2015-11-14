@@ -131,13 +131,13 @@
         _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
 #   define SCRIBO__GET_HAS_COMMA(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
+#   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
+#   define SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY(_1, _2) \
+        SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
 #   define SCRIBO__TRIGGER_NIL_TO_COMMA(...) ,
-#   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY( \
+#   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY( \
         SCRIBO__GET_HAS_COMMA(__VA_ARGS__), \
         SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
-#   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
-#   define SCRIBO__GET_HAS_NO_COMMA_IS_NOT_EMPTY(_1, _2) \
-        SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
     
     // Initialize default category
 #   ifndef     SCRIBO_CATEGORY
@@ -308,7 +308,9 @@
 #   define SCRIBO__CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     
     // Prepare scribo prerequisites
-#   include <stdio.h>
+#   ifndef SCRIBO_INVOKE_CALLBACK
+#       include <stdio.h>
+#   endif
     
     // Implement scribo message timestamp
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
@@ -382,10 +384,10 @@
     // Implement scribo message outputting callback and flushing
 #   ifdef SCRIBO_INVOKE_CALLBACK
         extern void scribo__ouput_message(
-            void (*callback)(const char*),
+            void (* callback)(const char *),
             size_t size,
             int newline,
-            const char* format,
+            const char * format,
             ...);
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 0
