@@ -35,12 +35,12 @@ essential configuration options only.
 
 Feature | *scribo le* | *scribo ct* | Notes
 :--|:--:|:--:|:--
-Message header - timestamp | :heavy_minus_sign: | :heavy_check_mark: | **2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka
-Message header - counter | :x: | :o: | 2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka
-Message header - category | Yes | Yes | 2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka
-Message header - verbosity | Yes | Yes | 2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka
-Default category | Yes | Yes | `GENERIC`
-Default verbosity | Yes | Yes | `TRACE`
+<sub>Message header - timestamp</sub> | <sub>:heavy_minus_sign:</sub> | <sub>:heavy_check_mark:</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
+<sub>Message header - counter</sub> | :heavy_minus_sign: | :heavy_check_mark: | 2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
+<sub>Message header - category</sub> | Yes | Yes | 2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
+<sub>Message header - verbosity</sub> | Yes | Yes | 2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
+<sub>Default category</sub> | Yes | Yes | <sub>`GENERIC`</sub>
+<sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
 
 ---
 # Installation and Setup
