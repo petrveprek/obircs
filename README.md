@@ -35,7 +35,7 @@ essential configuration options only.
 
 Feature | *scribo le* | *scribo ct* | Notes
 :--|:--:|:--:|:--
-Message header - timestamp | No | Yes | **2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka
+Message header - timestamp | :heavy_minus_sign: | :heavy_check_mark: | **2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka
 Message header - counter | :x: | :o: | 2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka
 Message header - category | Yes | Yes | 2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka
 Message header - verbosity | Yes | Yes | 2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka
