@@ -17,12 +17,13 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
 content itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first 
-addition is that the `format` may be omitted. In this case, only log message header is output. The second addition is 
-that newline (`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined 
-per-source-file (i.e. per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) 
-below for precise definition). It is optional and, when not defined, the default category `GENERIC` is used. There are 
-eight levels of **verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
-`METHOD`, and `TRACE`. Verbosity is also optional and, when not specified, the default `TRACE` verbosity is used.
+addition is that the `format` may be omitted. In this case, only log message header (optionally followed by default 
+message content) is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each 
+log message. **Category** is user-defined per-source-file (i.e. per translation a.k.a. compilation unit) string (see 
+[Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
+default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
+`FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
+specified, the default `TRACE` verbosity is used.
 
 ---
 # Available Versions
@@ -32,10 +33,14 @@ configuration options that can be used to customize *scribo* log message generat
 [Specification](#detailed-specification) below for full details). *scribo le* is a cut-down version that supports 
 essential configuration options only.
 
-Feature | *scribo le* | *scribo ct*
-:--|:--:|:--:
-Message header - timestamp | no | yes
-Message header - counter | no | yes
+Feature | *scribo le* | *scribo ct* | Notes
+:--|:--:|:--:|:--
+Message header - timestamp | No | Yes | **2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka
+Message header - counter | :x: | :o: | 2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka
+Message header - category | Yes | Yes | 2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka
+Message header - verbosity | Yes | Yes | 2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka
+Default category | Yes | Yes | `GENERIC`
+Default verbosity | Yes | Yes | `TRACE`
 
 ---
 # Installation and Setup
