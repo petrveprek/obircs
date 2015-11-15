@@ -35,11 +35,11 @@ essential configuration options only.
 
 Feature | *scribo le* | *scribo ct* | Notes
 :--|:--:|:--:|:--
-<sub>Message header - timestamp</sub> | <sub>:heavy_minus_sign:</sub> | <sub>:heavy_check_mark:</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
-<sub>Message header - counter</sub> | :heavy_minus_sign: | :heavy_check_mark: | 2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
-<sub>Message header - category</sub> | Yes | Yes | 2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
-<sub>Message header - verbosity</sub> | Yes | Yes | 2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
-<sub>Default category</sub> | Yes | Yes | <sub>`GENERIC`</sub>
+<sub>Message header - timestamp</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
+<sub>Message header - counter</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
+<sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
+<sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
+<sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
 <sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
 
 ---
