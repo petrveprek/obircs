@@ -5,7 +5,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
 | [Overview](#quick-overview "Quick Overview") 
-| [Versions](#available-versions "Available Versions") 
+| [Editions](#available-editions "Available Editions") 
 | [Installation](#installation-and-setup "Installation and Setup") 
 | [Specification](#detailed-specification "Detailed Specification") 
 | [License](#copyright-and-license "Copyright and License") |
@@ -25,72 +25,7 @@ default category `GENERIC` is used. There are eight levels of **verbosity** (fro
 `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
 specified, the default `TRACE` verbosity is used.
 
----
-# Available Versions
-
-*scribo* is available in two versions: **compile time** (ct) and **light edition** (le). *scribo ct* provides numerous 
-configuration options that can be used to customize *scribo* log message generation (see 
-[Specification](#detailed-specification) below for full details). *scribo le* is a cut-down version that supports 
-essential configuration options only.
-
-Feature | *scribo le* | *scribo ct* | Notes
-:--|:--:|:--:|:--
-<sub>Message header - timestamp</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
-<sub>Message header - counter</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
-<sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
-<sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
-<sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
-<sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
-
----
-# Installation and Setup
-
-First, download the latest *scribo* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
-the available versions of *scribo* (either `ct` or `le`) to use.
-
-Then, add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and, if any, implementation (`scribo.c`) files 
-(from `include` and `source` directories of the chosen *scribo* version respectively) to your project. Either copy the 
-files to your project directories or add *scribo*'s `include` and `source` locations to your project settings.
-
-Finally, customize the provided configuration file according to your needs. Note that alternatively, *scribo* can also 
-be configured via command-line toolchain options.
-
----
-# Detailed Specification
-
----
-# Copyright and License
-
-Copyright (c) 2015 Petr Vepřek
-
-MIT License, see [`LICENSE`](./LICENSE) for further details.
-
----
-
----
-
-| [Summary](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
-| [Description](#basic-description "Basic Description") 
-| [Configuration](#configuration-overview "Configuration Overview") 
-| [Specification](#detailed-specification "Detailed Specification") 
-
----
-# All You Need To Know In Under 60 Seconds
-
-**First** specify target configuration:
-```c
-// scribo.cfg
-
-#if defined(PRODUCTION) || !defined(DEVELOPMENT)
-    // Production (disable excessive logging)
-#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
-#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
-#else
-    // Development (enable all logging)
-#endif
-```
-
-**Then** produce log messages:
+**First** add logging to your source code:
 ```c
 // foo.c
 
@@ -99,10 +34,10 @@ MIT License, see [`LICENSE`](./LICENSE) for further details.
 
 void doFoo()
 {
-    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds
+    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds (see scribo.cfg below)
     for (int i = 0; i < 4; i++)
     {
-        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug)
+        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug) (see scribo.cfg below)
     }
 }
 ```
@@ -114,8 +49,21 @@ void doFoo()
 
 void doBar()
 {
-    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic)
+    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic) (see scribo.cfg below)
 }
+```
+
+**Then** specify target configuration:
+```c
+// scribo.cfg
+
+#if defined(PRODUCTION) || !defined(DEVELOPMENT)
+    // Production (disable excessive logging)
+#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
+#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
+#else
+    // Development (enable all logging)
+#endif
 ```
 
 **Then** build targets:
@@ -137,6 +85,58 @@ app_dev
 app_prod
   2015-06-11 20:45:23 #0000000000 FOOER   LOG     : Executing doFoo()
 ```
+
+---
+# Available Editions
+
+*scribo* is available in two editions: **compile time** (ct) and **light edition** (le). *scribo ct* provides numerous 
+configuration options that can be used to customize *scribo* log message generation (see 
+[Specification](#detailed-specification) below for full details). *scribo le* is a cut-down edition that supports 
+essential configuration options only.
+
+Feature | *scribo le* | *scribo ct* | Notes
+:--|:--:|:--:|:--
+<sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
+<sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
+<sub>Message header - timestamp</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
+<sub>Message header - counter</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
+<sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
+<sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
+<sub>Message content - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
+<sub>Custom log sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
+<sub>Implementation - scribo.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
+<sub>Implementation - scribo.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
+
+---
+# Installation and Setup
+
+First, download the latest *scribo* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
+the available editions of *scribo* (either `ct` or `le`) to use.
+
+Then, add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and, if any, implementation (`scribo.c`) files 
+(from `include` and `source` directories of the chosen *scribo* edition respectively) to your project. Either copy the 
+files to your project directories or add *scribo*'s `include` and `source` locations to your project settings.
+
+Finally, customize the provided configuration file according to your needs. Note that alternatively, *scribo* can also 
+be configured via command-line toolchain options.
+
+---
+# Detailed Specification
+
+---
+# Copyright and License
+
+Copyright (c) 2015 Petr Vepřek
+
+MIT License, see [`LICENSE`](./LICENSE) for further details.
+
+---
+
+---
+
+| [Description](#basic-description "Basic Description") 
+| [Configuration](#configuration-overview "Configuration Overview") 
+| [Specification](#detailed-specification "Detailed Specification") 
 
 ---
 # Basic Description
