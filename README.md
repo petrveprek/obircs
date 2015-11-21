@@ -4,11 +4,30 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
+| [Welcome](#welcome-to-scribo "Welcome to *scribo*") 
+| [Contents](#table-of-contents "Table of Contents") 
 | [Overview](#quick-overview "Quick Overview") 
 | [Editions](#available-editions "Available Editions") 
 | [Installation](#installation-and-setup "Installation and Setup") 
 | [Specification](#detailed-specification "Detailed Specification") 
 | [License](#copyright-and-license "Copyright and License") |
+
+---
+# Table of Contents
+
+* [Welcome](#welcome-to-scribo "Welcome to *scribo*")
+* [Contents](#table-of-contents "Table of Contents")
+* [Overview](#quick-overview "Quick Overview")
+* [Editions](#available-editions "Available Editions")
+* [Installation](#installation-and-setup "Installation and Setup")
+* [Specification](#detailed-specification "Detailed Specification")
+  * [Use](#how-to-use "How to Use")
+    * [Overview](#overview "Overview")
+    * [Setup](#setup "Setup")
+    * [Logging](#logging "Logging")
+  * [Configuration](#how-to-configure "How to Configure")
+    * [Compile Time](#compile-time "Compile Time")
+* [License](#copyright-and-license "Copyright and License")
 
 ---
 # Quick Overview
@@ -125,7 +144,7 @@ be configured via command-line toolchain options.
 ---
 # Detailed Specification
 
-## Usage
+## How to Use
 
 ### Overview
 
@@ -302,7 +321,7 @@ SCRIBOM("%d + %d equals %d", 1, 1, 2);
 SCRIBOT("%d + %d equals %d", 1, 1, 2);
 ```
 
-## Configuration
+## How to Configure
 
 ### Compile Time
 
