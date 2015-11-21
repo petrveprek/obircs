@@ -15,7 +15,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
 
-Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
+Each *scribo* log message is characterized by its (optional) category and (optional) verbosity. To generate message 
 content itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first 
 addition is that the `format` may be omitted. In this case, only log message header (optionally followed by default 
 message content) is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each 
@@ -24,6 +24,8 @@ log message. **Category** is user-defined per-source-file (i.e. per translation 
 default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
 `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
 specified, the default `TRACE` verbosity is used.
+
+Below is a simple example of basic *scribo* usage.
 
 **First** add logging to your source code:
 ```c
@@ -89,8 +91,8 @@ app_prod
 ---
 # Available Editions
 
-*scribo* is available in two editions: **compile time** (ct) and **light edition** (le). *scribo ct* provides numerous 
-configuration options that can be used to customize *scribo* log message generation (see 
+*scribo* is available in two editions: **compile time** (`ct`) and **light edition** (`le`). *scribo ct* provides 
+numerous configuration options that can be used to customize *scribo* log message generation (see 
 [Specification](#detailed-specification) below for full details). *scribo le* is a cut-down edition that supports 
 essential configuration options only.
 
@@ -103,7 +105,7 @@ Feature | *scribo le* | *scribo ct* | Notes
 <sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
 <sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
 <sub>Message content - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
-<sub>Custom log sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
+<sub>Custom message sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
 <sub>Implementation - scribo.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
 <sub>Implementation - scribo.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
 
