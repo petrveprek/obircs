@@ -15,19 +15,27 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 ---
 # Table of Contents
 
-* [Welcome](#welcome-to-scribo "Welcome to *scribo*")
-* [Contents](#table-of-contents "Table of Contents")
-* [Overview](#quick-overview "Quick Overview")
-* [Editions](#available-editions "Available Editions")
-* [Installation](#installation-and-setup "Installation and Setup")
-* [Specification](#detailed-specification "Detailed Specification")
-  * [Use](#how-to-use "How to Use")
-    * [Overview](#overview "Overview")
-    * [Setup](#setup "Setup")
-    * [Logging](#logging "Logging")
-  * [Configuration](#how-to-configure "How to Configure")
-    * [Compile Time](#compile-time "Compile Time")
-* [License](#copyright-and-license "Copyright and License")
+* [Welcome to *scribo*](#welcome-to-scribo "Welcome to *scribo*")
+* [Table of Contents](#table-of-contents "Table of Contents")
+* [Quick Overview](#quick-overview "Quick Overview")
+* [Available Editions](#available-editions "Available Editions")
+* [Installation and Setup](#installation-and-setup "Installation and Setup")
+* [Detailed Specification](#detailed-specification "Detailed Specification")
+  * <sub>[How to Use](#how-to-use "How to Use")</sub>
+    * <sub>[Outline](#outline "Outline")</sub>
+    * <sub>[Setup](#setup "Setup")</sub>
+    * <sub>[Logging](#logging "Logging")</sub>
+  * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
+    * <sub>[Compile Time](#compile-time "Compile Time")</sub>
+      * <sub>[Disable all *scribo* logging](#disable-all-scribo-logging "Disable all *scribo* logging")</sub>
+      * <sub>[Disable *scribo* logging for a category](#disable-scribo-logging-for-a-category "Disable *scribo* logging for a category")</sub>
+      * <sub>[Disable *scribo* logging for a verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* logging for a verbosity")</sub>
+      * <sub>[Enable *scribo* logging for a combination of a category and a verbosity](#enable-scribo-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *scribo* logging for a combination of a category and a verbosity")</sub>
+      * <sub>[Suppress parts of *scribo* log message header](#suppress-parts-of-scribo-log-message-header "Suppress parts of *scribo* log message header")</sub>
+      * <sub>[Suppress auto-filling of *scribo* log message text](#suppress-auto-filling-of-scribo-log-message-text "Suppress auto-filling of *scribo* log message text")</sub>
+      * <sub>[Suppress *scribo* log message termination and flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* log message termination and flushing")</sub>
+      * <sub>[Provide custom sink for and specify maximum length of *scribo* log messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide custom sink for and specify maximum length of *scribo* log messages")</sub>
+* [Copyright and License](#copyright-and-license "Copyright and License")
 
 ---
 # Quick Overview
@@ -146,7 +154,7 @@ be configured via command-line toolchain options.
 
 ## How to Use
 
-### Overview
+### Outline
 
 In each source file where run-time logging is needed: first (optionally) define logging category and include *scribo* 
 header, and then add logging statements as illustrated below.
@@ -325,61 +333,6 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Compile Time
 
----
-# Copyright and License
-
-Copyright (c) 2015 Petr Vepřek
-
-MIT License, see [`LICENSE`](./LICENSE) for further details.
-
----
-
----
-# Configuration Overview
-
-## Compile Time
-
-At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
-addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles).
-
-To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command-line toolchain option.
-
-Examples (`scribo.cfg`):
-
-Disable all *scribo* logging:
-```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
-```
-
-Disable *scribo* logging for category `GENERIC`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-```
-
-Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
-```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
-```
-
-Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
-```
-
----
-# Detailed Specification
-
-## Configuration
-
-### Compile Time
-
 At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
 be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
 whatsoever. This allows for different types of logging to be present in the codebase on permanent basis. When building 
@@ -523,4 +476,52 @@ responsibility of the custom callback function.
 ```c
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages
+```
+
+---
+# Copyright and License
+
+Copyright (c) 2015 Petr Vepřek
+
+MIT License, see [`LICENSE`](./LICENSE) for further details.
+
+---
+
+---
+# Configuration Overview
+
+## Compile Time
+
+At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
+addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
+disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
+memory space and consumes no computational cycles).
+
+To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
+`scribo.cfg` configuration file or be provided via command-line toolchain option.
+
+Examples (`scribo.cfg`):
+
+Disable all *scribo* logging:
+```c
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+```
+
+Disable *scribo* logging for category `GENERIC`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+```
+
+Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
+```c
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+```
+
+Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
