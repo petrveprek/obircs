@@ -16,10 +16,10 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 *scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
 
 Each *scribo* log message is characterized by its (optional) category and (optional) verbosity. To generate message 
-content itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first 
-addition is that the `format` may be omitted. In this case, only log message header (optionally followed by default 
-message content) is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each 
-log message. **Category** is user-defined per-source-file (i.e. per translation a.k.a. compilation unit) string (see 
+text itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first addition 
+is that the `format` may be omitted. In this case, only log message header (optionally followed by default message text) 
+is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each log message. 
+**Category** is user-defined per-source-file (i.e. per translation a.k.a. compilation unit) string (see 
 [Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
 default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
 `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
@@ -104,7 +104,7 @@ Feature | *scribo le* | *scribo ct* | Notes
 <sub>Message header - counter</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
 <sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
 <sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
-<sub>Message content - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
+<sub>Message text - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
 <sub>Custom message sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
 <sub>Implementation - scribo.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
 <sub>Implementation - scribo.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
@@ -125,23 +125,12 @@ be configured via command-line toolchain options.
 ---
 # Detailed Specification
 
----
-# Copyright and License
+## Usage
 
-Copyright (c) 2015 Petr Vepřek
+### Overview
 
-MIT License, see [`LICENSE`](./LICENSE) for further details.
-
----
-
----
-
-| [Description](#basic-description "Basic Description") 
-| [Configuration](#configuration-overview "Configuration Overview") 
-| [Specification](#detailed-specification "Detailed Specification") 
-
----
-# Basic Description
+In each source file where run-time logging is needed: first (optionally) define logging category and include *scribo* 
+header, and then add logging statements as illustrated below.
 
 Example (minimalistic):
 ```c
@@ -152,7 +141,8 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4`.
+In this case *scribo* will use default category `GENERIC` and default verbosity `TRACE`, and it generate default message 
+text. Log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4` will be output.
 
 Example (realistic):
 ```c
@@ -164,53 +154,12 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
+Here *scribo* will output log message similar to 
+`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
 
----
-# Configuration Overview
+### Setup
 
-## Compile Time
-
-At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
-addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles).
-
-To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command-line toolchain option.
-
-Examples (`scribo.cfg`):
-
-Disable all *scribo* logging:
-```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
-```
-
-Disable *scribo* logging for category `GENERIC`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-```
-
-Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
-```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
-```
-
-Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
-```
-
----
-# Detailed Specification
-
-## Usage
-
-**First** specify (optional) logging category and include `scribo.h` in your source file(s).
+First specify (optional) logging category and include `scribo.h` in your source file(s).
 
 Category can be specified as follows:
 ```c
@@ -229,7 +178,9 @@ its own individual category, or multiple units can use the same shared category.
 
 If you don't specify category, then `GENERIC` will be used as the default category.
 
-**Then** output log message(s) using:
+### Logging
+
+Then output log message(s) using:
 ```c
 SCRIBO(<verbosity>, "...", ...);
 ```
@@ -243,7 +194,7 @@ where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-
 - `INFO` ... information message
 - `DEBUG` ... detailed debug message
 - `METHOD` ... method entry/exit message
-- `TRACE` ... code file and line trace message
+- `TRACE` ... code filename and line trace message
 
 Above, following each verbosity value, is its intended usage.
 
@@ -253,7 +204,7 @@ The maximum number of arguments following the format is **limited** by *scribo* 
 
 Unlike printf, *scribo* does **not** require format (and arguments). If format is not specified, then *scribo* by 
 default auto-fills message text with predefined value or it leaves the text blank and outputs log message header only. 
-Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities where *scribo* can automatically 
+Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities because *scribo* can automatically 
 inject the current function name or filename and line number respectively.
 
 Following is a list of predefined values used to auto-fill log message text for each verbosity value:
@@ -287,8 +238,9 @@ where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `T` for `TRACE`
 
 Abbreviated form of *scribo* logging can also have its message text auto-filled.  Hence conveniently, 
-`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output log message similar to `2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and 
-`SCRIBOT();` (or `SCRIBO(TRACE);`) to get message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
+`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output log message similar to 
+`2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and `SCRIBOT();` (or `SCRIBO(TRACE);` or simply `SCRIBO();`) 
+to get message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
 
 Examples:
 ```c
@@ -349,6 +301,61 @@ SCRIBOD("%d + %d equals %d", 1, 1, 2);
 SCRIBOM("%d + %d equals %d", 1, 1, 2);
 SCRIBOT("%d + %d equals %d", 1, 1, 2);
 ```
+
+## Configuration
+
+### Compile Time
+
+---
+# Copyright and License
+
+Copyright (c) 2015 Petr Vepřek
+
+MIT License, see [`LICENSE`](./LICENSE) for further details.
+
+---
+
+---
+# Configuration Overview
+
+## Compile Time
+
+At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
+addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
+disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
+memory space and consumes no computational cycles).
+
+To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
+`scribo.cfg` configuration file or be provided via command-line toolchain option.
+
+Examples (`scribo.cfg`):
+
+Disable all *scribo* logging:
+```c
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+```
+
+Disable *scribo* logging for category `GENERIC`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+```
+
+Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
+```c
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+```
+
+Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
+```
+
+---
+# Detailed Specification
 
 ## Configuration
 
