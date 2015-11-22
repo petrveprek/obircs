@@ -124,6 +124,8 @@ numerous configuration options that can be used to customize *scribo* log messag
 [Specification](#detailed-specification) below for full details). *scribo le* is a cut-down edition that supports 
 essential configuration options only.
 
+Comparison of *scribo* editions:
+
 Feature | *scribo le* | *scribo ct* | Notes
 :--|:--:|:--:|:--
 <sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
@@ -187,7 +189,7 @@ Here *scribo* will output log message similar to
 
 ### Logging Setup
 
-First specify (optional) logging category and include `scribo.h` in your source file(s).
+First specify (optional) logging category (`SCRIBO_CATEGORY`) and include `scribo.h` in your source file(s).
 
 Category can be specified as follows:
 ```c
@@ -208,7 +210,7 @@ If you don't specify category, then `GENERIC` will be used as the default catego
 
 ### Logging Statements
 
-Then output log message(s) using:
+Then output log messages using:
 ```c
 SCRIBO(<verbosity>, "...", ...);
 ```
@@ -236,7 +238,7 @@ Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbos
 inject the current function name or filename and line number respectively.
 
 Following is a list of predefined values used to auto-fill log message text for each verbosity value:
-- `Game over!` for `FATAL`
+- `GAME OVER!` for `FATAL`
 - `D'oh!` for `ERROR`
 - `Oops` for `WARNING`
 - `Fiat lux` for `LOG`
@@ -266,9 +268,9 @@ where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `T` for `TRACE`
 
 Abbreviated form of *scribo* logging can also have its message text auto-filled.  Hence conveniently, 
-`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output log message similar to 
+`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output a log message similar to 
 `2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and `SCRIBOT();` (or `SCRIBO(TRACE);` or simply `SCRIBO();`) 
-to get message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
+to get a message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
 
 Examples:
 ```c
@@ -337,13 +339,12 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 #### Compile-Time Configuration Outline
 
 At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
-be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
-whatsoever. Disabled logging has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles). This allows for different types of logging to be present in the codebase on permanent basis. When building 
-software, development version can have detailed logging present, while production version can be less verbose. 
-Configuration of *scribo* is controlled through a set of hash-defines. The defines can be provided during build time as 
-command-line toolchain option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
-file (`scribo.cfg` as `#define <name> 1`).
+be disabled. When disabled, the logging is completely removed (by the preprocessor) and has **zero run-time overhead** 
+(i.e. it uses no memory space and consumes no computational cycles). This allows for different types of logging to be 
+present in the codebase on permanent basis. When building software, development version can have detailed logging 
+present, while production version can be less verbose. Configuration of *scribo* is controlled through a set of 
+hash-defines. The defines can be provided during build time as command-line toolchain option (usually either `-D <name>` 
+or `/D <name>`), or the defines can be kept in a configuration file (`scribo.cfg` as `#define <name> 1`).
 
 Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
 option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
@@ -487,8 +488,8 @@ output.
 #### Suppress *scribo* log message termination and flushing
 
 Each *scribo* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
-(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event that the system crashes. 
-Both automatic appending of the newline and automatic stream flushing can be suppressed.
+(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event of a system crash. Both 
+automatic appending of the newline and automatic stream flushing can be suppressed.
 ```c
 #define SCRIBO_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
 #define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
@@ -497,12 +498,12 @@ Both automatic appending of the newline and automatic stream flushing can be sup
 #### Provide custom sink for and specify maximum length of *scribo* log messages
 
 By default, *scribo* log messages are output to `stdout` using `printf` function. In this case, length of each message 
-is not limited and messages can be flushed using `fflush`. Optionally, custom sink function can be provided. The 
-function receives one parameter - formatted text of the *scribo* log message to be output. The sink function has no 
-return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is provided, length 
-of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified in which case it 
-is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, becomes 
-responsibility of the custom callback function.
+is not limited and messages (unless suppressed) are flushed using `fflush`. Optionally, custom sink function can be 
+provided. The function receives one parameter - formatted text of the *scribo* log message to be output. The sink 
+function has no return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is 
+provided, length of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified 
+in which case it is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, 
+becomes responsibility of the custom callback function.
 ```c
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages

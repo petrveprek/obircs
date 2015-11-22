@@ -1,5 +1,5 @@
-# v?.?.?
-?/?/?
+# v1.1
+2015/11/22
 - Created *scribo le*
 - Revised documentation
 - Improved implementation
