@@ -1,3 +1,11 @@
+# v1.1
+2015/11/22
+- Created *scribo le*
+- Revised documentation
+- Improved implementation
+- Improved example
+- Fixed MS VS project
+
 # v1.0
 2015/10/16
 - Fixed newline when text is trimmed

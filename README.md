@@ -4,30 +4,58 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 *scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Summary](#all-you-need-to-know-in-under-60-seconds "All You Need To Know In Under 60 Seconds") 
-| [Description](#basic-description "Basic Description") 
-| [Configuration](#configuration-overview "Configuration Overview") 
+| [Welcome](#welcome-to-scribo "Welcome to *scribo*") 
+| [Contents](#table-of-contents "Table of Contents") 
+| [Overview](#quick-overview "Quick Overview") 
+| [Editions](#available-editions "Available Editions") 
 | [Installation](#installation-and-setup "Installation and Setup") 
 | [Specification](#detailed-specification "Detailed Specification") 
 | [License](#copyright-and-license "Copyright and License") |
 
 ---
-# All You Need To Know In Under 60 Seconds
+# Table of Contents
 
-**First** specify target configuration:
-```c
-// scribo.cfg
+* [Welcome to *scribo*](#welcome-to-scribo "Welcome to *scribo*")
+* [Table of Contents](#table-of-contents "Table of Contents")
+* [Quick Overview](#quick-overview "Quick Overview")
+* [Available Editions](#available-editions "Available Editions")
+* [Installation and Setup](#installation-and-setup "Installation and Setup")
+* [Detailed Specification](#detailed-specification "Detailed Specification")
+  * <sub>[How to Use](#how-to-use "How to Use")</sub>
+    * <sub>[Use Outline](#use-outline "Use Outline")</sub>
+    * <sub>[Logging Setup](#logging-setup "Logging Setup")</sub>
+    * <sub>[Logging Statements](#logging-statements "Logging Statements")</sub>
+  * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
+    * <sub>[Compile Time](#compile-time "Compile Time")</sub>
+      * <sub>[Compile-Time Configuration Outline](#compile-time-configuration-outline "Compile-Time Configuration Outline")</sub>
+      * <sub>[Disable all *scribo* logging](#disable-all-scribo-logging "Disable all *scribo* logging")</sub>
+      * <sub>[Disable *scribo* logging for a category](#disable-scribo-logging-for-a-category "Disable *scribo* logging for a category")</sub>
+      * <sub>[Disable *scribo* logging for a verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* logging for a verbosity")</sub>
+      * <sub>[Enable *scribo* logging for a combination of a category and a verbosity](#enable-scribo-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *scribo* logging for a combination of a category and a verbosity")</sub>
+      * <sub>[Suppress parts of *scribo* log message header](#suppress-parts-of-scribo-log-message-header "Suppress parts of *scribo* log message header")</sub>
+      * <sub>[Suppress auto-filling of *scribo* log message text](#suppress-auto-filling-of-scribo-log-message-text "Suppress auto-filling of *scribo* log message text")</sub>
+      * <sub>[Suppress *scribo* log message termination and flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* log message termination and flushing")</sub>
+      * <sub>[Provide custom sink for and specify maximum length of *scribo* log messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide custom sink for and specify maximum length of *scribo* log messages")</sub>
+* [Copyright and License](#copyright-and-license "Copyright and License")
 
-#if defined(PRODUCTION) || !defined(DEVELOPMENT)
-    // Production (disable excessive logging)
-#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
-#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
-#else
-    // Development (enable all logging)
-#endif
-```
+---
+# Quick Overview
 
-**Then** produce log messages:
+*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+
+Each *scribo* log message is characterized by its (optional) category and (optional) verbosity. To generate message 
+text itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first addition 
+is that the `format` may be omitted. In this case, only log message header (optionally followed by default message text) 
+is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each log message. 
+**Category** is user-defined per-source-file (i.e. per translation a.k.a. compilation unit) string (see 
+[Specification](#detailed-specification) below for precise definition). It is optional and, when not defined, the 
+default category `GENERIC` is used. There are eight levels of **verbosity** (from the least to the most verbose): 
+`FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
+specified, the default `TRACE` verbosity is used.
+
+Below is a simple example of basic *scribo* usage.
+
+**First** add logging to your source code:
 ```c
 // foo.c
 
@@ -36,10 +64,10 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 
 void doFoo()
 {
-    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds
+    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds (see scribo.cfg below)
     for (int i = 0; i < 4; i++)
     {
-        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug)
+        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug) (see scribo.cfg below)
     }
 }
 ```
@@ -51,8 +79,21 @@ void doFoo()
 
 void doBar()
 {
-    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic)
+    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic) (see scribo.cfg below)
 }
+```
+
+**Then** specify target configuration:
+```c
+// scribo.cfg
+
+#if defined(PRODUCTION) || !defined(DEVELOPMENT)
+    // Production (disable excessive logging)
+#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
+#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
+#else
+    // Development (enable all logging)
+#endif
 ```
 
 **Then** build targets:
@@ -76,18 +117,50 @@ app_prod
 ```
 
 ---
-# Basic Description
+# Available Editions
 
-*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+*scribo* is available in two editions: **compile time** (`ct`) and **light edition** (`le`). *scribo ct* provides 
+numerous configuration options that can be used to customize *scribo* log message generation (see 
+[Specification](#detailed-specification) below for full details). *scribo le* is a cut-down edition that supports 
+essential configuration options only.
 
-Each *scribo* log message is characterized by its category (optional) and verbosity (optional). To generate message 
-content itself, *scribo* uses same style as printf function i.e. `format, ...` with two additions. The first addition is 
-that the `format` may be omitted. In this case, only log message header is output. The second addition is that newline 
-(`'\n'`) is automatically appended at the end of each log message. **Category** is user-defined per-source-file (i.e. 
-per translation a.k.a. compilation unit) string (see [Specification](#detailed-specification) below for precise 
-definition). It is optional and, when not defined, the default category `GENERIC` is used. There are eight levels of 
-**verbosity** (from the least to the most verbose): `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and 
-`TRACE`. Verbosity is also optional and, when not specified, the default `TRACE` verbosity is used.
+Comparison of *scribo* editions:
+
+Feature | *scribo le* | *scribo ct* | Notes
+:--|:--:|:--:|:--
+<sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
+<sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
+<sub>Message header - timestamp</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>**2015-11-13 21:35:16** #0000000075 QUX     DEBUG   : Eureka</sub>
+<sub>Message header - counter</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 **#0000000075** QUX     DEBUG   : Eureka</sub>
+<sub>Message header - category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 **QUX**     DEBUG   : Eureka</sub>
+<sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
+<sub>Message text - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
+<sub>Custom message sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
+<sub>Implementation - scribo.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
+<sub>Implementation - scribo.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
+
+---
+# Installation and Setup
+
+First, download the latest *scribo* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
+the available editions of *scribo* (either `ct` or `le`) to use.
+
+Then, add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and, if any, implementation (`scribo.c`) files 
+(from `include` and `source` directories of the chosen *scribo* edition respectively) to your project. Either copy the 
+files to your project directories or add *scribo*'s `include` and `source` locations to your project settings.
+
+Finally, customize the provided configuration file according to your needs. Note that alternatively, *scribo* can also 
+be configured via command-line toolchain options.
+
+---
+# Detailed Specification
+
+## How to Use
+
+### Use Outline
+
+In each source file where run-time logging is needed: first (optionally) define logging category and include *scribo* 
+header, and then add logging statements as illustrated below.
 
 Example (minimalistic):
 ```c
@@ -98,7 +171,8 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4`.
+In this case *scribo* will use default category `GENERIC` and default verbosity `TRACE`, and it generate default message 
+text. Log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4` will be output.
 
 Example (realistic):
 ```c
@@ -110,60 +184,12 @@ int main(int argc, char* argv[])
     return 0;
 }
 ```
-This outputs log message similar to `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
+Here *scribo* will output log message similar to 
+`2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
 
----
-# Configuration Overview
+### Logging Setup
 
-## Compile Time
-
-At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
-addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles).
-
-To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command-line toolchain option.
-
-Examples (`scribo.cfg`):
-
-Disable all *scribo* logging:
-```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
-```
-
-Disable *scribo* logging for category `GENERIC`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-```
-
-Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
-```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
-```
-
-Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
-```
-
----
-# Installation and Setup
-
-Add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and implementation (`scribo.c`) files (from `include` 
-and `source` directories respectively) to your project. Either copy the files to your project directories or add 
-*scribo*'s `include` and `source` locations to your project settings.
-
----
-# Detailed Specification
-
-## Usage
-
-**First** specify (optional) logging category and include `scribo.h` in your source file(s).
+First specify (optional) logging category (`SCRIBO_CATEGORY`) and include `scribo.h` in your source file(s).
 
 Category can be specified as follows:
 ```c
@@ -182,7 +208,9 @@ its own individual category, or multiple units can use the same shared category.
 
 If you don't specify category, then `GENERIC` will be used as the default category.
 
-**Then** output log message(s) using:
+### Logging Statements
+
+Then output log messages using:
 ```c
 SCRIBO(<verbosity>, "...", ...);
 ```
@@ -196,7 +224,7 @@ where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-
 - `INFO` ... information message
 - `DEBUG` ... detailed debug message
 - `METHOD` ... method entry/exit message
-- `TRACE` ... code file and line trace message
+- `TRACE` ... code filename and line trace message
 
 Above, following each verbosity value, is its intended usage.
 
@@ -206,11 +234,11 @@ The maximum number of arguments following the format is **limited** by *scribo* 
 
 Unlike printf, *scribo* does **not** require format (and arguments). If format is not specified, then *scribo* by 
 default auto-fills message text with predefined value or it leaves the text blank and outputs log message header only. 
-Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities where *scribo* can automatically 
+Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities because *scribo* can automatically 
 inject the current function name or filename and line number respectively.
 
 Following is a list of predefined values used to auto-fill log message text for each verbosity value:
-- `Game over!` for `FATAL`
+- `GAME OVER!` for `FATAL`
 - `D'oh!` for `ERROR`
 - `Oops` for `WARNING`
 - `Fiat lux` for `LOG`
@@ -240,8 +268,9 @@ where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `T` for `TRACE`
 
 Abbreviated form of *scribo* logging can also have its message text auto-filled.  Hence conveniently, 
-`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output log message similar to `2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and 
-`SCRIBOT();` (or `SCRIBO(TRACE);`) to get message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
+`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output a log message similar to 
+`2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and `SCRIBOT();` (or `SCRIBO(TRACE);` or simply `SCRIBO();`) 
+to get a message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
 
 Examples:
 ```c
@@ -303,20 +332,48 @@ SCRIBOM("%d + %d equals %d", 1, 1, 2);
 SCRIBOT("%d + %d equals %d", 1, 1, 2);
 ```
 
-## Configuration
+## How to Configure
 
 ### Compile Time
 
+#### Compile-Time Configuration Outline
+
 At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
-be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
-whatsoever. This allows for different types of logging to be present in the codebase on permanent basis. When building 
-software, development version can have detailed logging present, while production version can be less verbose. 
-Configuration of *scribo* is controlled through a set of hash-defines. The defines can be provided during build time as 
-command-line toolchain option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
-file (`scribo.cfg` as `#define <name> 1`).
+be disabled. When disabled, the logging is completely removed (by the preprocessor) and has **zero run-time overhead** 
+(i.e. it uses no memory space and consumes no computational cycles). This allows for different types of logging to be 
+present in the codebase on permanent basis. When building software, development version can have detailed logging 
+present, while production version can be less verbose. Configuration of *scribo* is controlled through a set of 
+hash-defines. The defines can be provided during build time as command-line toolchain option (usually either `-D <name>` 
+or `/D <name>`), or the defines can be kept in a configuration file (`scribo.cfg` as `#define <name> 1`).
 
 Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
 option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
+
+Examples (`scribo.cfg`):
+
+Disable all *scribo* logging:
+```c
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+```
+
+Disable *scribo* logging for category `GENERIC`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+```
+
+Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
+```c
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+```
+
+Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
+```
 
 #### Disable all *scribo* logging
 
@@ -431,8 +488,8 @@ output.
 #### Suppress *scribo* log message termination and flushing
 
 Each *scribo* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
-(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event that the system crashes. 
-Both automatic appending of the newline and automatic stream flushing can be suppressed.
+(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event of a system crash. Both 
+automatic appending of the newline and automatic stream flushing can be suppressed.
 ```c
 #define SCRIBO_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
 #define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
@@ -441,12 +498,12 @@ Both automatic appending of the newline and automatic stream flushing can be sup
 #### Provide custom sink for and specify maximum length of *scribo* log messages
 
 By default, *scribo* log messages are output to `stdout` using `printf` function. In this case, length of each message 
-is not limited and messages can be flushed using `fflush`. Optionally, custom sink function can be provided. The 
-function receives one parameter - formatted text of the *scribo* log message to be output. The sink function has no 
-return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is provided, length 
-of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified in which case it 
-is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, becomes 
-responsibility of the custom callback function.
+is not limited and messages (unless suppressed) are flushed using `fflush`. Optionally, custom sink function can be 
+provided. The function receives one parameter - formatted text of the *scribo* log message to be output. The sink 
+function has no return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is 
+provided, length of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified 
+in which case it is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, 
+becomes responsibility of the custom callback function.
 ```c
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages

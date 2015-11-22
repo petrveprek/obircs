@@ -1,0 +1,57 @@
+APP     LOG     : Running main.exe
+FOO     LOG     : Foo...
+FOO     INFO    : About to loop...
+FOO     INFO    : Loop 0
+FOO     INFO    : Loop 5
+FOO     INFO    : ...done looping
+BAR     LOG     : Bar...
+BAR     INFO    : About to loop...
+BAR     INFO    : bar(0)
+BAR     INFO    : bar(1)
+BAR     INFO    : bar(2)
+BAR     INFO    : bar(3)
+BAR     INFO    : bar(4)
+BAR     INFO    : bar(5)
+BAR     INFO    : bar(6)
+BAR     INFO    : bar(7)
+BAR     INFO    : bar(8)
+BAR     INFO    : bar(9)
+BAR     INFO    : ...done looping
+BAZ     LOG     : Baz...
+BAZ     LOG     : Regular log messages with parameter:
+BAZ     FATAL   : Fatal blah...
+BAZ     ERROR   : Error blah...
+BAZ     WARNING : Warning blah...
+BAZ     LOG     : Log blah...
+BAZ     INFO    : Info blah...
+BAZ     LOG     : Regular log messages without parameter:
+BAZ     FATAL   : GAME OVER!
+BAZ     ERROR   : D'oh!
+BAZ     WARNING : Oops
+BAZ     LOG     : Fiat lux
+BAZ     INFO    : Et cetera
+BAZ     LOG     : Shorthand log messages with parameter:
+BAZ     FATAL   : Fatal blah...
+BAZ     ERROR   : Error blah...
+BAZ     WARNING : Warning blah...
+BAZ     LOG     : Log blah...
+BAZ     INFO    : Info blah...
+BAZ     LOG     : Shorthand log messages without parameter:
+BAZ     FATAL   : GAME OVER!
+BAZ     ERROR   : D'oh!
+BAZ     WARNING : Oops
+BAZ     LOG     : Fiat lux
+BAZ     INFO    : Et cetera
+QUX     LOG     : Qux...
+QUUX    LOG     : Quux...
+QUUX    FATAL   : GAME OVER!
+QUUX    ERROR   : D'oh!
+QUUX    WARNING : Oops
+QUUX    LOG     : Fiat lux
+QUUX    INFO    : Et cetera
+QUUX    FATAL   : GAME OVER!
+QUUX    ERROR   : D'oh!
+QUUX    WARNING : Oops
+QUUX    LOG     : Fiat lux
+QUUX    INFO    : Et cetera
+APP     LOG     : The end

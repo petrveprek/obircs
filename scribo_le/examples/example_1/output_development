@@ -1,0 +1,159 @@
+APP     LOG     : Running main.exe
+FOO     LOG     : Foo...
+FOO     INFO    : About to loop...
+FOO     INFO    : Loop 0
+FOO     DEBUG   : Loop 1
+FOO     DEBUG   : Loop 2
+FOO     DEBUG   : Loop 3
+FOO     DEBUG   : Loop 4
+FOO     INFO    : Loop 5
+FOO     DEBUG   : Loop 6
+FOO     DEBUG   : Loop 7
+FOO     DEBUG   : Loop 8
+FOO     DEBUG   : Loop 9
+FOO     INFO    : ...done looping
+BAR     LOG     : Bar...
+BAR     INFO    : About to loop...
+BAR     DEBUG   : Loop 0
+BAR     INFO    : bar(0)
+BAR     DEBUG   : Loop 1
+BAR     INFO    : bar(1)
+BAR     DEBUG   : Loop 2
+BAR     INFO    : bar(2)
+BAR     DEBUG   : Loop 3
+BAR     INFO    : bar(3)
+BAR     DEBUG   : Loop 4
+BAR     INFO    : bar(4)
+BAR     DEBUG   : Loop 5
+BAR     INFO    : bar(5)
+BAR     DEBUG   : Loop 6
+BAR     INFO    : bar(6)
+BAR     DEBUG   : Loop 7
+BAR     INFO    : bar(7)
+BAR     DEBUG   : Loop 8
+BAR     INFO    : bar(8)
+BAR     DEBUG   : Loop 9
+BAR     INFO    : bar(9)
+BAR     INFO    : ...done looping
+BAZ     LOG     : Baz...
+BAZ     LOG     : Regular log messages with parameter:
+BAZ     FATAL   : Fatal blah...
+BAZ     ERROR   : Error blah...
+BAZ     WARNING : Warning blah...
+BAZ     LOG     : Log blah...
+BAZ     INFO    : Info blah...
+BAZ     DEBUG   : Debug blah...
+BAZ     METHOD  : Method blah...
+BAZ     TRACE   : Trace blah...
+BAZ     LOG     : Regular log messages without parameter:
+BAZ     FATAL   : GAME OVER!
+BAZ     ERROR   : D'oh!
+BAZ     WARNING : Oops
+BAZ     LOG     : Fiat lux
+BAZ     INFO    : Et cetera
+BAZ     DEBUG   : Eureka
+BAZ     METHOD  : doBaz
+BAZ     TRACE   : "source/baz.c" : 33
+BAZ     LOG     : Shorthand log messages with parameter:
+BAZ     FATAL   : Fatal blah...
+BAZ     ERROR   : Error blah...
+BAZ     WARNING : Warning blah...
+BAZ     LOG     : Log blah...
+BAZ     INFO    : Info blah...
+BAZ     DEBUG   : Debug blah...
+BAZ     METHOD  : Method blah...
+BAZ     TRACE   : Trace blah...
+BAZ     LOG     : Shorthand log messages without parameter:
+BAZ     FATAL   : GAME OVER!
+BAZ     ERROR   : D'oh!
+BAZ     WARNING : Oops
+BAZ     LOG     : Fiat lux
+BAZ     INFO    : Et cetera
+BAZ     DEBUG   : Eureka
+BAZ     METHOD  : doBaz
+BAZ     TRACE   : "source/baz.c" : 53
+QUX     LOG     : Qux...
+QUX     DEBUG   : Eureka
+QUX     DEBUG   : Eureka
+QUX     DEBUG   : None
+QUX     DEBUG   : One       1
+QUX     DEBUG   : Two       1 2
+QUX     DEBUG   : Three     1 2 3
+QUX     DEBUG   : Four      1 2 3 4
+QUX     DEBUG   : Five      1 2 3 4 5
+QUX     DEBUG   : Six       1 2 3 4 5 6
+QUX     DEBUG   : Seven     1 2 3 4 5 6 7
+QUX     DEBUG   : Eight     1 2 3 4 5 6 7 8
+QUX     DEBUG   : Nine      1 2 3 4 5 6 7 8 9
+QUX     DEBUG   : Ten       1 2 3 4 5 6 7 8 9 10
+QUX     DEBUG   : Eleven    1 2 3 4 5 6 7 8 9 10 11
+QUX     DEBUG   : Twelve    1 2 3 4 5 6 7 8 9 10 11 12
+QUX     DEBUG   : Thirteen  1 2 3 4 5 6 7 8 9 10 11 12 13
+QUX     DEBUG   : Fourteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14
+QUX     DEBUG   : Fifteen   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+QUX     DEBUG   : Sixteen   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+QUX     DEBUG   : Seventeen 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+QUX     DEBUG   : Eighteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+QUX     DEBUG   : Nineteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+QUX     DEBUG   : Twenty    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+QUX     DEBUG   : Eureka
+QUX     DEBUG   : None
+QUX     DEBUG   : One       1
+QUX     DEBUG   : Two       1 2
+QUX     DEBUG   : Three     1 2 3
+QUX     DEBUG   : Four      1 2 3 4
+QUX     DEBUG   : Five      1 2 3 4 5
+QUX     DEBUG   : Six       1 2 3 4 5 6
+QUX     DEBUG   : Seven     1 2 3 4 5 6 7
+QUX     DEBUG   : Eight     1 2 3 4 5 6 7 8
+QUX     DEBUG   : Nine      1 2 3 4 5 6 7 8 9
+QUX     DEBUG   : Ten       1 2 3 4 5 6 7 8 9 10
+QUX     DEBUG   : Eleven    1 2 3 4 5 6 7 8 9 10 11
+QUX     DEBUG   : Twelve    1 2 3 4 5 6 7 8 9 10 11 12
+QUX     DEBUG   : Thirteen  1 2 3 4 5 6 7 8 9 10 11 12 13
+QUX     DEBUG   : Fourteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14
+QUX     DEBUG   : Fifteen   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+QUX     DEBUG   : Sixteen   1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+QUX     DEBUG   : Seventeen 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
+QUX     DEBUG   : Eighteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+QUX     DEBUG   : Nineteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+QUX     DEBUG   : Twenty    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+QUUX    LOG     : Quux...
+QUUX    DEBUG   : Auto-fill default verbosity:
+QUUX    TRACE   : "source/quux.c" : 31
+QUUX    DEBUG   : Auto-fill fatal, error, warning, log, info, and debug:
+QUUX    FATAL   : GAME OVER!
+QUUX    ERROR   : D'oh!
+QUUX    WARNING : Oops
+QUUX    LOG     : Fiat lux
+QUUX    INFO    : Et cetera
+QUUX    DEBUG   : Eureka
+QUUX    DEBUG   : Auto-fill method and trace:
+QUUX    METHOD  : doQuux
+QUUX    TRACE   : "source/quux.c" : 43
+QUUX    DEBUG   : Auto-fill fatal, error, warning, log, info, and debug:
+QUUX    FATAL   : GAME OVER!
+QUUX    ERROR   : D'oh!
+QUUX    WARNING : Oops
+QUUX    LOG     : Fiat lux
+QUUX    INFO    : Et cetera
+QUUX    DEBUG   : Eureka
+QUUX    DEBUG   : Auto-fill method and trace:
+QUUX    METHOD  : quux
+QUUX    TRACE   : "source/quux.c" : 23
+GENERIC LOG     : Fred...
+GENERIC DEBUG   : Default category and auto-fill default verbosity:
+GENERIC TRACE   : "source/fred.c" : 16
+GENERIC INFO    : About to loop...
+GENERIC INFO    : Loop 0
+GENERIC DEBUG   : Loop 1
+GENERIC DEBUG   : Loop 2
+GENERIC DEBUG   : Loop 3
+GENERIC DEBUG   : Loop 4
+GENERIC INFO    : Loop 5
+GENERIC DEBUG   : Loop 6
+GENERIC DEBUG   : Loop 7
+GENERIC DEBUG   : Loop 8
+GENERIC DEBUG   : Loop 9
+GENERIC INFO    : ...done looping
+APP     LOG     : The end
