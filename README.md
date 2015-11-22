@@ -334,9 +334,12 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Compile Time
 
+#### Compile-Time Configuration Outline
+
 At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
 be disabled. When disabled, the logging is completely removed and has no memory or computation overhead at run time 
-whatsoever. This allows for different types of logging to be present in the codebase on permanent basis. When building 
+whatsoever. Disabled logging has **zero run-time overhead** (i.e. it uses no 
+memory space and consumes no computational cycles). This allows for different types of logging to be present in the codebase on permanent basis. When building 
 software, development version can have detailed logging present, while production version can be less verbose. 
 Configuration of *scribo* is controlled through a set of hash-defines. The defines can be provided during build time as 
 command-line toolchain option (usually either `-D <name>` or `/D <name>`), or the defines can be kept in a configuration 
@@ -344,16 +347,6 @@ file (`scribo.cfg` as `#define <name> 1`).
 
 Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
 option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
-
-#### Compile-Time Configuration Outline
-
-At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
-addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles).
-
-To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command-line toolchain option.
 
 Examples (`scribo.cfg`):
 
@@ -521,5 +514,3 @@ responsibility of the custom callback function.
 Copyright (c) 2015 Petr Vepřek
 
 MIT License, see [`LICENSE`](./LICENSE) for further details.
-
-<p align="center">The End</p>
