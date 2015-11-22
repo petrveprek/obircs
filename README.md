@@ -22,11 +22,12 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 * [Installation and Setup](#installation-and-setup "Installation and Setup")
 * [Detailed Specification](#detailed-specification "Detailed Specification")
   * <sub>[How to Use](#how-to-use "How to Use")</sub>
-    * <sub>[Outline](#outline "Outline")</sub>
-    * <sub>[Setup](#setup "Setup")</sub>
-    * <sub>[Logging](#logging "Logging")</sub>
+    * <sub>[Use Outline](#use-outline "Use Outline")</sub>
+    * <sub>[Logging Setup](#logging-setup "Logging Setup")</sub>
+    * <sub>[Logging Statements](#logging-statements "Logging Statements")</sub>
   * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
     * <sub>[Compile Time](#compile-time "Compile Time")</sub>
+      * <sub>[Compile-Time Configuration Outline](#compile-time-configuration-outline "Compile-Time Configuration Outline")</sub>
       * <sub>[Disable all *scribo* logging](#disable-all-scribo-logging "Disable all *scribo* logging")</sub>
       * <sub>[Disable *scribo* logging for a category](#disable-scribo-logging-for-a-category "Disable *scribo* logging for a category")</sub>
       * <sub>[Disable *scribo* logging for a verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* logging for a verbosity")</sub>
@@ -154,7 +155,7 @@ be configured via command-line toolchain options.
 
 ## How to Use
 
-### Outline
+### Use Outline
 
 In each source file where run-time logging is needed: first (optionally) define logging category and include *scribo* 
 header, and then add logging statements as illustrated below.
@@ -184,7 +185,7 @@ int main(int argc, char* argv[])
 Here *scribo* will output log message similar to 
 `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
 
-### Setup
+### Logging Setup
 
 First specify (optional) logging category and include `scribo.h` in your source file(s).
 
@@ -205,7 +206,7 @@ its own individual category, or multiple units can use the same shared category.
 
 If you don't specify category, then `GENERIC` will be used as the default category.
 
-### Logging
+### Logging Statements
 
 Then output log message(s) using:
 ```c
@@ -343,6 +344,42 @@ file (`scribo.cfg` as `#define <name> 1`).
 
 Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
 option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
+
+#### Compile-Time Configuration Outline
+
+At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
+addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
+disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
+memory space and consumes no computational cycles).
+
+To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
+`scribo.cfg` configuration file or be provided via command-line toolchain option.
+
+Examples (`scribo.cfg`):
+
+Disable all *scribo* logging:
+```c
+#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+```
+
+Disable *scribo* logging for category `GENERIC`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+```
+
+Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
+```c
+#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
+#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+```
+
+Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
+`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
+```c
+#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
+```
 
 #### Disable all *scribo* logging
 
@@ -485,43 +522,4 @@ Copyright (c) 2015 Petr Vepřek
 
 MIT License, see [`LICENSE`](./LICENSE) for further details.
 
----
-
----
-# Configuration Overview
-
-## Compile Time
-
-At compile time, all *scribo* logging, logging for some categories, or logging for some verbosities can be disabled. In 
-addition, logging for some category-verbosity combinations can be enabled. This is useful as an override together with 
-disabling categories and verbosities. Logging disabled at compile time has **zero run-time overhead** (i.e. it uses no 
-memory space and consumes no computational cycles).
-
-To disable/enable desired *scribo* logging options, predefined preprocessor tokens must be hash-defined either in 
-`scribo.cfg` configuration file or be provided via command-line toolchain option.
-
-Examples (`scribo.cfg`):
-
-Disable all *scribo* logging:
-```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
-```
-
-Disable *scribo* logging for category `GENERIC`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-```
-
-Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
-```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
-```
-
-Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
-```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
-```
+<p align="center">The End</p>
