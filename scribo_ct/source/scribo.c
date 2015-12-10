@@ -22,7 +22,7 @@
 #       if defined(_MSC_VER)
 #           define va_copy(destination, source) destination = source
 #       endif
-        void scribo__ouput_message(void (* callback)(const char *), size_t size, int newline, const char * format, ...)
+        void scribo_ouput_message(void (* callback)(const char *), size_t size, int newline, const char * format, ...)
         {
             va_list args1; // First pass to get length of log message (if needed)
             va_list args2; // Second pass to output log message

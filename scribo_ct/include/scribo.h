@@ -383,7 +383,7 @@
     
     // Implement scribo message outputting callback and flushing
 #   ifdef SCRIBO_INVOKE_CALLBACK
-        extern void scribo__ouput_message(
+        extern void scribo_ouput_message(
             void (* callback)(const char *),
             size_t size,
             int newline,
@@ -392,7 +392,7 @@
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 0
 #       endif
-#       define SCRIBO__DO_OUTPUT(...) scribo__ouput_message( \
+#       define SCRIBO__DO_OUTPUT(...) scribo_ouput_message( \
             SCRIBO_INVOKE_CALLBACK, \
             SCRIBO_SET_MAX_LENGTH, \
             SCRIBO__APPEND_NEWLINE, \
