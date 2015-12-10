@@ -124,16 +124,16 @@
 #   define SCRIBO_EXPAND_1(_1) _1
 #   define SCRIBO_INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
 #   define SCRIBO_INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
-#   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
-#   define SCRIBO__PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
-#   define SCRIBO__PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
+#   define SCRIBO_PASTE_2(_1, _2)         _1 ## _2
+#   define SCRIBO_PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
+#   define SCRIBO_PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
 #   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
         _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
 #   define SCRIBO__GET_HAS_COMMA(...) SCRIBO_EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
 #   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
 #   define SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY(_1, _2) \
-        SCRIBO__GET_HAS_COMMA(SCRIBO__PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
+        SCRIBO__GET_HAS_COMMA(SCRIBO_PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
 #   define SCRIBO__TRIGGER_NIL_TO_COMMA(...) ,
 #   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY( \
         SCRIBO__GET_HAS_COMMA(__VA_ARGS__), \
@@ -146,7 +146,7 @@
     
     // Configure disabling current category
 #   define SCRIBO__GET_CATEGORY_DISABLED(CATEGORY) \
-        SCRIBO__PASTE_2(SCRIBO_DISABLE_CATEGORY_, CATEGORY)
+        SCRIBO_PASTE_2(SCRIBO_DISABLE_CATEGORY_, CATEGORY)
 #   if SCRIBO__GET_CATEGORY_DISABLED(SCRIBO_CATEGORY) == 1
 #       define SCRIBO__DISABLE_CATEGORY 1
 #   else
@@ -205,7 +205,7 @@
     
     // Configure enabling combinations of current category & known verbosities
 #   define SCRIBO__GET_COMBO_ENABLED(CATEGORY, VERBOSITY) \
-        SCRIBO__PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, _VERBOSITY_ ## VERBOSITY)
+        SCRIBO_PASTE_3(SCRIBO_ENABLE_CATEGORY_, CATEGORY, _VERBOSITY_ ## VERBOSITY)
 #   if SCRIBO__GET_COMBO_ENABLED(SCRIBO_CATEGORY, FATAL) == 1
 #       define SCRIBO__ENABLE_COMBO_FATAL 1
 #   else
@@ -283,7 +283,7 @@
     
     // Prepare scribo parameters
 #   define SCRIBO(...) SCRIBO_EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
-        SCRIBO_INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
 #   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
 #   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_5ETC( \
         SCRIBO__LOOK_UP_CONFIGURATION, \
@@ -292,7 +292,7 @@
         SCRIBO__ENABLE_COMBO_ ## VERBOSITY, \
         SCRIBO_CATEGORY, \
         #VERBOSITY, \
-        __VA_ARGS__ SCRIBO_INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
+        __VA_ARGS__ SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
 #   define SCRIBO__LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
