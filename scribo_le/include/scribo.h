@@ -122,8 +122,8 @@
     
     // Define general helpers
 #   define SCRIBO_EXPAND_1(_1) _1
-#   define SCRIBO__INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
-#   define SCRIBO__INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
+#   define SCRIBO_INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
+#   define SCRIBO_INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
 #   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
 #   define SCRIBO__PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
 #   define SCRIBO__PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
@@ -283,16 +283,16 @@
     
     // Prepare scribo parameters
 #   define SCRIBO(...) SCRIBO_EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
-        SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
+        SCRIBO_INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
 #   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
-#   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
+#   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_5ETC( \
         SCRIBO__LOOK_UP_CONFIGURATION, \
         SCRIBO__DISABLE_CATEGORY, \
         SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
         SCRIBO__ENABLE_COMBO_ ## VERBOSITY, \
         SCRIBO_CATEGORY, \
         #VERBOSITY, \
-        __VA_ARGS__ SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
+        __VA_ARGS__ SCRIBO_INVOKE_2(SCRIBO__PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO__GET_IS_EMPTY(__VA_ARGS__)))
 #   define SCRIBO__LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
