@@ -315,51 +315,51 @@
     // Implement scribo message timestamp
 #   if SCRIBO_SUPPRESS_TIMESTAMP != 1
 #       include <time.h>
-#       define SCRIBO__DECLARE_RAW time_t raw
-#       define SCRIBO__DECLARE_NOW struct tm now
-#       define SCRIBO__GET_RAW time(&raw)
+#       define SCRIBO_DECLARE_RAW time_t raw
+#       define SCRIBO_DECLARE_NOW struct tm now
+#       define SCRIBO_GET_RAW time(&raw)
 #       if defined(__linux__)
-#           define SCRIBO__GET_NOW localtime_r(&raw, &now)
+#           define SCRIBO_GET_NOW localtime_r(&raw, &now)
 #       elif defined(_MSC_VER)
-#           define SCRIBO__GET_NOW localtime_s(&now, &raw)
+#           define SCRIBO_GET_NOW localtime_s(&now, &raw)
 #       else
-#           define SCRIBO__GET_NOW now = *localtime(&raw)
+#           define SCRIBO_GET_NOW now = *localtime(&raw)
 #       endif
-#       define SCRIBO__TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
-#       define SCRIBO__TIMESTAMP_VALUE  now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
+#       define SCRIBO_TIMESTAMP_FORMAT "%04d-%02d-%02d %02d:%02d:%02d "
+#       define SCRIBO_TIMESTAMP_VALUE  now.tm_year+1900, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec,
 #   else
-#       define SCRIBO__DECLARE_RAW
-#       define SCRIBO__DECLARE_NOW
-#       define SCRIBO__GET_RAW
-#       define SCRIBO__GET_NOW
-#       define SCRIBO__TIMESTAMP_FORMAT
-#       define SCRIBO__TIMESTAMP_VALUE
+#       define SCRIBO_DECLARE_RAW
+#       define SCRIBO_DECLARE_NOW
+#       define SCRIBO_GET_RAW
+#       define SCRIBO_GET_NOW
+#       define SCRIBO_TIMESTAMP_FORMAT
+#       define SCRIBO_TIMESTAMP_VALUE
 #   endif
     
     // Implement scribo message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
         extern unsigned long scribo_counter;
-#       define SCRIBO__COUNTER_FORMAT    "#%010d "
-#       define SCRIBO__COUNTER_VALUE     scribo_counter,
-#       define SCRIBO__INCREMENT_COUNTER scribo_counter++
+#       define SCRIBO_COUNTER_FORMAT    "#%010d "
+#       define SCRIBO_COUNTER_VALUE     scribo_counter,
+#       define SCRIBO_INCREMENT_COUNTER scribo_counter++
 #   else
-#       define SCRIBO__COUNTER_FORMAT
-#       define SCRIBO__COUNTER_VALUE
-#       define SCRIBO__INCREMENT_COUNTER
+#       define SCRIBO_COUNTER_FORMAT
+#       define SCRIBO_COUNTER_VALUE
+#       define SCRIBO_INCREMENT_COUNTER
 #   endif
     
     // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
-#       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
+#       define SCRIBO_CATEGORY_FORMAT "%-7.7s "
 #   else
-#       define SCRIBO__CATEGORY_FORMAT "%.0s"
+#       define SCRIBO_CATEGORY_FORMAT "%.0s"
 #   endif
     
     // Implement scribo message verbosity
 #   if SCRIBO_SUPPRESS_VERBOSITY != 1
-#       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
+#       define SCRIBO_VERBOSITY_FORMAT "%-7.7s "
 #   else
-#       define SCRIBO__VERBOSITY_FORMAT "%.0s"
+#       define SCRIBO_VERBOSITY_FORMAT "%.0s"
 #   endif
     
     // Implement scribo message header/text separator
@@ -367,18 +367,18 @@
        (SCRIBO_SUPPRESS_COUNTER != 1) || \
        (SCRIBO_SUPPRESS_CATEGORY != 1) || \
        (SCRIBO_SUPPRESS_VERBOSITY != 1)
-#       define SCRIBO__SEPARATOR ": "
+#       define SCRIBO_SEPARATOR ": "
 #   else
-#       define SCRIBO__SEPARATOR
+#       define SCRIBO_SEPARATOR
 #   endif
     
     // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
-#       define SCRIBO__NEWLINE "\n"
-#       define SCRIBO__APPEND_NEWLINE 1
+#       define SCRIBO_NEWLINE "\n"
+#       define SCRIBO_APPEND_NEWLINE 1
 #   else
-#       define SCRIBO__NEWLINE
-#       define SCRIBO__APPEND_NEWLINE 0
+#       define SCRIBO_NEWLINE
+#       define SCRIBO_APPEND_NEWLINE 0
 #   endif
     
     // Implement scribo message outputting callback and flushing
@@ -395,7 +395,7 @@
 #       define SCRIBO__DO_OUTPUT(...) scribo_ouput_message( \
             SCRIBO_INVOKE_CALLBACK, \
             SCRIBO_SET_MAX_LENGTH, \
-            SCRIBO__APPEND_NEWLINE, \
+            SCRIBO_APPEND_NEWLINE, \
             __VA_ARGS__);
 #       define SCRIBO__DO_FLUSH
 #   else
@@ -412,17 +412,17 @@
         SCRIBO_EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
-            SCRIBO__DECLARE_RAW; \
-            SCRIBO__DECLARE_NOW; \
-            SCRIBO__GET_RAW; \
-            SCRIBO__GET_NOW; \
+            SCRIBO_DECLARE_RAW; \
+            SCRIBO_DECLARE_NOW; \
+            SCRIBO_GET_RAW; \
+            SCRIBO_GET_NOW; \
             SCRIBO__DO_OUTPUT( \
-                SCRIBO__TIMESTAMP_FORMAT SCRIBO__COUNTER_FORMAT SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT \
-                SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
-                SCRIBO__TIMESTAMP_VALUE  SCRIBO__COUNTER_VALUE          CATEGORY,               VERBOSITY, \
+                SCRIBO_TIMESTAMP_FORMAT SCRIBO_COUNTER_FORMAT SCRIBO_CATEGORY_FORMAT SCRIBO_VERBOSITY_FORMAT \
+                SCRIBO_SEPARATOR FORMAT "%s" SCRIBO_NEWLINE, \
+                SCRIBO_TIMESTAMP_VALUE  SCRIBO_COUNTER_VALUE          CATEGORY,               VERBOSITY, \
                 __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
-            SCRIBO__INCREMENT_COUNTER; \
+            SCRIBO_INCREMENT_COUNTER; \
         } while (0)
     
 #endif

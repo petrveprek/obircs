@@ -312,31 +312,31 @@
     
     // Implement scribo message category
 #   if SCRIBO_SUPPRESS_CATEGORY != 1
-#       define SCRIBO__CATEGORY_FORMAT "%-7.7s "
+#       define SCRIBO_CATEGORY_FORMAT "%-7.7s "
 #   else
-#       define SCRIBO__CATEGORY_FORMAT "%.0s"
+#       define SCRIBO_CATEGORY_FORMAT "%.0s"
 #   endif
     
     // Implement scribo message verbosity
 #   if SCRIBO_SUPPRESS_VERBOSITY != 1
-#       define SCRIBO__VERBOSITY_FORMAT "%-7.7s "
+#       define SCRIBO_VERBOSITY_FORMAT "%-7.7s "
 #   else
-#       define SCRIBO__VERBOSITY_FORMAT "%.0s"
+#       define SCRIBO_VERBOSITY_FORMAT "%.0s"
 #   endif
     
     // Implement scribo message header/text separator
 #   if (SCRIBO_SUPPRESS_CATEGORY != 1) || \
        (SCRIBO_SUPPRESS_VERBOSITY != 1)
-#       define SCRIBO__SEPARATOR ": "
+#       define SCRIBO_SEPARATOR ": "
 #   else
-#       define SCRIBO__SEPARATOR
+#       define SCRIBO_SEPARATOR
 #   endif
     
     // Implement scribo message newline
 #   if SCRIBO_SUPPRESS_NEWLINE != 1
-#       define SCRIBO__NEWLINE "\n"
+#       define SCRIBO_NEWLINE "\n"
 #   else
-#       define SCRIBO__NEWLINE
+#       define SCRIBO_NEWLINE
 #   endif
     
     // Implement scribo message flushing
@@ -352,7 +352,7 @@
 #   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
             printf( \
-                SCRIBO__CATEGORY_FORMAT SCRIBO__VERBOSITY_FORMAT SCRIBO__SEPARATOR FORMAT "%s" SCRIBO__NEWLINE, \
+                SCRIBO_CATEGORY_FORMAT SCRIBO_VERBOSITY_FORMAT SCRIBO_SEPARATOR FORMAT "%s" SCRIBO_NEWLINE, \
                         CATEGORY,               VERBOSITY,                         __VA_ARGS__); \
             SCRIBO__DO_FLUSH; \
         } while (0)
