@@ -248,34 +248,34 @@
 #   endif
     
     // Setup default verbosity and auto-fill values
-#   define SCRIBO__DEFAULT_VERBOSITY_0
-#   define SCRIBO__DEFAULT_VERBOSITY_1 TRACE
-#   define SCRIBO__AUTO_FILL_FATAL_0
-#   define SCRIBO__AUTO_FILL_ERROR_0
-#   define SCRIBO__AUTO_FILL_WARNING_0
-#   define SCRIBO__AUTO_FILL_LOG_0
-#   define SCRIBO__AUTO_FILL_INFO_0
-#   define SCRIBO__AUTO_FILL_DEBUG_0
-#   define SCRIBO__AUTO_FILL_METHOD_0
-#   define SCRIBO__AUTO_FILL_TRACE_0
+#   define SCRIBO_DEFAULT_VERBOSITY_0
+#   define SCRIBO_DEFAULT_VERBOSITY_1 TRACE
+#   define SCRIBO_AUTO_FILL_FATAL_0
+#   define SCRIBO_AUTO_FILL_ERROR_0
+#   define SCRIBO_AUTO_FILL_WARNING_0
+#   define SCRIBO_AUTO_FILL_LOG_0
+#   define SCRIBO_AUTO_FILL_INFO_0
+#   define SCRIBO_AUTO_FILL_DEBUG_0
+#   define SCRIBO_AUTO_FILL_METHOD_0
+#   define SCRIBO_AUTO_FILL_TRACE_0
 #   if SCRIBO_SUPPRESS_AUTO_FILL == 1
-#       define SCRIBO__AUTO_FILL_FATAL_1   ""
-#       define SCRIBO__AUTO_FILL_ERROR_1   ""
-#       define SCRIBO__AUTO_FILL_WARNING_1 ""
-#       define SCRIBO__AUTO_FILL_LOG_1     ""
-#       define SCRIBO__AUTO_FILL_INFO_1    ""
-#       define SCRIBO__AUTO_FILL_DEBUG_1   ""
-#       define SCRIBO__AUTO_FILL_METHOD_1  ""
-#       define SCRIBO__AUTO_FILL_TRACE_1   ""
+#       define SCRIBO_AUTO_FILL_FATAL_1   ""
+#       define SCRIBO_AUTO_FILL_ERROR_1   ""
+#       define SCRIBO_AUTO_FILL_WARNING_1 ""
+#       define SCRIBO_AUTO_FILL_LOG_1     ""
+#       define SCRIBO_AUTO_FILL_INFO_1    ""
+#       define SCRIBO_AUTO_FILL_DEBUG_1   ""
+#       define SCRIBO_AUTO_FILL_METHOD_1  ""
+#       define SCRIBO_AUTO_FILL_TRACE_1   ""
 #   else
-#       define SCRIBO__AUTO_FILL_FATAL_1   "%s", "GAME OVER!"
-#       define SCRIBO__AUTO_FILL_ERROR_1   "%s", "D'oh!"
-#       define SCRIBO__AUTO_FILL_WARNING_1 "%s", "Oops"
-#       define SCRIBO__AUTO_FILL_LOG_1     "%s", "Fiat lux"
-#       define SCRIBO__AUTO_FILL_INFO_1    "%s", "Et cetera"
-#       define SCRIBO__AUTO_FILL_DEBUG_1   "%s", "Eureka"
-#       define SCRIBO__AUTO_FILL_METHOD_1  "%s", __func__
-#       define SCRIBO__AUTO_FILL_TRACE_1   "\"%s\" : %d", __FILE__, __LINE__
+#       define SCRIBO_AUTO_FILL_FATAL_1   "%s", "GAME OVER!"
+#       define SCRIBO_AUTO_FILL_ERROR_1   "%s", "D'oh!"
+#       define SCRIBO_AUTO_FILL_WARNING_1 "%s", "Oops"
+#       define SCRIBO_AUTO_FILL_LOG_1     "%s", "Fiat lux"
+#       define SCRIBO_AUTO_FILL_INFO_1    "%s", "Et cetera"
+#       define SCRIBO_AUTO_FILL_DEBUG_1   "%s", "Eureka"
+#       define SCRIBO_AUTO_FILL_METHOD_1  "%s", __func__
+#       define SCRIBO_AUTO_FILL_TRACE_1   "\"%s\" : %d", __FILE__, __LINE__
 #   endif
 #   if defined(_MSC_VER)
 #       define __func__ __FUNCTION__
@@ -283,7 +283,7 @@
     
     // Prepare scribo parameters
 #   define SCRIBO(...) SCRIBO_EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
-        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
 #   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
 #   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_5ETC( \
         SCRIBO__LOOK_UP_CONFIGURATION, \
@@ -292,7 +292,7 @@
         SCRIBO_ENABLE_COMBO_ ## VERBOSITY, \
         SCRIBO_CATEGORY, \
         #VERBOSITY, \
-        __VA_ARGS__ SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO__AUTO_FILL_ ## VERBOSITY ## _, SCRIBO_GET_IS_EMPTY(__VA_ARGS__)))
+        __VA_ARGS__ SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_AUTO_FILL_ ## VERBOSITY ## _, SCRIBO_GET_IS_EMPTY(__VA_ARGS__)))
 #   define SCRIBO__LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO__CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
