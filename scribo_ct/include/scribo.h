@@ -121,7 +121,7 @@
 #   define SCRIBOT(...) SCRIBO(TRACE,   __VA_ARGS__)
     
     // Define general helpers
-#   define SCRIBO__EXPAND_1(_1) _1
+#   define SCRIBO_EXPAND_1(_1) _1
 #   define SCRIBO__INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
 #   define SCRIBO__INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
 #   define SCRIBO__PASTE_2(_1, _2)         _1 ## _2
@@ -129,7 +129,7 @@
 #   define SCRIBO__PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
 #   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
         _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
-#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO__EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO_EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
 #   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
 #   define SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY(_1, _2) \
@@ -282,9 +282,9 @@
 #   endif
     
     // Prepare scribo parameters
-#   define SCRIBO(...) SCRIBO__EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
+#   define SCRIBO(...) SCRIBO_EXPAND_1(SCRIBO__LOOKUP_ARGUMENTS( \
         SCRIBO__INVOKE_2(SCRIBO__PASTE_2, SCRIBO__DEFAULT_VERBOSITY_, SCRIBO__GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
-#   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO__EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
+#   define SCRIBO__LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(SCRIBO__INJECT_ARGUMENTS(__VA_ARGS__))
 #   define SCRIBO__INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO__INVOKE_5ETC( \
         SCRIBO__LOOK_UP_CONFIGURATION, \
         SCRIBO__DISABLE_CATEGORY, \
@@ -409,7 +409,7 @@
     
     // Implement scribo logging
 #   define SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, ...) \
-        SCRIBO__EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
+        SCRIBO_EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
 #   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
             SCRIBO__DECLARE_RAW; \
