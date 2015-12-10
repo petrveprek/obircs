@@ -301,11 +301,11 @@
 #   define SCRIBO_CONFIGURE_1_0_0(...) // Category disabled, no combo override
 #   define SCRIBO_CONFIGURE_0_1_0(...) // Verbosity disabled, no combo override
 #   define SCRIBO_CONFIGURE_1_1_0(...) // Category and verbosity disabled, no combo override
-#   define SCRIBO_CONFIGURE_0_0_0(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO_CONFIGURE_0_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO_CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO_CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define SCRIBO_CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO_CONFIGURE_0_0_0(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO_CONFIGURE_0_0_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO_CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO_CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define SCRIBO_CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     
     // Prepare scribo prerequisites
 #   ifndef SCRIBO_INVOKE_CALLBACK
@@ -392,36 +392,36 @@
 #       ifndef SCRIBO_SET_MAX_LENGTH
 #           define SCRIBO_SET_MAX_LENGTH 0
 #       endif
-#       define SCRIBO__DO_OUTPUT(...) scribo_ouput_message( \
+#       define SCRIBO_DO_OUTPUT(...) scribo_ouput_message( \
             SCRIBO_INVOKE_CALLBACK, \
             SCRIBO_SET_MAX_LENGTH, \
             SCRIBO_APPEND_NEWLINE, \
             __VA_ARGS__);
-#       define SCRIBO__DO_FLUSH
+#       define SCRIBO_DO_FLUSH
 #   else
-#       define SCRIBO__DO_OUTPUT printf
+#       define SCRIBO_DO_OUTPUT printf
 #       if SCRIBO_SUPPRESS_FLUSH != 1
-#           define SCRIBO__DO_FLUSH fflush(stdout)
+#           define SCRIBO_DO_FLUSH fflush(stdout)
 #       else
-#           define SCRIBO__DO_FLUSH
+#           define SCRIBO_DO_FLUSH
 #       endif
 #   endif
     
     // Implement scribo logging
-#   define SCRIBO__LOG_THIS(CATEGORY, VERBOSITY, ...) \
-        SCRIBO_EXPAND_1(SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
-#   define SCRIBO__LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
+#   define SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, ...) \
+        SCRIBO_EXPAND_1(SCRIBO_LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, __VA_ARGS__, ""))
+#   define SCRIBO_LOG_THIS_WITH_FORMAT(CATEGORY, VERBOSITY, FORMAT, ...) \
         do { \
             SCRIBO_DECLARE_RAW; \
             SCRIBO_DECLARE_NOW; \
             SCRIBO_GET_RAW; \
             SCRIBO_GET_NOW; \
-            SCRIBO__DO_OUTPUT( \
+            SCRIBO_DO_OUTPUT( \
                 SCRIBO_TIMESTAMP_FORMAT SCRIBO_COUNTER_FORMAT SCRIBO_CATEGORY_FORMAT SCRIBO_VERBOSITY_FORMAT \
                 SCRIBO_SEPARATOR FORMAT "%s" SCRIBO_NEWLINE, \
-                SCRIBO_TIMESTAMP_VALUE  SCRIBO_COUNTER_VALUE          CATEGORY,               VERBOSITY, \
+                SCRIBO_TIMESTAMP_VALUE  SCRIBO_COUNTER_VALUE         CATEGORY,              VERBOSITY, \
                 __VA_ARGS__); \
-            SCRIBO__DO_FLUSH; \
+            SCRIBO_DO_FLUSH; \
             SCRIBO_INCREMENT_COUNTER; \
         } while (0)
     
