@@ -127,17 +127,17 @@
 #   define SCRIBO_PASTE_2(_1, _2)         _1 ## _2
 #   define SCRIBO_PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
 #   define SCRIBO_PASTE_4(_1, _2, _3, _4) _1 ## _2 ## _3 ## _4
-#   define SCRIBO__PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
+#   define SCRIBO_PICK_23RD(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, \
         _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _21, _22, _23, ...) _23
-#   define SCRIBO__GET_HAS_COMMA(...) SCRIBO_EXPAND_1(SCRIBO__PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+#   define SCRIBO_GET_HAS_COMMA(...) SCRIBO_EXPAND_1(SCRIBO_PICK_23RD(__VA_ARGS__, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0))
 #   define SCRIBO__TRIGGER_EMPTY_CASE_0_1 ,
 #   define SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY(_1, _2) \
-        SCRIBO__GET_HAS_COMMA(SCRIBO_PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
+        SCRIBO_GET_HAS_COMMA(SCRIBO_PASTE_4(SCRIBO__TRIGGER_EMPTY_CASE_, _1, _, _2))
 #   define SCRIBO__TRIGGER_NIL_TO_COMMA(...) ,
 #   define SCRIBO__GET_IS_EMPTY(...) SCRIBO__GET_HAS_NO_COMMA_IS_EMPTY( \
-        SCRIBO__GET_HAS_COMMA(__VA_ARGS__), \
-        SCRIBO__GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
+        SCRIBO_GET_HAS_COMMA(__VA_ARGS__), \
+        SCRIBO_GET_HAS_COMMA(SCRIBO__TRIGGER_NIL_TO_COMMA __VA_ARGS__ ()))
     
     // Initialize default category
 #   ifndef     SCRIBO_CATEGORY
