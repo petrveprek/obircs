@@ -1,3 +1,7 @@
+# v?.?.?
+?/?/?
+- Renamed identifiers with adjacent underscores
+
 # v1.1
 2015/11/22
 - Created *scribo le*

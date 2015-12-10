@@ -338,10 +338,10 @@
     
     // Implement scribo message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
-        extern unsigned long scribo__counter;
+        extern unsigned long scribo_counter;
 #       define SCRIBO__COUNTER_FORMAT    "#%010d "
-#       define SCRIBO__COUNTER_VALUE     scribo__counter,
-#       define SCRIBO__INCREMENT_COUNTER scribo__counter++
+#       define SCRIBO__COUNTER_VALUE     scribo_counter,
+#       define SCRIBO__INCREMENT_COUNTER scribo_counter++
 #   else
 #       define SCRIBO__COUNTER_FORMAT
 #       define SCRIBO__COUNTER_VALUE

@@ -10,7 +10,7 @@
     
     // Initialize global message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
-        unsigned long scribo__counter = 0;
+        unsigned long scribo_counter = 0;
 #   endif
     
     // Delegate outputting log message
