@@ -15,6 +15,13 @@
     defined(SCRIBOI) || defined(SCRIBOD) || defined(SCRIBOM) || defined(SCRIBOT)
 #   error "Macro SCRIBOF, SCRIBOE, SCRIBOW, SCRIBOL, SCRIBOI, SCRIBOD, SCRIBOM, or SCRIBOT is already defined!"
 #endif
+#if defined(EXEQUI)
+#   error "Macro EXEQUI is already defined!"
+#endif
+#if defined(EXEQUIF) || defined(EXEQUIE) || defined(EXEQUIW) || defined(EXEQUIL) || \
+    defined(EXEQUII) || defined(EXEQUID) || defined(EXEQUIM) || defined(EXEQUIT)
+#   error "Macro EXEQUIF, EXEQUIE, EXEQUIW, EXEQUIL, EXEQUII, EXEQUID, EXEQUIM, or EXEQUIT is already defined!"
+#endif
 
 // To scribo or not to scribo
 #if SCRIBO_DISABLE_ALL == 1
@@ -29,6 +36,15 @@
 #   define SCRIBOD(...)
 #   define SCRIBOM(...)
 #   define SCRIBOT(...)
+#   define EXEQUI(...)
+#   define EXEQUIF(...)
+#   define EXEQUIE(...)
+#   define EXEQUIW(...)
+#   define EXEQUIL(...)
+#   define EXEQUII(...)
+#   define EXEQUID(...)
+#   define EXEQUIM(...)
+#   define EXEQUIT(...)
     
 #else
     
@@ -119,6 +135,14 @@
 #   define SCRIBOD(...) SCRIBO(DEBUG,   __VA_ARGS__)
 #   define SCRIBOM(...) SCRIBO(METHOD,  __VA_ARGS__)
 #   define SCRIBOT(...) SCRIBO(TRACE,   __VA_ARGS__)
+#   define EXEQUIF(...) EXEQUI(FATAL,   __VA_ARGS__)
+#   define EXEQUIE(...) EXEQUI(ERROR,   __VA_ARGS__)
+#   define EXEQUIW(...) EXEQUI(WARNING, __VA_ARGS__)
+#   define EXEQUIL(...) EXEQUI(LOG,     __VA_ARGS__)
+#   define EXEQUII(...) EXEQUI(INFO,    __VA_ARGS__)
+#   define EXEQUID(...) EXEQUI(DEBUG,   __VA_ARGS__)
+#   define EXEQUIM(...) EXEQUI(METHOD,  __VA_ARGS__)
+#   define EXEQUIT(...) EXEQUI(TRACE,   __VA_ARGS__)
     
     // Define general helpers
 #   define SCRIBO_EXPAND_1(_1) _1
@@ -296,6 +320,20 @@
 #   define SCRIBO_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
         SCRIBO_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
         #CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI(...) SCRIBO_EXPAND_1(EXEQUI_LOOKUP_ARGUMENTS( \
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
+#   define EXEQUI_LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(EXEQUI_INJECT_ARGUMENTS(__VA_ARGS__))
+#   define EXEQUI_INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_5ETC( \
+        EXEQUI_LOOK_UP_CONFIGURATION, \
+        SCRIBO_DISABLE_CATEGORY, \
+        SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
+        SCRIBO_ENABLE_COMBO_ ## VERBOSITY, \
+        SCRIBO_CATEGORY, \
+        #VERBOSITY, \
+        __VA_ARGS__)
+#   define EXEQUI_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
+        EXEQUI_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
+        #CATEGORY, VERBOSITY, __VA_ARGS__)
     
     // Enable or disable scribo
 #   define SCRIBO_CONFIGURE_1_0_0(...) // Category disabled, no combo override
@@ -306,6 +344,14 @@
 #   define SCRIBO_CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
 #   define SCRIBO_CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
 #   define SCRIBO_CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) SCRIBO_LOG_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_1_0_0(...) // Category disabled, no combo override
+#   define EXEQUI_CONFIGURE_0_1_0(...) // Verbosity disabled, no combo override
+#   define EXEQUI_CONFIGURE_1_1_0(...) // Category and verbosity disabled, no combo override
+#   define EXEQUI_CONFIGURE_0_0_0(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_0_0_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
     
     // Prepare scribo prerequisites
 #   include <stdio.h>
@@ -355,6 +401,10 @@
                 SCRIBO_CATEGORY_FORMAT SCRIBO_VERBOSITY_FORMAT SCRIBO_SEPARATOR FORMAT "%s" SCRIBO_NEWLINE, \
                        CATEGORY,              VERBOSITY,       __VA_ARGS__); \
             SCRIBO_DO_FLUSH; \
+        } while (0)
+#   define EXEQUI_DO_THIS(CATEGORY, VERBOSITY, ...) \
+        do { \
+            __VA_ARGS__; \
         } while (0)
     
 #endif
