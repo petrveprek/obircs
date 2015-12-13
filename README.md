@@ -336,6 +336,42 @@ SCRIBOT("%d + %d equals %d", 1, 1, 2);
 
 ### Conditional Code Execution
 
+`SCRIBO` can be used to log values of expressions (including variables and function calls).
+However, sometimes it is necessary to output these values from within a loop.
+Other times, data computation prior to logging is needed.
+`EXEQUI` can be used to conditionally execute statements needed for the logging as follows.
+
+Conditional code execution:
+```c
+EXEQUI(<verbosity>, ...);
+```
+and
+```c
+EXEQUI<v>(...);
+```
+where `<verbosity>` and `<v>` specify the verbosity as described earlier and `...` is zero or more statements.
+
+Statements `...` are placed within brackets `{` `}` and thus have their own local scope. Any variable declared within an 
+`EXEQUI` is **not** visible outside of it.
+
+Example:
+```c
+void process(int* data, unsigned count)
+{
+    EXEQUI(LOG,
+        unsigned i;
+        int hash = 0;
+        for (i = 0; i < count; i++)
+        {
+            SCRIBO(DEBUG, "data[%d] = %d", i, data[i]);
+            hash |= data[i];
+        }
+        SCRIBO(LOG, "data[] xor checksum = %d", hash);
+    );
+    // ...
+}
+```
+
 ## How to Configure
 
 ### Compile Time
@@ -514,6 +550,10 @@ becomes responsibility of the custom callback function.
 ```
 
 #### Note on Conditional Code Execution
+
+Conditional code execution (`EXEQUI`) does not have its own configuration settings. Rather, it follows configuration of 
+log messages (`SCRIBO`). Conditional code execution can be enabled or disabled based on category, verbosity... together 
+with log messages for the same category, verbosity etc.
 
 ---
 # Copyright and License

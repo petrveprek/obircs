@@ -1,5 +1,8 @@
-# v?.?.?
-?/?/?
+# v1.2
+2015/12/13
+- Added EXEQUI
+- Updated documentation
+- Updated example
 - Renamed identifiers with adjacent underscores
 
 # v1.1
