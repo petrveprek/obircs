@@ -10,7 +10,7 @@
     
     // Initialize global message counter
 #   if SCRIBO_SUPPRESS_COUNTER != 1
-        unsigned long scribo__counter = 0;
+        unsigned long scribo_counter = 0;
 #   endif
     
     // Delegate outputting log message
@@ -22,7 +22,7 @@
 #       if defined(_MSC_VER)
 #           define va_copy(destination, source) destination = source
 #       endif
-        void scribo__ouput_message(void (* callback)(const char *), size_t size, int newline, const char * format, ...)
+        void scribo_ouput_message(void (* callback)(const char *), size_t size, int newline, const char * format, ...)
         {
             va_list args1; // First pass to get length of log message (if needed)
             va_list args2; // Second pass to output log message

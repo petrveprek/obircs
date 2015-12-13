@@ -156,4 +156,16 @@ GENERIC DEBUG   : Loop 7
 GENERIC DEBUG   : Loop 8
 GENERIC DEBUG   : Loop 9
 GENERIC INFO    : ...done looping
+FLOB    LOG     : Flob...
+FLOB    DEBUG   : data[0] = 0
+FLOB    DEBUG   : data[1] = 1
+FLOB    DEBUG   : data[2] = 1
+FLOB    DEBUG   : data[3] = 2
+FLOB    DEBUG   : data[4] = 3
+FLOB    DEBUG   : data[5] = 5
+FLOB    DEBUG   : data[6] = 8
+FLOB    DEBUG   : data[7] = 13
+FLOB    DEBUG   : data[8] = 21
+FLOB    DEBUG   : data[9] = 34
+FLOB    LOG     : data[] xor checksum = 63
 APP     LOG     : The end

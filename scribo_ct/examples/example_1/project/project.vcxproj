@@ -71,6 +71,7 @@
     <ClCompile Include="..\..\..\source\scribo.c" />
     <ClCompile Include="..\source\bar.c" />
     <ClCompile Include="..\source\baz.c" />
+    <ClCompile Include="..\source\flob.c" />
     <ClCompile Include="..\source\foo.c" />
     <ClCompile Include="..\source\fred.c" />
     <ClCompile Include="..\source\main.c" />
@@ -81,6 +82,7 @@
     <ClInclude Include="..\..\..\include\scribo.h" />
     <ClInclude Include="..\include\bar.h" />
     <ClInclude Include="..\include\baz.h" />
+    <ClInclude Include="..\include\flob.h" />
     <ClInclude Include="..\include\foo.h" />
     <ClInclude Include="..\include\fred.h" />
     <ClInclude Include="..\include\quux.h" />

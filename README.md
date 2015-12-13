@@ -25,17 +25,19 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
     * <sub>[Use Outline](#use-outline "Use Outline")</sub>
     * <sub>[Logging Setup](#logging-setup "Logging Setup")</sub>
     * <sub>[Logging Statements](#logging-statements "Logging Statements")</sub>
+    * <sub>[Conditional Code Execution](#conditional-code-execution "Conditional Code Execution")</sub>
   * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
     * <sub>[Compile Time](#compile-time "Compile Time")</sub>
       * <sub>[Compile-Time Configuration Outline](#compile-time-configuration-outline "Compile-Time Configuration Outline")</sub>
-      * <sub>[Disable all *scribo* logging](#disable-all-scribo-logging "Disable all *scribo* logging")</sub>
-      * <sub>[Disable *scribo* logging for a category](#disable-scribo-logging-for-a-category "Disable *scribo* logging for a category")</sub>
-      * <sub>[Disable *scribo* logging for a verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* logging for a verbosity")</sub>
-      * <sub>[Enable *scribo* logging for a combination of a category and a verbosity](#enable-scribo-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *scribo* logging for a combination of a category and a verbosity")</sub>
-      * <sub>[Suppress parts of *scribo* log message header](#suppress-parts-of-scribo-log-message-header "Suppress parts of *scribo* log message header")</sub>
-      * <sub>[Suppress auto-filling of *scribo* log message text](#suppress-auto-filling-of-scribo-log-message-text "Suppress auto-filling of *scribo* log message text")</sub>
-      * <sub>[Suppress *scribo* log message termination and flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* log message termination and flushing")</sub>
-      * <sub>[Provide custom sink for and specify maximum length of *scribo* log messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide custom sink for and specify maximum length of *scribo* log messages")</sub>
+      * <sub>[Disable All *scribo* Logging](#disable-all-scribo-logging "Disable All *scribo* Logging")</sub>
+      * <sub>[Disable *scribo* Logging for a Category](#disable-scribo-logging-for-a-category "Disable *scribo* Logging for a Category")</sub>
+      * <sub>[Disable *scribo* Logging for a Verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* Logging for a Verbosity")</sub>
+      * <sub>[Enable *scribo* Logging for a Combination of a Category and a Verbosity](#enable-scribo-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *scribo* Logging for a Combination of a Category and a Verbosity")</sub>
+      * <sub>[Suppress Parts of *scribo* Log Message Header](#suppress-parts-of-scribo-log-message-header "Suppress Parts of *scribo* Log Message Header")</sub>
+      * <sub>[Suppress Auto-Filling of *scribo* Log Message Text](#suppress-auto-filling-of-scribo-log-message-text "Suppress Auto-Filling of *scribo* Log Message text")</sub>
+      * <sub>[Suppress *scribo* Log Message Termination and Flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* Log Message Termination and Flushing")</sub>
+      * <sub>[Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages")</sub>
+      * <sub>[Note on Conditional Code Execution](#note-on-conditional-code-execution "Note on Conditional Code Execution")</sub>
 * [Copyright and License](#copyright-and-license "Copyright and License")
 
 ---
@@ -332,6 +334,44 @@ SCRIBOM("%d + %d equals %d", 1, 1, 2);
 SCRIBOT("%d + %d equals %d", 1, 1, 2);
 ```
 
+### Conditional Code Execution
+
+`SCRIBO` can be used to log values of expressions (including variables and function calls).
+However, sometimes it is necessary to output these values from within a loop.
+Other times, data computation prior to logging is needed.
+`EXEQUI` can be used to conditionally execute statements needed for the logging as follows.
+
+Conditional code execution:
+```c
+EXEQUI(<verbosity>, ...);
+```
+and
+```c
+EXEQUI<v>(...);
+```
+where `<verbosity>` and `<v>` specify the verbosity as described earlier and `...` is zero or more statements.
+
+Statements `...` are placed within brackets `{` `}` and thus have their own local scope. Any variable declared within an 
+`EXEQUI` is **not** visible outside of it.
+
+Example:
+```c
+void process(int* data, unsigned count)
+{
+    EXEQUI(LOG,
+        unsigned i;
+        int hash = 0;
+        for (i = 0; i < count; i++)
+        {
+            SCRIBO(DEBUG, "data[%d] = %d", i, data[i]);
+            hash |= data[i];
+        }
+        SCRIBO(LOG, "data[] xor checksum = %d", hash);
+    );
+    // ...
+}
+```
+
 ## How to Configure
 
 ### Compile Time
@@ -375,13 +415,13 @@ Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosi
 #define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
 
-#### Disable all *scribo* logging
+#### Disable All *scribo* Logging
 
 ```c
 #define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
 ```
 
-#### Disable *scribo* logging for a category
+#### Disable *scribo* Logging for a Category
 
 ```c
 #define SCRIBO_DISABLE_CATEGORY_<category> 1 // Disable scribo logging for category <category> (all verbosities)
@@ -395,7 +435,7 @@ Example:
 #define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable scribo logging for category 'THAT_MODULE' (all verbosities)
 ```
 
-#### Disable *scribo* logging for a verbosity
+#### Disable *scribo* Logging for a Verbosity
 
 ```c
 #define SCRIBO_DISABLE_VERBOSITY_<verbosity> 1 // Disable scribo logging for verbosity <verbosity> (all categories)
@@ -420,7 +460,7 @@ Example:
 #define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
 ```
 
-#### Enable *scribo* logging for a combination of a category and a verbosity
+#### Enable *scribo* Logging for a Combination of a Category and a Verbosity
 
 Finally, *scribo* provides configuration option to enable logging for a combination of a category and a verbosity. This 
 is useful as an override together with the above two options that disable categories and verbosities.
@@ -440,7 +480,7 @@ Example:
 Note that the order in which various categories and verbosities are disabled, and combinations thereof enabled, is not 
 significant and does not need to follow a particular order.
 
-#### Suppress parts of *scribo* log message header
+#### Suppress Parts of *scribo* Log Message Header
 
 Usual *scribo* log message consists of a standard header followed by custom generated text. The **header** is made of 
 `timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
@@ -476,7 +516,7 @@ Normal scribo log message
   => Executable Scribo.exe (1 parameters)
 ```
 
-#### Suppress auto-filling of *scribo* log message text
+#### Suppress Auto-Filling of *scribo* Log Message Text
 
 When text of *scribo* log message in not specified, *scribo* by default auto-fills it with predefined value. This 
 functionality can be disabled. When no message text is specified and auto-fill is disabled, only message header is 
@@ -485,7 +525,7 @@ output.
 #define SCRIBO_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' of message text
 ```
 
-#### Suppress *scribo* log message termination and flushing
+#### Suppress *scribo* Log Message Termination and Flushing
 
 Each *scribo* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
 (`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event of a system crash. Both 
@@ -495,7 +535,7 @@ automatic appending of the newline and automatic stream flushing can be suppress
 #define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
 ```
 
-#### Provide custom sink for and specify maximum length of *scribo* log messages
+#### Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages
 
 By default, *scribo* log messages are output to `stdout` using `printf` function. In this case, length of each message 
 is not limited and messages (unless suppressed) are flushed using `fflush`. Optionally, custom sink function can be 
@@ -508,6 +548,12 @@ becomes responsibility of the custom callback function.
 #define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
 #define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages
 ```
+
+#### Note on Conditional Code Execution
+
+Conditional code execution (`EXEQUI`) does not have its own configuration settings. Rather, it follows configuration of 
+log messages (`SCRIBO`). Conditional code execution can be enabled or disabled based on category, verbosity... together 
+with log messages for the same category, verbosity etc.
 
 ---
 # Copyright and License
