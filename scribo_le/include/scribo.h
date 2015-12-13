@@ -147,6 +147,7 @@
     // Define general helpers
 #   define SCRIBO_EXPAND_1(_1) _1
 #   define SCRIBO_INVOKE_2(   _0, _1, _2)                  _0(_1, _2)
+#   define SCRIBO_INVOKE_3ETC(_0, _1, _2, _3, ...)         _0(_1, _2, _3, __VA_ARGS__)
 #   define SCRIBO_INVOKE_5ETC(_0, _1, _2, _3, _4, _5, ...) _0(_1, _2, _3, _4, _5, __VA_ARGS__)
 #   define SCRIBO_PASTE_2(_1, _2)         _1 ## _2
 #   define SCRIBO_PASTE_3(_1, _2, _3)     _1 ## _2 ## _3
@@ -323,7 +324,7 @@
 #   define EXEQUI(...) SCRIBO_EXPAND_1(EXEQUI_LOOKUP_ARGUMENTS( \
         SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
 #   define EXEQUI_LOOKUP_ARGUMENTS(...) SCRIBO_EXPAND_1(EXEQUI_INJECT_ARGUMENTS(__VA_ARGS__))
-#   define EXEQUI_INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_5ETC( \
+#   define EXEQUI_INJECT_ARGUMENTS(VERBOSITY, ...) SCRIBO_INVOKE_3ETC( \
         EXEQUI_LOOK_UP_CONFIGURATION, \
         SCRIBO_DISABLE_CATEGORY, \
         SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
