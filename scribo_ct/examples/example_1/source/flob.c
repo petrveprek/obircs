@@ -8,20 +8,25 @@
 #define SCRIBO_CATEGORY FLOB
 #include <scribo.h>
 
+void process(int* data, unsigned count)
+{
+    EXEQUI(LOG,
+        unsigned i;
+        int hash = 0;
+        for (i = 0; i < count; i++)
+        {
+            SCRIBO(DEBUG, "data[%d] = %d", i, data[i]);
+            hash |= data[i];
+        }
+        SCRIBO(LOG, "data[] xor checksum = %d", hash);
+    );
+}
+
 void doFlob()
 {
-    int i, n = 0;
+    int data[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34};
     SCRIBO(LOG, "Flob...");
-    
-    EXEQUI(DEBUG,
-        SCRIBO(TRACE);
-        for (i = 0; i < 10; i++)
-        {
-            n += i;
-        }
-        n -= 3;
-    );
-    SCRIBO(DEBUG, "The answer is %d", n);
+    process(data, sizeof(data)/sizeof(data[0]));
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

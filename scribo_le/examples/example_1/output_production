@@ -55,4 +55,5 @@ QUUX    WARNING : Oops
 QUUX    LOG     : Fiat lux
 QUUX    INFO    : Et cetera
 FLOB    LOG     : Flob...
+FLOB    LOG     : data[] xor checksum = 63
 APP     LOG     : The end
