@@ -328,12 +328,9 @@
         SCRIBO_DISABLE_CATEGORY, \
         SCRIBO_DISABLE_VERBOSITY_ ## VERBOSITY, \
         SCRIBO_ENABLE_COMBO_ ## VERBOSITY, \
-        SCRIBO_CATEGORY, \
-        #VERBOSITY, \
         __VA_ARGS__)
-#   define EXEQUI_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, CATEGORY, VERBOSITY, ...) \
-        EXEQUI_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO( \
-        #CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, ...) \
+        EXEQUI_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(__VA_ARGS__)
     
     // Enable or disable scribo
 #   define SCRIBO_CONFIGURE_1_0_0(...) // Category disabled, no combo override
@@ -347,11 +344,11 @@
 #   define EXEQUI_CONFIGURE_1_0_0(...) // Category disabled, no combo override
 #   define EXEQUI_CONFIGURE_0_1_0(...) // Verbosity disabled, no combo override
 #   define EXEQUI_CONFIGURE_1_1_0(...) // Category and verbosity disabled, no combo override
-#   define EXEQUI_CONFIGURE_0_0_0(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define EXEQUI_CONFIGURE_0_0_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define EXEQUI_CONFIGURE_1_0_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define EXEQUI_CONFIGURE_0_1_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
-#   define EXEQUI_CONFIGURE_1_1_1(CATEGORY, VERBOSITY, ...) EXEQUI_DO_THIS(CATEGORY, VERBOSITY, __VA_ARGS__)
+#   define EXEQUI_CONFIGURE_0_0_0(...) EXEQUI_DO_THIS(__VA_ARGS__)
+#   define EXEQUI_CONFIGURE_0_0_1(...) EXEQUI_DO_THIS(__VA_ARGS__)
+#   define EXEQUI_CONFIGURE_1_0_1(...) EXEQUI_DO_THIS(__VA_ARGS__)
+#   define EXEQUI_CONFIGURE_0_1_1(...) EXEQUI_DO_THIS(__VA_ARGS__)
+#   define EXEQUI_CONFIGURE_1_1_1(...) EXEQUI_DO_THIS(__VA_ARGS__)
     
     // Prepare scribo prerequisites
 #   ifndef SCRIBO_INVOKE_CALLBACK
@@ -470,7 +467,7 @@
             SCRIBO_DO_FLUSH; \
             SCRIBO_INCREMENT_COUNTER; \
         } while (0)
-#   define EXEQUI_DO_THIS(CATEGORY, VERBOSITY, ...) \
+#   define EXEQUI_DO_THIS(...) \
         do { \
             __VA_ARGS__; \
         } while (0)
