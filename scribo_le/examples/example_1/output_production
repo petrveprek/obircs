@@ -54,4 +54,5 @@ QUUX    ERROR   : D'oh!
 QUUX    WARNING : Oops
 QUUX    LOG     : Fiat lux
 QUUX    INFO    : Et cetera
+FLOB    LOG     : Flob...
 APP     LOG     : The end

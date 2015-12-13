@@ -156,4 +156,7 @@ GENERIC DEBUG   : Loop 7
 GENERIC DEBUG   : Loop 8
 GENERIC DEBUG   : Loop 9
 GENERIC INFO    : ...done looping
+FLOB    LOG     : Flob...
+FLOB    TRACE   : "source/flob.c" : 23
+FLOB    DEBUG   : The answer is 42
 APP     LOG     : The end
