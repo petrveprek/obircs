@@ -364,7 +364,7 @@ void process(int* data, unsigned count)
         for (i = 0; i < count; i++)
         {
             SCRIBO(DEBUG, "data[%d] = %d", i, data[i]);
-            hash |= data[i];
+            hash ^= data[i];
         }
         SCRIBO(LOG, "data[] xor checksum = %d", hash);
     );

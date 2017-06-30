@@ -1,3 +1,7 @@
+# v1.3
+2017/06/30
+- Fixed example in README.md
+
 # v1.2
 2015/12/13
 - Added EXEQUI
