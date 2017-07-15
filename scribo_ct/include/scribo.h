@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// Copyright (c) 2015 Petr Vepřek
+// Copyright (c) 2015, 2017 Petr Vepřek
 // File: scribo.h
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -124,6 +124,26 @@
 #           undef SCRIBO_DISABLE_VERBOSITY_TRACE
 #       endif
 #       define    SCRIBO_DISABLE_VERBOSITY_TRACE 1
+#   endif
+    
+    // Interpret configuration shorthand
+#   if (SCRIBO_SUPPRESS_HEADER == 1)
+#       ifdef     SCRIBO_SUPPRESS_TIMESTAMP
+#           undef SCRIBO_SUPPRESS_TIMESTAMP
+#       endif
+#       define    SCRIBO_SUPPRESS_TIMESTAMP 1
+#       ifdef     SCRIBO_SUPPRESS_COUNTER
+#           undef SCRIBO_SUPPRESS_COUNTER
+#       endif
+#       define    SCRIBO_SUPPRESS_COUNTER 1
+#       ifdef     SCRIBO_SUPPRESS_CATEGORY
+#           undef SCRIBO_SUPPRESS_CATEGORY
+#       endif
+#       define    SCRIBO_SUPPRESS_CATEGORY 1
+#       ifdef     SCRIBO_SUPPRESS_VERBOSITY
+#           undef SCRIBO_SUPPRESS_VERBOSITY
+#       endif
+#       define    SCRIBO_SUPPRESS_VERBOSITY 1
 #   endif
     
     // Interpret usage shorthand
