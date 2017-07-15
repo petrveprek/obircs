@@ -484,9 +484,11 @@ significant and does not need to follow a particular order.
 
 Usual *scribo* log message consists of a standard header followed by custom generated text. The **header** is made of 
 `timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
-fashion. Individual parts of the log message header can be suppressed. When all parts of the header are suppressed, then 
-the separator between header and text is also suppressed, automatically.
+fashion. The entire log message header or its individual parts can be suppressed. When all parts of the header are
+suppressed, then the separator between header and text is also suppressed, automatically.
 ```c
+#define SCRIBO_SUPPRESS_HEADER 1 // Suppress the entire log message header
+
 #define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in scribo log message header
 #define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in scribo log message header
 #define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in scribo log message header
@@ -497,22 +499,31 @@ Examples:
 ```
 Normal scribo log message
   => 2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
   => #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_COUNTER   1
   => 2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_CATEGORY  1
   => 2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_VERBOSITY 1
   => 2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_COUNTER   1
 #define SCRIBO_SUPPRESS_CATEGORY  1
 #define SCRIBO_SUPPRESS_VERBOSITY 1
   => 2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)
+
 #define SCRIBO_SUPPRESS_TIMESTAMP 1
 #define SCRIBO_SUPPRESS_COUNTER   1
 #define SCRIBO_SUPPRESS_CATEGORY  1
 #define SCRIBO_SUPPRESS_VERBOSITY 1
+  => Executable Scribo.exe (1 parameters)
+
+#define SCRIBO_SUPPRESS_HEADER 1
   => Executable Scribo.exe (1 parameters)
 ```
 

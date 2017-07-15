@@ -1,3 +1,8 @@
+# v1.4
+2017/07/15
+- Added SCRIBO_SUPPRESS_HEADER
+- Updated README.md
+
 # v1.3
 2017/06/30
 - Fixed example in README.md
