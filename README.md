@@ -569,6 +569,6 @@ with log messages for the same category, verbosity etc.
 ---
 # Copyright and License
 
-Copyright (c) 2015 Petr Vepřek
+Copyright (c) 2015, 2017 Petr Vepřek
 
 MIT License, see [`LICENSE`](./LICENSE) for further details.

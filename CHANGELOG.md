@@ -1,3 +1,7 @@
+# v?.?
+2017/??/??
+- Updated copyright info
+
 # v1.4
 2017/07/15
 - Added SCRIBO_SUPPRESS_HEADER
