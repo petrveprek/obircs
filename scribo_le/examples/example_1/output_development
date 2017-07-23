@@ -163,6 +163,7 @@ GENERIC DEBUG   : Loop 9
 GENERIC INFO    : ...done looping
 GENERIC LOG     : `fred` --end--
 FLOB    LOG     : `flob` --begin--
+FLOB    TRACE   : "source/flob.c" : 32
 FLOB    DEBUG   : data[0] = 0
 FLOB    DEBUG   : data[1] = 1
 FLOB    DEBUG   : data[2] = 1

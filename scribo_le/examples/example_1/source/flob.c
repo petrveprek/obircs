@@ -27,6 +27,9 @@ void doFlob()
     int data[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34};
     SCRIBO(LOG, "`flob` --begin--");
     
+    EXEQUI();
+    EXEQUI(INFO);
+    EXEQUI(INFO, SCRIBO());
     process(data, sizeof(data)/sizeof(data[0]));
     
     SCRIBO(LOG, "`flob` --end--");
