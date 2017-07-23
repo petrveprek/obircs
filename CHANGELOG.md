@@ -1,5 +1,6 @@
 # v?.?
 2017/??/??
+- Improved examples
 - Updated MS VS projects from Express 2012 to Community 2017
 - Added .gitignore
 - Updated copyright info

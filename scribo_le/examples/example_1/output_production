@@ -1,10 +1,11 @@
 APP     LOG     : Running main.exe
-FOO     LOG     : Foo...
+FOO     LOG     : `foo` --begin--
 FOO     INFO    : About to loop...
 FOO     INFO    : Loop 0
 FOO     INFO    : Loop 5
 FOO     INFO    : ...done looping
-BAR     LOG     : Bar...
+FOO     LOG     : `foo` --end--
+BAR     LOG     : `bar` --begin--
 BAR     INFO    : About to loop...
 BAR     INFO    : bar(0)
 BAR     INFO    : bar(1)
@@ -17,7 +18,8 @@ BAR     INFO    : bar(7)
 BAR     INFO    : bar(8)
 BAR     INFO    : bar(9)
 BAR     INFO    : ...done looping
-BAZ     LOG     : Baz...
+BAR     LOG     : `bar` --end--
+BAZ     LOG     : `baz` --begin--
 BAZ     LOG     : Regular log messages with parameter:
 BAZ     FATAL   : Fatal blah...
 BAZ     ERROR   : Error blah...
@@ -42,8 +44,10 @@ BAZ     ERROR   : D'oh!
 BAZ     WARNING : Oops
 BAZ     LOG     : Fiat lux
 BAZ     INFO    : Et cetera
-QUX     LOG     : Qux...
-QUUX    LOG     : Quux...
+BAZ     LOG     : `baz` --end--
+QUX     LOG     : `qux` --begin--
+QUX     LOG     : `qux` --end--
+QUUX    LOG     : `quux` --begin--
 QUUX    FATAL   : GAME OVER!
 QUUX    ERROR   : D'oh!
 QUUX    WARNING : Oops
@@ -54,6 +58,8 @@ QUUX    ERROR   : D'oh!
 QUUX    WARNING : Oops
 QUUX    LOG     : Fiat lux
 QUUX    INFO    : Et cetera
-FLOB    LOG     : Flob...
+QUUX    LOG     : `quux` --end--
+FLOB    LOG     : `flob` --begin--
 FLOB    LOG     : data[] xor checksum = 63
+FLOB    LOG     : `flob` --end--
 APP     LOG     : The end
