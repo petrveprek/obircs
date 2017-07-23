@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// Copyright (c) 2015 Petr Vepřek
+// Copyright (c) 2015, 2017 Petr Vepřek
 // File: fred.c
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -10,7 +10,7 @@
 void doFred()
 {
     int i;
-    SCRIBO(LOG, "Fred...");
+    SCRIBO(LOG, "`fred` --begin--");
     
     SCRIBO(DEBUG, "Default category and auto-fill default verbosity:");
     SCRIBO();
@@ -24,6 +24,8 @@ void doFred()
             SCRIBO(DEBUG, "Loop %d", i);
     }
     SCRIBO(INFO, "...done looping");
+    
+    SCRIBO(LOG, "`fred` --end--");
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------
