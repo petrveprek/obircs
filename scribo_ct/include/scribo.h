@@ -22,6 +22,9 @@
     defined(EXEQUII) || defined(EXEQUID) || defined(EXEQUIM) || defined(EXEQUIT)
 #   error "Macro EXEQUIF, EXEQUIE, EXEQUIW, EXEQUIL, EXEQUII, EXEQUID, EXEQUIM, or EXEQUIT is already defined!"
 #endif
+#if defined(IF_SCRIBO)
+#   error "Macro IF_SCRIBO is already defined!"
+#endif
 
 // To scribo or not to scribo
 #if SCRIBO_DISABLE_ALL == 1
@@ -45,6 +48,7 @@
 #   define EXEQUID(...)
 #   define EXEQUIM(...)
 #   define EXEQUIT(...)
+#   define IF_SCRIBO(...)
     
 #else
     
@@ -352,6 +356,7 @@
         __VA_ARGS__)
 #   define EXEQUI_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, ...) \
         EXEQUI_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(__VA_ARGS__)
+#   define IF_SCRIBO(CONDITION, VERBOSITY, ...) EXEQUI(VERBOSITY, if (CONDITION) { SCRIBO(VERBOSITY, __VA_ARGS__); })
     
     // Enable or disable scribo
 #   define SCRIBO_CONFIGURE_1_0_0(...) // Category disabled, no combo override

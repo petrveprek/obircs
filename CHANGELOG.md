@@ -1,7 +1,8 @@
 # v?.?
 2017/??/??
+- Added IF_SCRIBO
 - Improved examples
-- Updated MS VS projects from Express 2012 to Community 2017
+- Upgraded MS VS projects from Express 2012 to Community 2017
 - Added .gitignore
 - Updated copyright info
 
