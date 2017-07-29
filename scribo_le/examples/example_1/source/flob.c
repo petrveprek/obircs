@@ -45,6 +45,17 @@ void doFlob()
     IF_SCRIBO(false, INFO,   "Oops!");
     IF_SCRIBO(true,  INFO,   "Okay.");
     
+    IF_SCRIBO(true, INFO, "Et cetera");
+    IF_SCRIBO(true, INFO, );
+    IF_SCRIBO(true, INFO,);
+    IF_SCRIBO(true, INFO);
+    
+    IF_SCRIBO(true, TRACE);
+    IF_SCRIBO(true, );
+    IF_SCRIBO(true,);
+    IF_SCRIBO(true);
+    IF_SCRIBO();
+    
     SCRIBO(LOG, "`flob` --end--");
 }
 
