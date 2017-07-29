@@ -24,6 +24,7 @@ void process(int* data, unsigned count)
 
 void doFlob()
 {
+    typedef enum { false, true } bool;
     int data[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34};
     SCRIBO(LOG, "`flob` --begin--");
     
@@ -31,6 +32,18 @@ void doFlob()
     EXEQUI(INFO);
     EXEQUI(INFO, SCRIBO());
     process(data, sizeof(data)/sizeof(data[0]));
+    
+    IF_SCRIBO(true, FATAL,   "IF_SCRIBO(true, FATAL, ...)");
+    IF_SCRIBO(true, ERROR,   "IF_SCRIBO(true, ERROR, ...)");
+    IF_SCRIBO(true, WARNING, "IF_SCRIBO(true, WARNING, ...)");
+    IF_SCRIBO(true, LOG,     "IF_SCRIBO(true, LOG, ...)");
+    IF_SCRIBO(true, INFO,    "IF_SCRIBO(true, INFO, ...)");
+    IF_SCRIBO(true, DEBUG,   "IF_SCRIBO(true, DEBUG, ...)");
+    IF_SCRIBO(true, METHOD,  "IF_SCRIBO(true, METHOD, ...)");
+    IF_SCRIBO(true, TRACE,   "IF_SCRIBO(true, TRACE, ...)");
+    
+    IF_SCRIBO(false, INFO,   "Oops!");
+    IF_SCRIBO(true,  INFO,   "Okay.");
     
     SCRIBO(LOG, "`flob` --end--");
 }
