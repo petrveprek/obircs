@@ -163,7 +163,7 @@ GENERIC DEBUG   : Loop 9
 GENERIC INFO    : ...done looping
 GENERIC LOG     : `fred` --end--
 FLOB    LOG     : `flob` --begin--
-FLOB    TRACE   : "source/flob.c" : 32
+FLOB    TRACE   : "source/flob.c" : 33
 FLOB    DEBUG   : data[0] = 0
 FLOB    DEBUG   : data[1] = 1
 FLOB    DEBUG   : data[2] = 1
@@ -175,5 +175,23 @@ FLOB    DEBUG   : data[7] = 13
 FLOB    DEBUG   : data[8] = 21
 FLOB    DEBUG   : data[9] = 34
 FLOB    LOG     : data[] xor checksum = 63
+FLOB    FATAL   : IF_SCRIBO(true, FATAL, ...)
+FLOB    ERROR   : IF_SCRIBO(true, ERROR, ...)
+FLOB    WARNING : IF_SCRIBO(true, WARNING, ...)
+FLOB    LOG     : IF_SCRIBO(true, LOG, ...)
+FLOB    INFO    : IF_SCRIBO(true, INFO, ...)
+FLOB    DEBUG   : IF_SCRIBO(true, DEBUG, ...)
+FLOB    METHOD  : IF_SCRIBO(true, METHOD, ...)
+FLOB    TRACE   : IF_SCRIBO(true, TRACE, ...)
+FLOB    INFO    : Okay.
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    TRACE   : "source/flob.c" : 53
+FLOB    TRACE   : "source/flob.c" : 54
+FLOB    TRACE   : "source/flob.c" : 55
+FLOB    TRACE   : "source/flob.c" : 56
+FLOB    TRACE   : "source/flob.c" : 57
 FLOB    LOG     : `flob` --end--
 APP     LOG     : The end

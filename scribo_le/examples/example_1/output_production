@@ -61,5 +61,15 @@ QUUX    INFO    : Et cetera
 QUUX    LOG     : `quux` --end--
 FLOB    LOG     : `flob` --begin--
 FLOB    LOG     : data[] xor checksum = 63
+FLOB    FATAL   : IF_SCRIBO(true, FATAL, ...)
+FLOB    ERROR   : IF_SCRIBO(true, ERROR, ...)
+FLOB    WARNING : IF_SCRIBO(true, WARNING, ...)
+FLOB    LOG     : IF_SCRIBO(true, LOG, ...)
+FLOB    INFO    : IF_SCRIBO(true, INFO, ...)
+FLOB    INFO    : Okay.
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
 FLOB    LOG     : `flob` --end--
 APP     LOG     : The end
