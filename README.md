@@ -40,6 +40,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
       * <sub>[Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages")</sub>
       * <sub>[Note on Conditional Code Execution](#note-on-conditional-code-execution "Note on Conditional Code Execution")</sub>
       * <sub>[Note on Conditional Logging Statements](#note-on-conditional-logging-statements "Note on Conditional Logging Statements")</sub>
+      * <sub>[Recap of Default Values](#recap-of-default-values "Recap of Default Values")</sub>
 * [Copyright and License](#copyright-and-license "Copyright and License")
 
 ---
@@ -596,6 +597,14 @@ with log messages for the same category, verbosity etc.
 Conditional logging statements (`IF_SCRIBO`) do not have their own configuration settings. Rather, they follow
 configuration of unconditional logging statements (`SCRIBO`). Conditional logging statements can be enabled or disabled
 based on category, verbosity... together with log messages for the same category, verbosity etc.
+
+#### Recap of Default Values
+
+```
+SCRIBO()    --> <category> = GENERIRC, <verbosity> = TRACE                       --> Log message
+EXEQUI()    --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> No operation
+IF_SCRIBO() --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> Log message
+```
 
 ---
 # Copyright and License
