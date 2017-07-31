@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------------------------------------------------
-// Copyright (c) 2015 Petr Vepřek
+// Copyright (c) 2015, 2017 Petr Vepřek
 // File: flob.c
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -24,9 +24,56 @@ void process(int* data, unsigned count)
 
 void doFlob()
 {
+    typedef enum { false, true } bool;
     int data[] = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34};
-    SCRIBO(LOG, "Flob...");
+    SCRIBO(LOG, "`flob` --begin--");
+    
+    EXEQUI();
+    EXEQUI(INFO);
+    EXEQUI(INFO, SCRIBO());
     process(data, sizeof(data)/sizeof(data[0]));
+    
+    IF_SCRIBO(true, FATAL,   "IF_SCRIBO(true, FATAL, ...)");
+    IF_SCRIBO(true, ERROR,   "IF_SCRIBO(true, ERROR, ...)");
+    IF_SCRIBO(true, WARNING, "IF_SCRIBO(true, WARNING, ...)");
+    IF_SCRIBO(true, LOG,     "IF_SCRIBO(true, LOG, ...)");
+    IF_SCRIBO(true, INFO,    "IF_SCRIBO(true, INFO, ...)");
+    IF_SCRIBO(true, DEBUG,   "IF_SCRIBO(true, DEBUG, ...)");
+    IF_SCRIBO(true, METHOD,  "IF_SCRIBO(true, METHOD, ...)");
+    IF_SCRIBO(true, TRACE,   "IF_SCRIBO(true, TRACE, ...)");
+    
+    IF_SCRIBOF(true, "IF_SCRIBOF(true, ...)");
+    IF_SCRIBOE(true, "IF_SCRIBOE(true, ...)");
+    IF_SCRIBOW(true, "IF_SCRIBOW(true, ...)");
+    IF_SCRIBOL(true, "IF_SCRIBOL(true, ...)");
+    IF_SCRIBOI(true, "IF_SCRIBOI(true, ...)");
+    IF_SCRIBOD(true, "IF_SCRIBOD(true, ...)");
+    IF_SCRIBOM(true, "IF_SCRIBOM(true, ...)");
+    IF_SCRIBOT(true, "IF_SCRIBOT(true, ...)");
+    
+    IF_SCRIBO(false, INFO,   "Oops!");
+    IF_SCRIBO(true,  INFO,   "Okay.");
+    
+    IF_SCRIBO(true, INFO, "Et cetera");
+    IF_SCRIBO(true, INFO, );
+    IF_SCRIBO(true, INFO,);
+    IF_SCRIBO(true, INFO);
+    
+    IF_SCRIBOI(true, "Et cetera");
+    IF_SCRIBOI(true, );
+    IF_SCRIBOI(true,);
+    IF_SCRIBOI(true);
+    
+    IF_SCRIBO(true, TRACE);
+    IF_SCRIBO(true, );
+    IF_SCRIBO(true,);
+    IF_SCRIBO(true);
+    IF_SCRIBO();
+    
+    IF_SCRIBOT(true);
+    IF_SCRIBOT();
+    
+    SCRIBO(LOG, "`flob` --end--");
 }
 
 // End of file ---------------------------------------------------------------------------------------------------------

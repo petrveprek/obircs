@@ -1,0 +1,5 @@
+**/examples/*/main*
+**/examples/*/object/
+**/examples/*/project/.vs/
+**/examples/*/project/Debug/
+**/examples/*/project/Release/

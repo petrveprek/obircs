@@ -1,5 +1,5 @@
 APP     LOG     : Running main.exe
-FOO     LOG     : Foo...
+FOO     LOG     : `foo` --begin--
 FOO     INFO    : About to loop...
 FOO     INFO    : Loop 0
 FOO     DEBUG   : Loop 1
@@ -12,7 +12,8 @@ FOO     DEBUG   : Loop 7
 FOO     DEBUG   : Loop 8
 FOO     DEBUG   : Loop 9
 FOO     INFO    : ...done looping
-BAR     LOG     : Bar...
+FOO     LOG     : `foo` --end--
+BAR     LOG     : `bar` --begin--
 BAR     INFO    : About to loop...
 BAR     DEBUG   : Loop 0
 BAR     INFO    : bar(0)
@@ -35,7 +36,8 @@ BAR     INFO    : bar(8)
 BAR     DEBUG   : Loop 9
 BAR     INFO    : bar(9)
 BAR     INFO    : ...done looping
-BAZ     LOG     : Baz...
+BAR     LOG     : `bar` --end--
+BAZ     LOG     : `baz` --begin--
 BAZ     LOG     : Regular log messages with parameter:
 BAZ     FATAL   : Fatal blah...
 BAZ     ERROR   : Error blah...
@@ -72,7 +74,8 @@ BAZ     INFO    : Et cetera
 BAZ     DEBUG   : Eureka
 BAZ     METHOD  : doBaz
 BAZ     TRACE   : "source/baz.c" : 53
-QUX     LOG     : Qux...
+BAZ     LOG     : `baz` --end--
+QUX     LOG     : `qux` --begin--
 QUX     DEBUG   : Eureka
 QUX     DEBUG   : Eureka
 QUX     DEBUG   : None
@@ -118,7 +121,8 @@ QUX     DEBUG   : Seventeen 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17
 QUX     DEBUG   : Eighteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
 QUX     DEBUG   : Nineteen  1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
 QUX     DEBUG   : Twenty    1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-QUUX    LOG     : Quux...
+QUX     LOG     : `qux` --end--
+QUUX    LOG     : `quux` --begin--
 QUUX    DEBUG   : Auto-fill default verbosity:
 QUUX    TRACE   : "source/quux.c" : 31
 QUUX    DEBUG   : Auto-fill fatal, error, warning, log, info, and debug:
@@ -141,7 +145,8 @@ QUUX    DEBUG   : Eureka
 QUUX    DEBUG   : Auto-fill method and trace:
 QUUX    METHOD  : quux
 QUUX    TRACE   : "source/quux.c" : 23
-GENERIC LOG     : Fred...
+QUUX    LOG     : `quux` --end--
+GENERIC LOG     : `fred` --begin--
 GENERIC DEBUG   : Default category and auto-fill default verbosity:
 GENERIC TRACE   : "source/fred.c" : 16
 GENERIC INFO    : About to loop...
@@ -156,7 +161,9 @@ GENERIC DEBUG   : Loop 7
 GENERIC DEBUG   : Loop 8
 GENERIC DEBUG   : Loop 9
 GENERIC INFO    : ...done looping
-FLOB    LOG     : Flob...
+GENERIC LOG     : `fred` --end--
+FLOB    LOG     : `flob` --begin--
+FLOB    TRACE   : "source/flob.c" : 33
 FLOB    DEBUG   : data[0] = 0
 FLOB    DEBUG   : data[1] = 1
 FLOB    DEBUG   : data[2] = 1
@@ -168,4 +175,37 @@ FLOB    DEBUG   : data[7] = 13
 FLOB    DEBUG   : data[8] = 21
 FLOB    DEBUG   : data[9] = 34
 FLOB    LOG     : data[] xor checksum = 63
+FLOB    FATAL   : IF_SCRIBO(true, FATAL, ...)
+FLOB    ERROR   : IF_SCRIBO(true, ERROR, ...)
+FLOB    WARNING : IF_SCRIBO(true, WARNING, ...)
+FLOB    LOG     : IF_SCRIBO(true, LOG, ...)
+FLOB    INFO    : IF_SCRIBO(true, INFO, ...)
+FLOB    DEBUG   : IF_SCRIBO(true, DEBUG, ...)
+FLOB    METHOD  : IF_SCRIBO(true, METHOD, ...)
+FLOB    TRACE   : IF_SCRIBO(true, TRACE, ...)
+FLOB    FATAL   : IF_SCRIBOF(true, ...)
+FLOB    ERROR   : IF_SCRIBOE(true, ...)
+FLOB    WARNING : IF_SCRIBOW(true, ...)
+FLOB    LOG     : IF_SCRIBOL(true, ...)
+FLOB    INFO    : IF_SCRIBOI(true, ...)
+FLOB    DEBUG   : IF_SCRIBOD(true, ...)
+FLOB    METHOD  : IF_SCRIBOM(true, ...)
+FLOB    TRACE   : IF_SCRIBOT(true, ...)
+FLOB    INFO    : Okay.
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    TRACE   : "source/flob.c" : 67
+FLOB    TRACE   : "source/flob.c" : 68
+FLOB    TRACE   : "source/flob.c" : 69
+FLOB    TRACE   : "source/flob.c" : 70
+FLOB    TRACE   : "source/flob.c" : 71
+FLOB    TRACE   : "source/flob.c" : 73
+FLOB    TRACE   : "source/flob.c" : 74
+FLOB    LOG     : `flob` --end--
 APP     LOG     : The end

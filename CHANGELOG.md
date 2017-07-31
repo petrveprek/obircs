@@ -1,3 +1,12 @@
+# v1.5
+2017/07/31
+- Added IF_SCRIBO
+- Updated documentation
+- Improved examples
+- Upgraded MS VS projects from Express 2012 to Community 2017
+- Added .gitignore
+- Updated copyright info
+
 # v1.4
 2017/07/15
 - Added SCRIBO_SUPPRESS_HEADER

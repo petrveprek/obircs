@@ -26,6 +26,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
     * <sub>[Logging Setup](#logging-setup "Logging Setup")</sub>
     * <sub>[Logging Statements](#logging-statements "Logging Statements")</sub>
     * <sub>[Conditional Code Execution](#conditional-code-execution "Conditional Code Execution")</sub>
+    * <sub>[Conditional Logging Statements](#conditional-logging-statements "Conditional Logging Statements")</sub>
   * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
     * <sub>[Compile Time](#compile-time "Compile Time")</sub>
       * <sub>[Compile-Time Configuration Outline](#compile-time-configuration-outline "Compile-Time Configuration Outline")</sub>
@@ -38,6 +39,8 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
       * <sub>[Suppress *scribo* Log Message Termination and Flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* Log Message Termination and Flushing")</sub>
       * <sub>[Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages")</sub>
       * <sub>[Note on Conditional Code Execution](#note-on-conditional-code-execution "Note on Conditional Code Execution")</sub>
+      * <sub>[Note on Conditional Logging Statements](#note-on-conditional-logging-statements "Note on Conditional Logging Statements")</sub>
+      * <sub>[Recap of Default Values](#recap-of-default-values "Recap of Default Values")</sub>
 * [Copyright and License](#copyright-and-license "Copyright and License")
 
 ---
@@ -372,6 +375,29 @@ void process(int* data, unsigned count)
 }
 ```
 
+### Conditional Logging Statements
+
+`IF_SCRIBO` can be used to log values of expressions (including variables and function calls) not all the time but only
+when a certain condition is met.
+
+Conditional logging statements:
+```c
+IF_SCRIBO(<condition>, <verbosity>, "...", ...);
+```
+and
+```c
+IF_SCRIBO<v>(<condition>, "...", ...);
+```
+where `<condition>` is a boolean expression, `<verbosity>` and `<v>` specify the verbosity as described earlier and
+`"...", ...` is printf-style format and arguments. *scribo*-style log message is output only when expression
+`<condition>` evaluates to "true" (i.e. a non-zero value).
+
+Example:
+```c
+IF_SCRIBO(errorCode != 0, ERROR, "Error: code = %d", errorCode);
+IF_SCRIBOE(errorCode != 0, "Error: code = %d", errorCode);
+```
+
 ## How to Configure
 
 ### Compile Time
@@ -566,9 +592,23 @@ Conditional code execution (`EXEQUI`) does not have its own configuration settin
 log messages (`SCRIBO`). Conditional code execution can be enabled or disabled based on category, verbosity... together 
 with log messages for the same category, verbosity etc.
 
+#### Note on Conditional Logging Statements
+
+Conditional logging statements (`IF_SCRIBO`) do not have their own configuration settings. Rather, they follow
+configuration of unconditional logging statements (`SCRIBO`). Conditional logging statements can be enabled or disabled
+based on category, verbosity... together with log messages for the same category, verbosity etc.
+
+#### Recap of Default Values
+
+```
+SCRIBO()    --> <category> = GENERIRC, <verbosity> = TRACE                       --> Log message
+EXEQUI()    --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> No operation
+IF_SCRIBO() --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> Log message
+```
+
 ---
 # Copyright and License
 
-Copyright (c) 2015 Petr Vepřek
+Copyright (c) 2015, 2017 Petr Vepřek
 
 MIT License, see [`LICENSE`](./LICENSE) for further details.

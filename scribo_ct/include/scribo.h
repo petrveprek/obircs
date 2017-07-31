@@ -22,6 +22,13 @@
     defined(EXEQUII) || defined(EXEQUID) || defined(EXEQUIM) || defined(EXEQUIT)
 #   error "Macro EXEQUIF, EXEQUIE, EXEQUIW, EXEQUIL, EXEQUII, EXEQUID, EXEQUIM, or EXEQUIT is already defined!"
 #endif
+#if defined(IF_SCRIBO)
+#   error "Macro IF_SCRIBO is already defined!"
+#endif
+#if defined(IF_SCRIBOF) || defined(IF_SCRIBOE) || defined(IF_SCRIBOW) || defined(IF_SCRIBOL) || \
+    defined(IF_SCRIBOI) || defined(IF_SCRIBOD) || defined(IF_SCRIBOM) || defined(IF_SCRIBOT)
+#   error "Macro IF_SCRIBOF, IF_SCRIBOE, IF_SCRIBOW, IF_SCRIBOL, IF_SCRIBOI, IF_SCRIBOD, IF_SCRIBOM, or IF_SCRIBOT is already defined!"
+#endif
 
 // To scribo or not to scribo
 #if SCRIBO_DISABLE_ALL == 1
@@ -45,6 +52,15 @@
 #   define EXEQUID(...)
 #   define EXEQUIM(...)
 #   define EXEQUIT(...)
+#   define IF_SCRIBO(...)
+#   define IF_SCRIBOF(...)
+#   define IF_SCRIBOE(...)
+#   define IF_SCRIBOW(...)
+#   define IF_SCRIBOL(...)
+#   define IF_SCRIBOI(...)
+#   define IF_SCRIBOD(...)
+#   define IF_SCRIBOM(...)
+#   define IF_SCRIBOT(...)
     
 #else
     
@@ -163,6 +179,14 @@
 #   define EXEQUID(...) EXEQUI(DEBUG,   __VA_ARGS__)
 #   define EXEQUIM(...) EXEQUI(METHOD,  __VA_ARGS__)
 #   define EXEQUIT(...) EXEQUI(TRACE,   __VA_ARGS__)
+#   define IF_SCRIBOF(...) IF_SCRIBO_WITH_VERBOSITY(FATAL,   __VA_ARGS__)
+#   define IF_SCRIBOE(...) IF_SCRIBO_WITH_VERBOSITY(ERROR,   __VA_ARGS__)
+#   define IF_SCRIBOW(...) IF_SCRIBO_WITH_VERBOSITY(WARNING, __VA_ARGS__)
+#   define IF_SCRIBOL(...) IF_SCRIBO_WITH_VERBOSITY(LOG,     __VA_ARGS__)
+#   define IF_SCRIBOI(...) IF_SCRIBO_WITH_VERBOSITY(INFO,    __VA_ARGS__)
+#   define IF_SCRIBOD(...) IF_SCRIBO_WITH_VERBOSITY(DEBUG,   __VA_ARGS__)
+#   define IF_SCRIBOM(...) IF_SCRIBO_WITH_VERBOSITY(METHOD,  __VA_ARGS__)
+#   define IF_SCRIBOT(...) IF_SCRIBO_WITH_VERBOSITY(TRACE,   __VA_ARGS__)
     
     // Define general helpers
 #   define SCRIBO_EXPAND_1(_1) _1
@@ -326,6 +350,11 @@
 #       define __func__ __FUNCTION__
 #   endif
     
+    // Setup default condition
+#   define SCRIBO_TRUE 1
+#   define SCRIBO_DEFAULT_CONDITION_0
+#   define SCRIBO_DEFAULT_CONDITION_1 SCRIBO_TRUE
+    
     // Prepare scribo parameters
 #   define SCRIBO(...) SCRIBO_EXPAND_1(SCRIBO_LOOKUP_ARGUMENTS( \
         SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__))__VA_ARGS__))
@@ -352,6 +381,21 @@
         __VA_ARGS__)
 #   define EXEQUI_LOOK_UP_CONFIGURATION(DISABLE_CATEGORY, DISABLE_VERBOSITY, ENABLE_COMBO, ...) \
         EXEQUI_CONFIGURE_ ## DISABLE_CATEGORY ## _ ## DISABLE_VERBOSITY ## _ ## ENABLE_COMBO(__VA_ARGS__)
+#   define IF_SCRIBO(...) SCRIBO_EXPAND_1(IF_SCRIBO_WITH_CONDITION( \
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_CONDITION_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__)) \
+        __VA_ARGS__))
+#   define IF_SCRIBO_WITH_CONDITION(CONDITION, ...) SCRIBO_EXPAND_1(IF_SCRIBO_WITH_CONDITION_WITH_VERBOSITY( \
+        CONDITION, \
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_VERBOSITY_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__)) \
+        __VA_ARGS__))
+#   define IF_SCRIBO_WITH_CONDITION_WITH_VERBOSITY(CONDITION, VERBOSITY, ...) \
+        EXEQUI(VERBOSITY, if (CONDITION) { SCRIBO(VERBOSITY, __VA_ARGS__); })
+#   define IF_SCRIBO_WITH_VERBOSITY(VERBOSITY, ...) SCRIBO_EXPAND_1(IF_SCRIBO_WITH_VERBOSITY_WITH_CONDITION( \
+        VERBOSITY, \
+        SCRIBO_INVOKE_2(SCRIBO_PASTE_2, SCRIBO_DEFAULT_CONDITION_, SCRIBO_GET_IS_EMPTY(__VA_ARGS__)) \
+        __VA_ARGS__))
+#   define IF_SCRIBO_WITH_VERBOSITY_WITH_CONDITION(VERBOSITY, CONDITION, ...) \
+        EXEQUI(VERBOSITY, if (CONDITION) { SCRIBO(VERBOSITY, __VA_ARGS__); })
     
     // Enable or disable scribo
 #   define SCRIBO_CONFIGURE_1_0_0(...) // Category disabled, no combo override
