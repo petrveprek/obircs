@@ -42,6 +42,15 @@ void doFlob()
     IF_SCRIBO(true, METHOD,  "IF_SCRIBO(true, METHOD, ...)");
     IF_SCRIBO(true, TRACE,   "IF_SCRIBO(true, TRACE, ...)");
     
+    IF_SCRIBOF(true, "IF_SCRIBOF(true, ...)");
+    IF_SCRIBOE(true, "IF_SCRIBOE(true, ...)");
+    IF_SCRIBOW(true, "IF_SCRIBOW(true, ...)");
+    IF_SCRIBOL(true, "IF_SCRIBOL(true, ...)");
+    IF_SCRIBOI(true, "IF_SCRIBOI(true, ...)");
+    IF_SCRIBOD(true, "IF_SCRIBOD(true, ...)");
+    IF_SCRIBOM(true, "IF_SCRIBOM(true, ...)");
+    IF_SCRIBOT(true, "IF_SCRIBOT(true, ...)");
+    
     IF_SCRIBO(false, INFO,   "Oops!");
     IF_SCRIBO(true,  INFO,   "Okay.");
     
@@ -50,11 +59,19 @@ void doFlob()
     IF_SCRIBO(true, INFO,);
     IF_SCRIBO(true, INFO);
     
+    IF_SCRIBOI(true, "Et cetera");
+    IF_SCRIBOI(true, );
+    IF_SCRIBOI(true,);
+    IF_SCRIBOI(true);
+    
     IF_SCRIBO(true, TRACE);
     IF_SCRIBO(true, );
     IF_SCRIBO(true,);
     IF_SCRIBO(true);
     IF_SCRIBO();
+    
+    IF_SCRIBOT(true);
+    IF_SCRIBOT();
     
     SCRIBO(LOG, "`flob` --end--");
 }

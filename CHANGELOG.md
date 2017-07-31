@@ -1,5 +1,5 @@
 # v1.5
-2017/07/30
+2017/07/31
 - Added IF_SCRIBO
 - Updated documentation
 - Improved examples
