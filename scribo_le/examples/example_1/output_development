@@ -183,15 +183,29 @@ FLOB    INFO    : IF_SCRIBO(true, INFO, ...)
 FLOB    DEBUG   : IF_SCRIBO(true, DEBUG, ...)
 FLOB    METHOD  : IF_SCRIBO(true, METHOD, ...)
 FLOB    TRACE   : IF_SCRIBO(true, TRACE, ...)
+FLOB    FATAL   : IF_SCRIBOF(true, ...)
+FLOB    ERROR   : IF_SCRIBOE(true, ...)
+FLOB    WARNING : IF_SCRIBOW(true, ...)
+FLOB    LOG     : IF_SCRIBOL(true, ...)
+FLOB    INFO    : IF_SCRIBOI(true, ...)
+FLOB    DEBUG   : IF_SCRIBOD(true, ...)
+FLOB    METHOD  : IF_SCRIBOM(true, ...)
+FLOB    TRACE   : IF_SCRIBOT(true, ...)
 FLOB    INFO    : Okay.
 FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
-FLOB    TRACE   : "source/flob.c" : 53
-FLOB    TRACE   : "source/flob.c" : 54
-FLOB    TRACE   : "source/flob.c" : 55
-FLOB    TRACE   : "source/flob.c" : 56
-FLOB    TRACE   : "source/flob.c" : 57
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    TRACE   : "source/flob.c" : 67
+FLOB    TRACE   : "source/flob.c" : 68
+FLOB    TRACE   : "source/flob.c" : 69
+FLOB    TRACE   : "source/flob.c" : 70
+FLOB    TRACE   : "source/flob.c" : 71
+FLOB    TRACE   : "source/flob.c" : 73
+FLOB    TRACE   : "source/flob.c" : 74
 FLOB    LOG     : `flob` --end--
 APP     LOG     : The end

@@ -66,7 +66,16 @@ FLOB    ERROR   : IF_SCRIBO(true, ERROR, ...)
 FLOB    WARNING : IF_SCRIBO(true, WARNING, ...)
 FLOB    LOG     : IF_SCRIBO(true, LOG, ...)
 FLOB    INFO    : IF_SCRIBO(true, INFO, ...)
+FLOB    FATAL   : IF_SCRIBOF(true, ...)
+FLOB    ERROR   : IF_SCRIBOE(true, ...)
+FLOB    WARNING : IF_SCRIBOW(true, ...)
+FLOB    LOG     : IF_SCRIBOL(true, ...)
+FLOB    INFO    : IF_SCRIBOI(true, ...)
 FLOB    INFO    : Okay.
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
+FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
 FLOB    INFO    : Et cetera
