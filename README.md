@@ -1,10 +1,10 @@
-# Welcome to *scribo*
+# Welcome to *obircs*
 
-__*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
+__*obircs*__ /'skri:.bo:/ Latin *verb* write; compose
 
-*scribo* -- simple and flexible logging system suitable for embedded C and C++ applications.
+*obircs* -- simple and flexible logging system suitable for embedded C and C++ applications.
 
-| [Welcome](#welcome-to-scribo "Welcome to *scribo*") 
+| [Welcome](#welcome-to-obircs "Welcome to *obircs*") 
 | [Contents](#table-of-contents "Table of Contents") 
 | [Overview](#quick-overview "Quick Overview") 
 | [Editions](#available-editions "Available Editions") 
@@ -15,7 +15,7 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 ---
 # Table of Contents
 
-* [Welcome to *scribo*](#welcome-to-scribo "Welcome to *scribo*")
+* [Welcome to *obircs*](#welcome-to-obircs "Welcome to *obircs*")
 * [Table of Contents](#table-of-contents "Table of Contents")
 * [Quick Overview](#quick-overview "Quick Overview")
 * [Available Editions](#available-editions "Available Editions")
@@ -30,14 +30,14 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
   * <sub>[How to Configure](#how-to-configure "How to Configure")</sub>
     * <sub>[Compile Time](#compile-time "Compile Time")</sub>
       * <sub>[Compile-Time Configuration Outline](#compile-time-configuration-outline "Compile-Time Configuration Outline")</sub>
-      * <sub>[Disable All *scribo* Logging](#disable-all-scribo-logging "Disable All *scribo* Logging")</sub>
-      * <sub>[Disable *scribo* Logging for a Category](#disable-scribo-logging-for-a-category "Disable *scribo* Logging for a Category")</sub>
-      * <sub>[Disable *scribo* Logging for a Verbosity](#disable-scribo-logging-for-a-verbosity "Disable *scribo* Logging for a Verbosity")</sub>
-      * <sub>[Enable *scribo* Logging for a Combination of a Category and a Verbosity](#enable-scribo-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *scribo* Logging for a Combination of a Category and a Verbosity")</sub>
-      * <sub>[Suppress Parts of *scribo* Log Message Header](#suppress-parts-of-scribo-log-message-header "Suppress Parts of *scribo* Log Message Header")</sub>
-      * <sub>[Suppress Auto-Filling of *scribo* Log Message Text](#suppress-auto-filling-of-scribo-log-message-text "Suppress Auto-Filling of *scribo* Log Message text")</sub>
-      * <sub>[Suppress *scribo* Log Message Termination and Flushing](#suppress-scribo-log-message-termination-and-flushing "Suppress *scribo* Log Message Termination and Flushing")</sub>
-      * <sub>[Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages](#provide-custom-sink-for-and-specify-maximum-length-of-scribo-log-messages "Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages")</sub>
+      * <sub>[Disable All *obircs* Logging](#disable-all-obircs-logging "Disable All *obircs* Logging")</sub>
+      * <sub>[Disable *obircs* Logging for a Category](#disable-obircs-logging-for-a-category "Disable *obircs* Logging for a Category")</sub>
+      * <sub>[Disable *obircs* Logging for a Verbosity](#disable-obircs-logging-for-a-verbosity "Disable *obircs* Logging for a Verbosity")</sub>
+      * <sub>[Enable *obircs* Logging for a Combination of a Category and a Verbosity](#enable-obircs-logging-for-a-combination-of-a-category-and-a-verbosity "Enable *obircs* Logging for a Combination of a Category and a Verbosity")</sub>
+      * <sub>[Suppress Parts of *obircs* Log Message Header](#suppress-parts-of-obircs-log-message-header "Suppress Parts of *obircs* Log Message Header")</sub>
+      * <sub>[Suppress Auto-Filling of *obircs* Log Message Text](#suppress-auto-filling-of-obircs-log-message-text "Suppress Auto-Filling of *obircs* Log Message text")</sub>
+      * <sub>[Suppress *obircs* Log Message Termination and Flushing](#suppress-obircs-log-message-termination-and-flushing "Suppress *obircs* Log Message Termination and Flushing")</sub>
+      * <sub>[Provide Custom Sink for and Specify Maximum Length of *obircs* Log Messages](#provide-custom-sink-for-and-specify-maximum-length-of-obircs-log-messages "Provide Custom Sink for and Specify Maximum Length of *obircs* Log Messages")</sub>
       * <sub>[Note on Conditional Code Execution](#note-on-conditional-code-execution "Note on Conditional Code Execution")</sub>
       * <sub>[Note on Conditional Logging Statements](#note-on-conditional-logging-statements "Note on Conditional Logging Statements")</sub>
       * <sub>[Recap of Default Values](#recap-of-default-values "Recap of Default Values")</sub>
@@ -46,10 +46,10 @@ __*scribo*__ /'skri:.bo:/ Latin *verb* write; compose
 ---
 # Quick Overview
 
-*scribo* is simple and flexible logging system suitable for embedded C and C++ applications.
+*obircs* is simple and flexible logging system suitable for embedded C and C++ applications.
 
-Each *scribo* log message is characterized by its (optional) category and (optional) verbosity. To generate message 
-text itself, *scribo* uses the same style as printf function i.e. `format, ...` with two additions. The first addition 
+Each *obircs* log message is characterized by its (optional) category and (optional) verbosity. To generate message 
+text itself, *obircs* uses the same style as printf function i.e. `format, ...` with two additions. The first addition 
 is that the `format` may be omitted. In this case, only log message header (optionally followed by default message text) 
 is output. The second addition is that newline (`'\n'`) is automatically appended at the end of each log message. 
 **Category** is user-defined per-source-file (i.e. per translation a.k.a. compilation unit) string (see 
@@ -58,21 +58,21 @@ default category `GENERIC` is used. There are eight levels of **verbosity** (fro
 `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, `METHOD`, and `TRACE`. Verbosity is also optional and, when not 
 specified, the default `TRACE` verbosity is used.
 
-Below is a simple example of basic *scribo* usage.
+Below is a simple example of basic *obircs* usage.
 
 **First** add logging to your source code:
 ```c
 // foo.c
 
-#define SCRIBO_CATEGORY FOOER
-#include <scribo.h>
+#define OBIRCS_CATEGORY FOOER
+#include <obircs.h>
 
 void doFoo()
 {
-    SCRIBO(LOG, "Executing doFoo()");     // Enabled in both production and development builds (see scribo.cfg below)
+    OBIRCS(LOG, "Executing doFoo()");     // Enabled in both production and development builds (see obircs.cfg below)
     for (int i = 0; i < 4; i++)
     {
-        SCRIBO(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug) (see scribo.cfg below)
+        OBIRCS(DEBUG, "Iteration %d", i); // Disabled in production (verbosity >= debug) (see obircs.cfg below)
     }
 }
 ```
@@ -80,22 +80,22 @@ void doFoo()
 ```c
 // bar.c
 
-#include <scribo.h>
+#include <obircs.h>
 
 void doBar()
 {
-    SCRIBO(LOG, "Executing doBar()");     // Disabled in production (category == generic) (see scribo.cfg below)
+    OBIRCS(LOG, "Executing doBar()");     // Disabled in production (category == generic) (see obircs.cfg below)
 }
 ```
 
 **Then** specify target configuration:
 ```c
-// scribo.cfg
+// obircs.cfg
 
 #if defined(PRODUCTION) || !defined(DEVELOPMENT)
     // Production (disable excessive logging)
-#   define SCRIBO_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
-#   define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
+#   define OBIRCS_DISABLE_CATEGORY_GENERIC 1    // No logging for unspecified category
+#   define OBIRCS_DISABLE_VERBOSITY_DEBUG_ETC 1 // No logging for debugging or more verbose
 #else
     // Development (enable all logging)
 #endif
@@ -124,14 +124,14 @@ app_prod
 ---
 # Available Editions
 
-*scribo* is available in two editions: **compile time** (`ct`) and **light edition** (`le`). *scribo ct* provides 
-numerous configuration options that can be used to customize *scribo* log message generation (see 
-[Specification](#detailed-specification) below for full details). *scribo le* is a cut-down edition that supports 
+*obircs* is available in two editions: **compile time** (`ct`) and **light edition** (`le`). *obircs ct* provides 
+numerous configuration options that can be used to customize *obircs* log message generation (see 
+[Specification](#detailed-specification) below for full details). *obircs le* is a cut-down edition that supports 
 essential configuration options only.
 
-Comparison of *scribo* editions:
+Comparison of *obircs* editions:
 
-Feature | *scribo le* | *scribo ct* | Notes
+Feature | *obircs le* | *obircs ct* | Notes
 :--|:--:|:--:|:--
 <sub>Default category</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`GENERIC`</sub>
 <sub>Default verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>`TRACE`</sub>
@@ -141,20 +141,20 @@ Feature | *scribo le* | *scribo ct* | Notes
 <sub>Message header - verbosity</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>2015-11-13 21:35:16 #0000000075 QUX     **DEBUG**   : Eureka</sub>
 <sub>Message text - auto-fill</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>See [Specification](#detailed-specification)</sub>
 <sub>Custom message sink</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>void **callback**(const char*)</sub>
-<sub>Implementation - scribo.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
-<sub>Implementation - scribo.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
+<sub>Implementation - obircs.h</sub> | <sub>Yes</sub> | <sub>Yes</sub> | <sub>-</sub>
+<sub>Implementation - obircs.c</sub> | <sub>No</sub> | <sub>Yes</sub> | <sub>-</sub>
 
 ---
 # Installation and Setup
 
-First, download the latest *scribo* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
-the available editions of *scribo* (either `ct` or `le`) to use.
+First, download the latest *obircs* release (either `.zip` or `.tar.gz`), unpack the downloaded file, and choose one of 
+the available editions of *obircs* (either `ct` or `le`) to use.
 
-Then, add *scribo* header (`scribo.h`), configuration (`scribo.cfg`), and, if any, implementation (`scribo.c`) files 
-(from `include` and `source` directories of the chosen *scribo* edition respectively) to your project. Either copy the 
-files to your project directories or add *scribo*'s `include` and `source` locations to your project settings.
+Then, add *obircs* header (`obircs.h`), configuration (`obircs.cfg`), and, if any, implementation (`obircs.c`) files 
+(from `include` and `source` directories of the chosen *obircs* edition respectively) to your project. Either copy the 
+files to your project directories or add *obircs*'s `include` and `source` locations to your project settings.
 
-Finally, customize the provided configuration file according to your needs. Note that alternatively, *scribo* can also 
+Finally, customize the provided configuration file according to your needs. Note that alternatively, *obircs* can also 
 be configured via command-line toolchain options.
 
 ---
@@ -164,48 +164,48 @@ be configured via command-line toolchain options.
 
 ### Use Outline
 
-In each source file where run-time logging is needed: first (optionally) define logging category and include *scribo* 
+In each source file where run-time logging is needed: first (optionally) define logging category and include *obircs* 
 header, and then add logging statements as illustrated below.
 
 Example (minimalistic):
 ```c
-#include <scribo.h>
+#include <obircs.h>
 int main(int argc, char* argv[])
 {
-    SCRIBO();
+    OBIRCS();
     return 0;
 }
 ```
-In this case *scribo* will use default category `GENERIC` and default verbosity `TRACE`, and it generate default message 
+In this case *obircs* will use default category `GENERIC` and default verbosity `TRACE`, and it generate default message 
 text. Log message similar to `2015-05-31 16:22:39 #0000000000 GENERIC TRACE   : "App.c" : 4` will be output.
 
 Example (realistic):
 ```c
-#define SCRIBO_CATEGORY APP
-#include <scribo.h>
+#define OBIRCS_CATEGORY APP
+#include <obircs.h>
 int main(int argc, char* argv[])
 {
-    SCRIBO(LOG, "Executable %s (%d parameters)", argv[0], argc);
+    OBIRCS(LOG, "Executable %s (%d parameters)", argv[0], argc);
     return 0;
 }
 ```
-Here *scribo* will output log message similar to 
+Here *obircs* will output log message similar to 
 `2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable App.exe (1 parameters)`.
 
 ### Logging Setup
 
-First specify (optional) logging category (`SCRIBO_CATEGORY`) and include `scribo.h` in your source file(s).
+First specify (optional) logging category (`OBIRCS_CATEGORY`) and include `obircs.h` in your source file(s).
 
 Category can be specified as follows:
 ```c
-#define SCRIBO_CATEGORY <category>
+#define OBIRCS_CATEGORY <category>
 ```
 where `<category>` must a valid preprocessor token, more specifically a valid identifier (`[_a-zA-Z][_a-zA-Z0-9]*`).
 
 Example:
 ```c
-#define SCRIBO_CATEGORY APP
-#include <scribo.h>
+#define OBIRCS_CATEGORY APP
+#include <obircs.h>
 ```
 
 Category is specified per source file, more precisely per translation (a.k.a. compilation) unit. So every unit can have 
@@ -217,7 +217,7 @@ If you don't specify category, then `GENERIC` will be used as the default catego
 
 Then output log messages using:
 ```c
-SCRIBO(<verbosity>, "...", ...);
+OBIRCS(<verbosity>, "...", ...);
 ```
 where `<verbosity>` is one of predefined verbosities and `"...", ...` is printf-style format and arguments.
 
@@ -235,11 +235,11 @@ Above, following each verbosity value, is its intended usage.
 
 If you don't specify  verbosity, then `TRACE` will be used as the default verbosity.
 
-The maximum number of arguments following the format is **limited** by *scribo* to twenty (20).
+The maximum number of arguments following the format is **limited** by *obircs* to twenty (20).
 
-Unlike printf, *scribo* does **not** require format (and arguments). If format is not specified, then *scribo* by 
+Unlike printf, *obircs* does **not** require format (and arguments). If format is not specified, then *obircs* by 
 default auto-fills message text with predefined value or it leaves the text blank and outputs log message header only. 
-Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities because *scribo* can automatically 
+Auto-filling message text is useful particularly for `METHOD` and `TRACE` verbosities because *obircs* can automatically 
 inject the current function name or filename and line number respectively.
 
 Following is a list of predefined values used to auto-fill log message text for each verbosity value:
@@ -255,12 +255,12 @@ Following is a list of predefined values used to auto-fill log message text for 
 where `<__func__>`, `<__FILE__>`, and `<__LINE__>` are standard preprocessor macros (angle brackets `< >` are used to 
 denote each macro).
 
-Note that *scribo* by default automatically appends newline (`'\n'`) at the end of each and every log message. This 
+Note that *obircs* by default automatically appends newline (`'\n'`) at the end of each and every log message. This 
 feature can be disabled.
 
-Format of *scribo* logging can be abbreviated to:
+Format of *obircs* logging can be abbreviated to:
 ```c
-SCRIBO<v>("...", ...);
+OBIRCS<v>("...", ...);
 ```
 where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `F` for `FATAL`
@@ -272,74 +272,74 @@ where `<v>` is abbreviation of one of predefined verbosities as follows:
 - `M` for `METHOD`
 - `T` for `TRACE`
 
-Abbreviated form of *scribo* logging can also have its message text auto-filled.  Hence conveniently, 
-`SCRIBOM();` (or `SCRIBO(METHOD);`) can be used to output a log message similar to 
-`2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and `SCRIBOT();` (or `SCRIBO(TRACE);` or simply `SCRIBO();`) 
+Abbreviated form of *obircs* logging can also have its message text auto-filled.  Hence conveniently, 
+`OBIRCSM();` (or `OBIRCS(METHOD);`) can be used to output a log message similar to 
+`2015-09-21 21:39:13 #0000000072 BAZ     METHOD  : doBaz` and `OBIRCST();` (or `OBIRCS(TRACE);` or simply `OBIRCS();`) 
 to get a message like `2015-09-21 21:39:13 #0000000073 BAZ     TRACE   : "source/baz.c" : 53`.
 
 Examples:
 ```c
 // Auto-filled log message text or log message header only - default verbosity
-SCRIBO();
+OBIRCS();
 // Auto-filled log message text or log message header only - normal form
-SCRIBO(FATAL);
-SCRIBO(ERROR);
-SCRIBO(WARNING);
-SCRIBO(LOG);
-SCRIBO(INFO);
-SCRIBO(DEBUG);
-SCRIBO(METHOD);
-SCRIBO(TRACE);
+OBIRCS(FATAL);
+OBIRCS(ERROR);
+OBIRCS(WARNING);
+OBIRCS(LOG);
+OBIRCS(INFO);
+OBIRCS(DEBUG);
+OBIRCS(METHOD);
+OBIRCS(TRACE);
 // Auto-filled log message text or log message header only - shorthand form
-SCRIBOF();
-SCRIBOE();
-SCRIBOW();
-SCRIBOL();
-SCRIBOI();
-SCRIBOD();
-SCRIBOM();
-SCRIBOT();
+OBIRCSF();
+OBIRCSE();
+OBIRCSW();
+OBIRCSL();
+OBIRCSI();
+OBIRCSD();
+OBIRCSM();
+OBIRCST();
 // Log message with format - normal form
-SCRIBO(FATAL, "Hello");
-SCRIBO(ERROR, "Hello");
-SCRIBO(WARNING, "Hello");
-SCRIBO(LOG, "Hello");
-SCRIBO(INFO, "Hello");
-SCRIBO(DEBUG, "Hello");
-SCRIBO(METHOD, "Hello");
-SCRIBO(TRACE, "Hello");
+OBIRCS(FATAL, "Hello");
+OBIRCS(ERROR, "Hello");
+OBIRCS(WARNING, "Hello");
+OBIRCS(LOG, "Hello");
+OBIRCS(INFO, "Hello");
+OBIRCS(DEBUG, "Hello");
+OBIRCS(METHOD, "Hello");
+OBIRCS(TRACE, "Hello");
 // Log message with format - shorthand form
-SCRIBOF("Hello");
-SCRIBOE("Hello");
-SCRIBOW("Hello");
-SCRIBOL("Hello");
-SCRIBOI("Hello");
-SCRIBOD("Hello");
-SCRIBOM("Hello");
-SCRIBOT("Hello");
+OBIRCSF("Hello");
+OBIRCSE("Hello");
+OBIRCSW("Hello");
+OBIRCSL("Hello");
+OBIRCSI("Hello");
+OBIRCSD("Hello");
+OBIRCSM("Hello");
+OBIRCST("Hello");
 // Log message with format and arguments - normal form
-SCRIBO(FATAL, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(ERROR, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(WARNING, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(LOG, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(INFO, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(DEBUG, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(METHOD, "%d + %d equals %d", 1, 1, 2);
-SCRIBO(TRACE, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(FATAL, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(ERROR, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(WARNING, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(LOG, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(INFO, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(DEBUG, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(METHOD, "%d + %d equals %d", 1, 1, 2);
+OBIRCS(TRACE, "%d + %d equals %d", 1, 1, 2);
 // Log message with format and arguments - shorthand form
-SCRIBOF("%d + %d equals %d", 1, 1, 2);
-SCRIBOE("%d + %d equals %d", 1, 1, 2);
-SCRIBOW("%d + %d equals %d", 1, 1, 2);
-SCRIBOL("%d + %d equals %d", 1, 1, 2);
-SCRIBOI("%d + %d equals %d", 1, 1, 2);
-SCRIBOD("%d + %d equals %d", 1, 1, 2);
-SCRIBOM("%d + %d equals %d", 1, 1, 2);
-SCRIBOT("%d + %d equals %d", 1, 1, 2);
+OBIRCSF("%d + %d equals %d", 1, 1, 2);
+OBIRCSE("%d + %d equals %d", 1, 1, 2);
+OBIRCSW("%d + %d equals %d", 1, 1, 2);
+OBIRCSL("%d + %d equals %d", 1, 1, 2);
+OBIRCSI("%d + %d equals %d", 1, 1, 2);
+OBIRCSD("%d + %d equals %d", 1, 1, 2);
+OBIRCSM("%d + %d equals %d", 1, 1, 2);
+OBIRCST("%d + %d equals %d", 1, 1, 2);
 ```
 
 ### Conditional Code Execution
 
-`SCRIBO` can be used to log values of expressions (including variables and function calls).
+`OBIRCS` can be used to log values of expressions (including variables and function calls).
 However, sometimes it is necessary to output these values from within a loop.
 Other times, data computation prior to logging is needed.
 `EXEQUI` can be used to conditionally execute statements needed for the logging as follows.
@@ -366,10 +366,10 @@ void process(int* data, unsigned count)
         int hash = 0;
         for (i = 0; i < count; i++)
         {
-            SCRIBO(DEBUG, "data[%d] = %d", i, data[i]);
+            OBIRCS(DEBUG, "data[%d] = %d", i, data[i]);
             hash ^= data[i];
         }
-        SCRIBO(LOG, "data[] xor checksum = %d", hash);
+        OBIRCS(LOG, "data[] xor checksum = %d", hash);
     );
     // ...
 }
@@ -377,25 +377,25 @@ void process(int* data, unsigned count)
 
 ### Conditional Logging Statements
 
-`IF_SCRIBO` can be used to log values of expressions (including variables and function calls) not all the time but only
+`IF_OBIRCS` can be used to log values of expressions (including variables and function calls) not all the time but only
 when a certain condition is met.
 
 Conditional logging statements:
 ```c
-IF_SCRIBO(<condition>, <verbosity>, "...", ...);
+IF_OBIRCS(<condition>, <verbosity>, "...", ...);
 ```
 and
 ```c
-IF_SCRIBO<v>(<condition>, "...", ...);
+IF_OBIRCS<v>(<condition>, "...", ...);
 ```
 where `<condition>` is a boolean expression, `<verbosity>` and `<v>` specify the verbosity as described earlier and
-`"...", ...` is printf-style format and arguments. *scribo*-style log message is output only when expression
+`"...", ...` is printf-style format and arguments. *obircs*-style log message is output only when expression
 `<condition>` evaluates to "true" (i.e. a non-zero value).
 
 Example:
 ```c
-IF_SCRIBO(errorCode != 0, ERROR, "Error: code = %d", errorCode);
-IF_SCRIBOE(errorCode != 0, "Error: code = %d", errorCode);
+IF_OBIRCS(errorCode != 0, ERROR, "Error: code = %d", errorCode);
+IF_OBIRCSE(errorCode != 0, "Error: code = %d", errorCode);
 ```
 
 ## How to Configure
@@ -404,206 +404,206 @@ IF_SCRIBOE(errorCode != 0, "Error: code = %d", errorCode);
 
 #### Compile-Time Configuration Outline
 
-At compile time, *scribo* logging can be configured. All logging or logging for selected categories and verbosities can 
+At compile time, *obircs* logging can be configured. All logging or logging for selected categories and verbosities can 
 be disabled. When disabled, the logging is completely removed (by the preprocessor) and has **zero run-time overhead** 
 (i.e. it uses no memory space and consumes no computational cycles). This allows for different types of logging to be 
 present in the codebase on permanent basis. When building software, development version can have detailed logging 
-present, while production version can be less verbose. Configuration of *scribo* is controlled through a set of 
+present, while production version can be less verbose. Configuration of *obircs* is controlled through a set of 
 hash-defines. The defines can be provided during build time as command-line toolchain option (usually either `-D <name>` 
-or `/D <name>`), or the defines can be kept in a configuration file (`scribo.cfg` as `#define <name> 1`).
+or `/D <name>`), or the defines can be kept in a configuration file (`obircs.cfg` as `#define <name> 1`).
 
-Note that for a *scribo* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
+Note that for a *obircs* configuration option to be recognized as active, it must have value of `1`. Value `1` of an 
 option is treated as "enabled", any other value (including not being defined at all) is treated as "disabled".
 
-Examples (`scribo.cfg`):
+Examples (`obircs.cfg`):
 
-Disable all *scribo* logging:
+Disable all *obircs* logging:
 ```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+#define OBIRCS_DISABLE_ALL 1 // Completely disable all obircs logging
 ```
 
-Disable *scribo* logging for category `GENERIC`:
+Disable *obircs* logging for category `GENERIC`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
+#define OBIRCS_DISABLE_CATEGORY_GENERIC 1 // Disable obircs logging for category 'GENERIC' (all verbosities)
 ```
 
-Disable *scribo* logging for verbosities `METHOD` and `TRACE`:
+Disable *obircs* logging for verbosities `METHOD` and `TRACE`:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_METHOD 1 // Disable scribo logging for verbosity 'METHOD' (all categories)
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_METHOD 1 // Disable obircs logging for verbosity 'METHOD' (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_TRACE 1 // Disable obircs logging for verbosity 'TRACE' (all categories)
 ```
 
-Disable *scribo* logging for category `GENERIC` and *scribo* logging for verbosities `DEBUG`, `METHOD`, and 
-`TRACE`; enable *scribo* logging for combination of category `APP` and verbosity `DEBUG`:
+Disable *obircs* logging for category `GENERIC` and *obircs* logging for verbosities `DEBUG`, `METHOD`, and 
+`TRACE`; enable *obircs* logging for combination of category `APP` and verbosity `DEBUG`:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_GENERIC 1 // Disable scribo logging for category 'GENERIC' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
-#define SCRIBO_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'APP' with verbosity 'DEBUG'
+#define OBIRCS_DISABLE_CATEGORY_GENERIC 1 // Disable obircs logging for category 'GENERIC' (all verbosities)
+#define OBIRCS_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable obircs logging for verbosity 'DEBUG' and more verbose i.e. 'METHOD' and 'TRACE' (all categories)
+#define OBIRCS_ENABLE_CATEGORY_APP_VERBOSITY_DEBUG 1 // Enable obircs logging for combination of category 'APP' with verbosity 'DEBUG'
 ```
 
-#### Disable All *scribo* Logging
+#### Disable All *obircs* Logging
 
 ```c
-#define SCRIBO_DISABLE_ALL 1 // Completely disable all scribo logging
+#define OBIRCS_DISABLE_ALL 1 // Completely disable all obircs logging
 ```
 
-#### Disable *scribo* Logging for a Category
+#### Disable *obircs* Logging for a Category
 
 ```c
-#define SCRIBO_DISABLE_CATEGORY_<category> 1 // Disable scribo logging for category <category> (all verbosities)
+#define OBIRCS_DISABLE_CATEGORY_<category> 1 // Disable obircs logging for category <category> (all verbosities)
 ```
-where `<category>` is the category specified in `#define SCRIBO_CATEGORY <category>`, or `GENERIC` (when category was 
+where `<category>` is the category specified in `#define OBIRCS_CATEGORY <category>`, or `GENERIC` (when category was 
 not specified).
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_THIS_MODULE 1 // Disable scribo logging for category 'THIS_MODULE' (all verbosities)
-#define SCRIBO_DISABLE_CATEGORY_THAT_MODULE 1 // Disable scribo logging for category 'THAT_MODULE' (all verbosities)
+#define OBIRCS_DISABLE_CATEGORY_THIS_MODULE 1 // Disable obircs logging for category 'THIS_MODULE' (all verbosities)
+#define OBIRCS_DISABLE_CATEGORY_THAT_MODULE 1 // Disable obircs logging for category 'THAT_MODULE' (all verbosities)
 ```
 
-#### Disable *scribo* Logging for a Verbosity
+#### Disable *obircs* Logging for a Verbosity
 
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_<verbosity> 1 // Disable scribo logging for verbosity <verbosity> (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_<verbosity> 1 // Disable obircs logging for verbosity <verbosity> (all categories)
 ```
 where `<verbosity>` is one of the predefined verbosities i.e. `FATAL`, `ERROR`, `WARNING`, `LOG`, `INFO`, `DEBUG`, 
 `METHOD`, or `TRACE`.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_TRACE 1 // Disable scribo logging for verbosity 'TRACE' (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_TRACE 1 // Disable obircs logging for verbosity 'TRACE' (all categories)
 ```
 
-Apart from disabling individual verbosities one by one, *scribo* provides shorthand form to disable a verbosity and all 
+Apart from disabling individual verbosities one by one, *obircs* provides shorthand form to disable a verbosity and all 
 more verbose ones using single configuration option.
 
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable scribo logging for verbosity <verbosity> and all more verbose ones (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_<verbosity>_ETC 1 // Disable obircs logging for verbosity <verbosity> and all more verbose ones (all categories)
 ```
 
 Example:
 ```c
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
+#define OBIRCS_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable obircs logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
 ```
 
-#### Enable *scribo* Logging for a Combination of a Category and a Verbosity
+#### Enable *obircs* Logging for a Combination of a Category and a Verbosity
 
-Finally, *scribo* provides configuration option to enable logging for a combination of a category and a verbosity. This 
+Finally, *obircs* provides configuration option to enable logging for a combination of a category and a verbosity. This 
 is useful as an override together with the above two options that disable categories and verbosities.
 
 ```c
-#define SCRIBO_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable scribo logging for combination of category <category> and verbosity <verbosity>
+#define OBIRCS_ENABLE_CATEGORY_<category>_VERBOSITY_<verbosity> 1 // Enable obircs logging for combination of category <category> and verbosity <verbosity>
 ```
 where `<category>` and `<verbosity>` are defined as above.
 
 Example:
 ```c
-#define SCRIBO_DISABLE_CATEGORY_SOME_MODULE 1 // Disable scribo logging for category 'SOME_MODULE' (all verbosities)
-#define SCRIBO_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable scribo logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
-#define SCRIBO_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable scribo logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
+#define OBIRCS_DISABLE_CATEGORY_SOME_MODULE 1 // Disable obircs logging for category 'SOME_MODULE' (all verbosities)
+#define OBIRCS_DISABLE_VERBOSITY_DEBUG_ETC 1 // Disable obircs logging for verbosity 'DEBUG' and all more verbose ones (i.e. 'METHOD' and 'TRACE') (all categories)
+#define OBIRCS_ENABLE_CATEGORY_SOME_MODULE_VERBOSITY_DEBUG 1 // Enable obircs logging for combination of category 'SOME_MODULE' and verbosity 'DEBUG'
 ```
 
 Note that the order in which various categories and verbosities are disabled, and combinations thereof enabled, is not 
 significant and does not need to follow a particular order.
 
-#### Suppress Parts of *scribo* Log Message Header
+#### Suppress Parts of *obircs* Log Message Header
 
-Usual *scribo* log message consists of a standard header followed by custom generated text. The **header** is made of 
+Usual *obircs* log message consists of a standard header followed by custom generated text. The **header** is made of 
 `timestamp`, message `counter`, `category`, `verbosity`, and separator. The **text** is generated in printf-like 
 fashion. The entire log message header or its individual parts can be suppressed. When all parts of the header are
 suppressed, then the separator between header and text is also suppressed, automatically.
 ```c
-#define SCRIBO_SUPPRESS_HEADER 1 // Suppress the entire log message header
+#define OBIRCS_SUPPRESS_HEADER 1 // Suppress the entire log message header
 
-#define SCRIBO_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in scribo log message header
-#define SCRIBO_SUPPRESS_COUNTER   1 // Suppress message 'counter' in scribo log message header
-#define SCRIBO_SUPPRESS_CATEGORY  1 // Suppress message 'category' in scribo log message header
-#define SCRIBO_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in scribo log message header
+#define OBIRCS_SUPPRESS_TIMESTAMP 1 // Suppress 'timestamp' in obircs log message header
+#define OBIRCS_SUPPRESS_COUNTER   1 // Suppress message 'counter' in obircs log message header
+#define OBIRCS_SUPPRESS_CATEGORY  1 // Suppress message 'category' in obircs log message header
+#define OBIRCS_SUPPRESS_VERBOSITY 1 // Suppress message 'verbosity' in obircs log message header
 ```
 
 Examples:
 ```
-Normal scribo log message
-  => 2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
+Normal obircs log message
+  => 2015-05-31 16:23:47 #0000000000 APP     LOG     : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_TIMESTAMP 1
-  => #0000000000 APP     LOG     : Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_TIMESTAMP 1
+  => #0000000000 APP     LOG     : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_COUNTER   1
-  => 2015-05-31 16:23:47 APP     LOG     : Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_COUNTER   1
+  => 2015-05-31 16:23:47 APP     LOG     : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_CATEGORY  1
-  => 2015-05-31 16:23:47 #0000000000 LOG     : Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_CATEGORY  1
+  => 2015-05-31 16:23:47 #0000000000 LOG     : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_VERBOSITY 1
-  => 2015-05-31 16:23:47 #0000000000 APP     : Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_VERBOSITY 1
+  => 2015-05-31 16:23:47 #0000000000 APP     : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_COUNTER   1
-#define SCRIBO_SUPPRESS_CATEGORY  1
-#define SCRIBO_SUPPRESS_VERBOSITY 1
-  => 2015-05-31 16:23:47 : Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_COUNTER   1
+#define OBIRCS_SUPPRESS_CATEGORY  1
+#define OBIRCS_SUPPRESS_VERBOSITY 1
+  => 2015-05-31 16:23:47 : Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_TIMESTAMP 1
-#define SCRIBO_SUPPRESS_COUNTER   1
-#define SCRIBO_SUPPRESS_CATEGORY  1
-#define SCRIBO_SUPPRESS_VERBOSITY 1
-  => Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_TIMESTAMP 1
+#define OBIRCS_SUPPRESS_COUNTER   1
+#define OBIRCS_SUPPRESS_CATEGORY  1
+#define OBIRCS_SUPPRESS_VERBOSITY 1
+  => Executable obircS.exe (1 parameters)
 
-#define SCRIBO_SUPPRESS_HEADER 1
-  => Executable Scribo.exe (1 parameters)
+#define OBIRCS_SUPPRESS_HEADER 1
+  => Executable obircS.exe (1 parameters)
 ```
 
-#### Suppress Auto-Filling of *scribo* Log Message Text
+#### Suppress Auto-Filling of *obircs* Log Message Text
 
-When text of *scribo* log message in not specified, *scribo* by default auto-fills it with predefined value. This 
+When text of *obircs* log message in not specified, *obircs* by default auto-fills it with predefined value. This 
 functionality can be disabled. When no message text is specified and auto-fill is disabled, only message header is 
 output.
 ```c
-#define SCRIBO_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' of message text
+#define OBIRCS_SUPPRESS_AUTO_FILL  1 // Suppress 'auto-fill' of message text
 ```
 
-#### Suppress *scribo* Log Message Termination and Flushing
+#### Suppress *obircs* Log Message Termination and Flushing
 
-Each *scribo* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
-(`stdout`) and the stream is flushed to ensure all *scribo* logging is available in the event of a system crash. Both 
+Each *obircs* log message is automatically appended with newline (`'\n'`). It is then output to standard output stream 
+(`stdout`) and the stream is flushed to ensure all *obircs* logging is available in the event of a system crash. Both 
 automatic appending of the newline and automatic stream flushing can be suppressed.
 ```c
-#define SCRIBO_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
-#define SCRIBO_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
+#define OBIRCS_SUPPRESS_NEWLINE 1 // Suppress appending 'newline'
+#define OBIRCS_SUPPRESS_FLUSH   1 // Suppress 'flushing' stream
 ```
 
-#### Provide Custom Sink for and Specify Maximum Length of *scribo* Log Messages
+#### Provide Custom Sink for and Specify Maximum Length of *obircs* Log Messages
 
-By default, *scribo* log messages are output to `stdout` using `printf` function. In this case, length of each message 
+By default, *obircs* log messages are output to `stdout` using `printf` function. In this case, length of each message 
 is not limited and messages (unless suppressed) are flushed using `fflush`. Optionally, custom sink function can be 
-provided. The function receives one parameter - formatted text of the *scribo* log message to be output. The sink 
-function has no return value. Its signature is `void callback(const char*)`. When custom *scribo* log message sink is 
+provided. The function receives one parameter - formatted text of the *obircs* log message to be output. The sink 
+function has no return value. Its signature is `void callback(const char*)`. When custom *obircs* log message sink is 
 provided, length of each message can be limited to a maximum length (`>=1`), be unlimited (`0`), or be left unspecified 
 in which case it is also not limited. When custom sink is provided, messages are not flushed.  Flushing, if desired, 
 becomes responsibility of the custom callback function.
 ```c
-#define SCRIBO_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for scribo log messages
-#define SCRIBO_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of scribo log messages
+#define OBIRCS_INVOKE_CALLBACK <void function(const char*)> // Provide custom sink for obircs log messages
+#define OBIRCS_SET_MAX_LENGTH  <maximum log message length> // Specify maximum length of obircs log messages
 ```
 
 #### Note on Conditional Code Execution
 
 Conditional code execution (`EXEQUI`) does not have its own configuration settings. Rather, it follows configuration of 
-log messages (`SCRIBO`). Conditional code execution can be enabled or disabled based on category, verbosity... together 
+log messages (`OBIRCS`). Conditional code execution can be enabled or disabled based on category, verbosity... together 
 with log messages for the same category, verbosity etc.
 
 #### Note on Conditional Logging Statements
 
-Conditional logging statements (`IF_SCRIBO`) do not have their own configuration settings. Rather, they follow
-configuration of unconditional logging statements (`SCRIBO`). Conditional logging statements can be enabled or disabled
+Conditional logging statements (`IF_OBIRCS`) do not have their own configuration settings. Rather, they follow
+configuration of unconditional logging statements (`OBIRCS`). Conditional logging statements can be enabled or disabled
 based on category, verbosity... together with log messages for the same category, verbosity etc.
 
 #### Recap of Default Values
 
 ```
-SCRIBO()    --> <category> = GENERIRC, <verbosity> = TRACE                       --> Log message
+OBIRCS()    --> <category> = GENERIRC, <verbosity> = TRACE                       --> Log message
 EXEQUI()    --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> No operation
-IF_SCRIBO() --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> Log message
+IF_OBIRCS() --> <category> = GENERIRC, <verbosity> = TRACE, <condition> = "true" --> Log message
 ```
 
 ---
